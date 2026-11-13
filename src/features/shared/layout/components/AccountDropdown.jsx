@@ -1,8 +1,15 @@
 import { useEffect, useRef, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from '../Header.module.css';
 
-export default function AccountDropdown({ user, isOpen, onClose, onLogout, triggerRef }) {
+export default function AccountDropdown({
+  user = null,
+  isOpen,
+  onClose,
+  onLogout,
+  triggerRef = null,
+}) {
   const dropdownRef = useRef(null);
 
   const handleLogoutClick = useCallback(() => {
@@ -154,3 +161,23 @@ export default function AccountDropdown({ user, isOpen, onClose, onLogout, trigg
     </div>
   );
 }
+
+AccountDropdown.propTypes = {
+  user: PropTypes.shape({
+    tenDangNhap: PropTypes.string,
+    hoTen: PropTypes.string,
+    kyTuDaiDien: PropTypes.string,
+  }),
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  triggerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
+};
+
+AccountDropdown.defaultProps = {
+  user: null,
+  triggerRef: null,
+};

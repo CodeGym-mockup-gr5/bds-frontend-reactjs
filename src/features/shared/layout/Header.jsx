@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useLocation, useNavigate, NavLink } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import useHeader from '../../../hooks/useHeader';
 import useYeuCauDangTin from '../../../hooks/useYeuCauDangTin';
@@ -9,21 +10,23 @@ import Toast from '../../../components/Toast';
 import HeaderLogo from './components/HeaderLogo';
 import HeaderNav from './components/HeaderNav';
 import HeaderActions from './components/HeaderActions';
+import HeaderMobileDrawer from './components/HeaderMobileDrawer';
+import MobileMenuButton from './components/MobileMenuButton';
 import YeuCauDangTinModal from './components/YeuCauDangTinModal';
 import styles from './Header.module.css';
 
-export default function Header({ onOpenLogin, onOpenRegister }) {
+export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
   const location = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const {
-    headerData,
     user,
     isLoggedIn,
     isSellerStatusLoading,
     isSellerStatusError,
     refetchSellerStatus,
+    menuItems,
   } = useHeader();
 
   const yeuCauMutation = useYeuCauDangTin();
@@ -33,44 +36,29 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [toast, setToast] = useState({ isOpen: false, message: '', type: 'success' });
 
-  const mobileMenuRef = useRef(null);
-
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth > 768) {
-        setIsMobileMenuOpen(false);
-      }
+      if (window.innerWidth > 768) setIsMobileMenuOpen(false);
     }
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleCloseToast = useCallback(() => {
-    setToast((prev) => ({ ...prev, isOpen: false }));
-  }, []);
-
-  const isDangTinPage =
-    location.pathname === '/dang-tin' || location.pathname === '/bat-dong-san/dang-tin';
-  const showDangTin = !isDangTinPage && (headerData?.coNutDangTin ?? true);
+  const showDangTin =
+    location.pathname !== '/dang-tin' && location.pathname !== '/bat-dong-san/dang-tin';
 
   const handleLogin = useCallback(() => {
-    if (onOpenLogin) {
-      onOpenLogin();
-    } else {
-      navigate('/dang-nhap');
-    }
+    if (onOpenLogin) onOpenLogin();
+    else navigate('/dang-nhap');
   }, [onOpenLogin, navigate]);
 
   const handleRegister = useCallback(() => {
-    if (onOpenRegister) {
-      onOpenRegister();
-    } else {
-      navigate('/dang-ky');
-    }
+    if (onOpenRegister) onOpenRegister();
+    else navigate('/dang-ky');
   }, [onOpenRegister, navigate]);
 
   const handleDangTinClick = useCallback(() => {
@@ -78,7 +66,6 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
       handleLogin();
       return;
     }
-
     if (isSellerStatusLoading) {
       setToast({
         isOpen: true,
@@ -87,24 +74,19 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
       });
       return;
     }
-
     if (isSellerStatusError || user?.laKhBan === undefined) {
       setToast({
         isOpen: true,
         message: 'Không thể xác nhận quyền đăng tin lúc này. Đang thử lại...',
         type: 'error',
       });
-      if (refetchSellerStatus) {
-        refetchSellerStatus();
-      }
+      if (refetchSellerStatus) refetchSellerStatus();
       return;
     }
-
     if (user.laKhBan === false) {
       setIsYeuCauModalOpen(true);
       return;
     }
-
     navigate('/dang-tin');
   }, [
     isLoggedIn,
@@ -128,11 +110,9 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
       },
       onError: (err) => {
         setIsYeuCauModalOpen(false);
-        const errorMsg =
-          err?.response?.data?.message || 'Không thể gửi yêu cầu đăng tin bán lúc này';
         setToast({
           isOpen: true,
-          message: errorMsg,
+          message: err?.response?.data?.message || 'Không thể gửi yêu cầu đăng tin bán lúc này',
           type: 'error',
         });
       },
@@ -147,70 +127,22 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
     navigate('/');
   }, [navigate, queryClient]);
 
-  const handleToggleAccountMenu = useCallback(() => {
-    setIsAccountMenuOpen((prev) => !prev);
-  }, []);
-
-  const handleCloseAccountMenu = useCallback(() => {
-    setIsAccountMenuOpen(false);
-  }, []);
-
-  const handleCloseYeuCauModal = useCallback(() => {
-    setIsYeuCauModalOpen(false);
-  }, []);
-
-  const handleToggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen((prev) => !prev);
-  }, []);
-
-  const handleCloseMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(false);
-  }, []);
-
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.leftSection}>
-          <button
-            type="button"
-            className={styles.mobileMenuButton}
-            onClick={handleToggleMobileMenu}
-            aria-label="Mở menu điều hướng"
-            aria-expanded={isMobileMenuOpen}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {isMobileMenuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </>
-              ) : (
-                <>
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </>
-              )}
-            </svg>
-          </button>
-
+          <MobileMenuButton
+            isOpen={isMobileMenuOpen}
+            onToggle={() => setIsMobileMenuOpen((prev) => !prev)}
+          />
           <HeaderLogo />
-          <HeaderNav items={headerData?.danhSachMenu} />
+          <HeaderNav items={menuItems} />
         </div>
 
         <HeaderActions
           isLoggedIn={isLoggedIn}
           user={user}
-          coThongBao={headerData?.coThongBao}
+          coThongBao={isLoggedIn}
           showDangTin={showDangTin}
           isSellerStatusLoading={isSellerStatusLoading}
           onOpenLogin={handleLogin}
@@ -218,37 +150,21 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
           onLogout={handleLogout}
           onDangTinClick={handleDangTinClick}
           isAccountMenuOpen={isAccountMenuOpen}
-          onToggleAccountMenu={handleToggleAccountMenu}
-          onCloseAccountMenu={handleCloseAccountMenu}
+          onToggleAccountMenu={() => setIsAccountMenuOpen((prev) => !prev)}
+          onCloseAccountMenu={() => setIsAccountMenuOpen(false)}
         />
       </div>
 
-      {isMobileMenuOpen && (
-        <div ref={mobileMenuRef} className={styles.mobileMenuDrawer}>
-          <ul className={styles.mobileNavList}>
-            {(headerData?.danhSachMenu || []).map((item) => (
-              <li key={item.duongDan} className={styles.mobileNavItem}>
-                <NavLink
-                  to={item.duongDan}
-                  onClick={handleCloseMobileMenu}
-                  className={({ isActive }) =>
-                    isActive
-                      ? `${styles.mobileNavLink} ${styles.mobileNavLinkActive}`
-                      : styles.mobileNavLink
-                  }
-                >
-                  {item.nhan}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <HeaderMobileDrawer
+        isOpen={isMobileMenuOpen}
+        items={menuItems}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
 
       <YeuCauDangTinModal
         isOpen={isYeuCauModalOpen}
         isLoading={yeuCauMutation.isPending}
-        onClose={handleCloseYeuCauModal}
+        onClose={() => setIsYeuCauModalOpen(false)}
         onConfirm={handleConfirmYeuCau}
       />
 
@@ -256,8 +172,18 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
         isOpen={toast.isOpen}
         message={toast.message}
         type={toast.type}
-        onClose={handleCloseToast}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
       />
     </header>
   );
 }
+
+Header.propTypes = {
+  onOpenLogin: PropTypes.func,
+  onOpenRegister: PropTypes.func,
+};
+
+Header.defaultProps = {
+  onOpenLogin: null,
+  onOpenRegister: null,
+};

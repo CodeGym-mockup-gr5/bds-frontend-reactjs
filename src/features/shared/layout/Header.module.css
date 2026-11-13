@@ -155,7 +155,7 @@
 }
 
 .pillButton:active:not(:disabled) {
-  background-color: #f7dede;
+  background-color: var(--color-primary-50);
   transform: translateY(1px);
 }
 
@@ -457,7 +457,7 @@
 }
 
 .dropdownLogout:hover {
-  background-color: #fef2f2;
+  background-color: var(--color-primary-50);
 }
 
 .dropdownIconDanger {

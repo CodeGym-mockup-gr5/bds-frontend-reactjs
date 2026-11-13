@@ -1,15 +1,16 @@
 import { useEffect, useRef, useId } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Modal.module.css';
 
 export default function Modal({
   isOpen,
-  onClose,
-  title,
-  children,
-  footer,
+  onClose = null,
+  title = null,
+  children = null,
+  footer = null,
   maxWidth = '480px',
   closeOnBackdropClick = true,
-  ariaLabel,
+  ariaLabel = null,
 }) {
   const modalRef = useRef(null);
   const backdropRef = useRef(null);
@@ -136,3 +137,24 @@ export default function Modal({
     </div>
   );
 }
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func,
+  title: PropTypes.string,
+  children: PropTypes.node,
+  footer: PropTypes.node,
+  maxWidth: PropTypes.string,
+  closeOnBackdropClick: PropTypes.bool,
+  ariaLabel: PropTypes.string,
+};
+
+Modal.defaultProps = {
+  onClose: null,
+  title: null,
+  children: null,
+  footer: null,
+  maxWidth: '480px',
+  closeOnBackdropClick: true,
+  ariaLabel: null,
+};

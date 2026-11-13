@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Toast.module.css';
 
-export default function Toast({ isOpen, message, type = 'success', duration = 4000, onClose }) {
+export default function Toast({
+  isOpen,
+  message,
+  type = 'success',
+  duration = 4000,
+  onClose = null,
+}) {
   useEffect(() => {
     if (!isOpen || !message) return undefined;
     if (duration <= 0) return undefined;
@@ -85,3 +92,18 @@ export default function Toast({ isOpen, message, type = 'success', duration = 40
     </aside>
   );
 }
+
+Toast.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  message: PropTypes.string,
+  type: PropTypes.oneOf(['success', 'error']),
+  duration: PropTypes.number,
+  onClose: PropTypes.func,
+};
+
+Toast.defaultProps = {
+  message: '',
+  type: 'success',
+  duration: 4000,
+  onClose: null,
+};

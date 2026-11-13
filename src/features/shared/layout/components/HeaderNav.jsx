@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styles from '../Header.module.css';
 
@@ -7,7 +8,7 @@ const DEFAULT_ITEMS = [
   { nhan: 'Hỗ trợ', duongDan: '/ho-tro' },
 ];
 
-export default function HeaderNav({ items = DEFAULT_ITEMS, onItemClick }) {
+export default function HeaderNav({ items = DEFAULT_ITEMS, onItemClick = null }) {
   const menuList = items && items.length > 0 ? items : DEFAULT_ITEMS;
 
   return (
@@ -30,3 +31,18 @@ export default function HeaderNav({ items = DEFAULT_ITEMS, onItemClick }) {
     </nav>
   );
 }
+
+HeaderNav.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      nhan: PropTypes.string.isRequired,
+      duongDan: PropTypes.string.isRequired,
+    }),
+  ),
+  onItemClick: PropTypes.func,
+};
+
+HeaderNav.defaultProps = {
+  items: DEFAULT_ITEMS,
+  onItemClick: null,
+};
