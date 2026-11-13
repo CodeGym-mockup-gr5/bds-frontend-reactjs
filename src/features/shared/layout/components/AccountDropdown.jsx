@@ -1,6 +1,77 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ROLES, getAvatarInitial, hasAnyRole } from '../../../../utils/auth';
 import styles from '../Header.module.css';
+
+function MenuItemIcon({ name }) {
+  if (name === 'workspace') {
+    return (
+      <svg
+        className={styles.dropdownIcon}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    );
+  }
+  if (name === 'posts') {
+    return (
+      <svg
+        className={styles.dropdownIcon}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    );
+  }
+  if (name === 'password') {
+    return (
+      <svg
+        className={styles.dropdownIcon}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    );
+  }
+  return (
+    <svg
+      className={styles.dropdownIcon}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
 
 export default function AccountDropdown({
   user = null,
@@ -42,10 +113,28 @@ export default function AccountDropdown({
 
   if (!isOpen) return null;
 
+  const isAdmin = hasAnyRole(user, [ROLES.ADMIN]);
+  const isNhanVien = hasAnyRole(user, [ROLES.NHAN_VIEN]);
+  const isKhachHang = hasAnyRole(user, [ROLES.KHACH_HANG]);
+
+  const menuLinks = [];
+  if (isAdmin) {
+    menuLinks.push({ to: '/admin', label: 'Khu vực quản trị', icon: 'workspace' });
+  } else if (isNhanVien) {
+    menuLinks.push({ to: '/nhan-vien', label: 'Khu vực nhân viên', icon: 'workspace' });
+  }
+  if (isKhachHang) {
+    menuLinks.push({ to: '/tin-dang-cua-toi', label: 'Tin đăng của tôi', icon: 'posts' });
+  }
+  menuLinks.push({ to: '/thong-tin-ca-nhan', label: 'Thông tin cá nhân', icon: 'profile' });
+  menuLinks.push({ to: '/doi-mat-khau', label: 'Đổi mật khẩu', icon: 'password' });
+
+  const displayInitial = kyTuDaiDien || getAvatarInitial(user);
+
   return (
     <div ref={dropdownRef} className={styles.dropdownMenu} role="menu" aria-label="Menu tài khoản">
       <div className={styles.dropdownHeader}>
-        <div className={styles.dropdownUserAvatar}>{kyTuDaiDien}</div>
+        <div className={styles.dropdownUserAvatar}>{displayInitial}</div>
         <div className={styles.dropdownUserInfo}>
           <span className={styles.dropdownUserName}>
             {user?.hoTen || user?.tenDangNhap || 'Tài khoản'}
@@ -59,75 +148,14 @@ export default function AccountDropdown({
       <div className={styles.dropdownDivider} />
 
       <ul className={styles.dropdownList}>
-        <li role="none">
-          <Link
-            to="/tin-dang-cua-toi"
-            className={styles.dropdownItem}
-            role="menuitem"
-            onClick={onClose}
-          >
-            <svg
-              className={styles.dropdownIcon}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-              <polyline points="10 9 9 9 8 9" />
-            </svg>
-            Tin đăng của tôi
-          </Link>
-        </li>
-        <li role="none">
-          <Link
-            to="/thong-tin-ca-nhan"
-            className={styles.dropdownItem}
-            role="menuitem"
-            onClick={onClose}
-          >
-            <svg
-              className={styles.dropdownIcon}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            Thông tin cá nhân
-          </Link>
-        </li>
-        <li role="none">
-          <Link
-            to="/doi-mat-khau"
-            className={styles.dropdownItem}
-            role="menuitem"
-            onClick={onClose}
-          >
-            <svg
-              className={styles.dropdownIcon}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-            Đổi mật khẩu
-          </Link>
-        </li>
+        {menuLinks.map((item) => (
+          <li key={item.to} role="none">
+            <Link to={item.to} className={styles.dropdownItem} role="menuitem" onClick={onClose}>
+              <MenuItemIcon name={item.icon} />
+              {item.label}
+            </Link>
+          </li>
+        ))}
       </ul>
 
       <div className={styles.dropdownDivider} />

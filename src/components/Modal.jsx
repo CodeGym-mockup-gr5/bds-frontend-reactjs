@@ -117,7 +117,7 @@ export default function Modal({
         tabIndex={-1}
       >
         {(title || onClose) && (
-          <div className={styles.header}>
+          <div className={title ? styles.header : `${styles.header} ${styles.headerCompact}`}>
             {title && (
               <h2 id={titleId} className={styles.title}>
                 {title}

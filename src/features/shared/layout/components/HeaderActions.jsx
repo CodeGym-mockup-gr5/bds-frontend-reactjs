@@ -1,5 +1,6 @@
 import { useId, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getAvatarInitial } from '../../../../utils/auth';
 import styles from '../Header.module.css';
 import AccountDropdown from './AccountDropdown';
 
@@ -62,7 +63,7 @@ export default function HeaderActions({
 
   const isChoDuyet = user?.trangThaiDuyet === 'CHO_DUYET';
   const isDangTinDisabled = isChoDuyet || isSellerStatusLoading;
-  const kyTuDaiDien = (user?.hoTen || user?.tenDangNhap || '').trim().charAt(0).toUpperCase();
+  const kyTuDaiDien = user?.kyTuDaiDien || getAvatarInitial(user);
 
   return (
     <div className={styles.actionsAuth}>
