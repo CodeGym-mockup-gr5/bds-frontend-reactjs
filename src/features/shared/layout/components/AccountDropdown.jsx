@@ -1,6 +1,6 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ROLES, hasAnyRole } from '../../../../utils/auth';
+import { ROLES, getAvatarInitial, hasAnyRole } from '../../../../utils/auth';
 import styles from '../Header.module.css';
 
 function MenuItemIcon({ name }) {
@@ -83,11 +83,6 @@ export default function AccountDropdown({
 }) {
   const dropdownRef = useRef(null);
 
-  const handleLogoutClick = useCallback(() => {
-    onClose();
-    onLogout();
-  }, [onClose, onLogout]);
-
   useEffect(() => {
     if (!isOpen) return undefined;
 
@@ -134,7 +129,7 @@ export default function AccountDropdown({
   menuLinks.push({ to: '/thong-tin-ca-nhan', label: 'Thông tin cá nhân', icon: 'profile' });
   menuLinks.push({ to: '/doi-mat-khau', label: 'Đổi mật khẩu', icon: 'password' });
 
-  const displayInitial = kyTuDaiDien || user?.kyTuDaiDien || 'U';
+  const displayInitial = kyTuDaiDien || getAvatarInitial(user);
 
   return (
     <div ref={dropdownRef} className={styles.dropdownMenu} role="menu" aria-label="Menu tài khoản">
@@ -165,12 +160,7 @@ export default function AccountDropdown({
 
       <div className={styles.dropdownDivider} />
 
-      <button
-        type="button"
-        className={styles.dropdownLogout}
-        role="menuitem"
-        onClick={handleLogoutClick}
-      >
+      <button type="button" className={styles.dropdownLogout} role="menuitem" onClick={onLogout}>
         <svg
           className={styles.dropdownIconDanger}
           viewBox="0 0 24 24"

@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import useHeader from '../../../hooks/useHeader';
 import useYeuCauDangTin from '../../../hooks/useYeuCauDangTin';
-import Toast from '../../../components/Toast';
 import HeaderLogo from './components/HeaderLogo';
 import HeaderNav from './components/HeaderNav';
 import HeaderActions from './components/HeaderActions';
@@ -13,7 +12,7 @@ import styles from './Header.module.css';
 export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { openLoginModal, openLogoutModal, isKhachHang } = useAuth();
+  const { openLoginModal, openLogoutModal, isKhachHang, showToast } = useAuth();
 
   const {
     user,
@@ -28,11 +27,6 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
 
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [isYeuCauModalOpen, setIsYeuCauModalOpen] = useState(false);
-  const [toast, setToast] = useState({ isOpen: false, message: '', type: 'success' });
-
-  const showToast = useCallback((message, type = 'error') => {
-    setToast({ isOpen: true, message, type });
-  }, []);
 
   const showDangTin = !location.pathname.includes('/dang-tin') && (!isLoggedIn || isKhachHang);
 
@@ -51,7 +45,7 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
     if (isSellerStatusLoading) return undefined;
     if (isSellerStatusError || user?.laKhBan === undefined) {
       if (refetchSellerStatus) refetchSellerStatus();
-      return showToast('Không thể xác nhận quyền đăng tin lúc này. Đang thử lại...');
+      return showToast('Không thể xác nhận quyền đăng tin lúc này. Đang thử lại...', 'error');
     }
     if (user.laKhBan === false) return setIsYeuCauModalOpen(true);
     return navigate('/dang-tin');
@@ -77,7 +71,10 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
       },
       onError: (err) => {
         setIsYeuCauModalOpen(false);
-        showToast(err?.response?.data?.message || 'Không thể gửi yêu cầu đăng tin bán lúc này');
+        showToast(
+          err?.response?.data?.message || 'Không thể gửi yêu cầu đăng tin bán lúc này',
+          'error',
+        );
       },
     });
   }, [yeuCauMutation, showToast]);
@@ -116,13 +113,6 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
         isLoading={yeuCauMutation.isPending}
         onClose={() => setIsYeuCauModalOpen(false)}
         onConfirm={handleConfirmYeuCau}
-      />
-
-      <Toast
-        isOpen={toast.isOpen}
-        message={toast.message}
-        type={toast.type}
-        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
       />
     </header>
   );

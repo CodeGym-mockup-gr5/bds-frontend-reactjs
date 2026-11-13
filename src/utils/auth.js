@@ -1,5 +1,12 @@
 const TOKEN_KEY = 'accessToken';
 const REMEMBERED_USERNAME_KEY = 'rememberedUsername';
+export const AUTH_TOKEN_CHANGED_EVENT = 'realia:auth-token-changed';
+
+function notifyTokenChange(token) {
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+    window.dispatchEvent(new CustomEvent(AUTH_TOKEN_CHANGED_EVENT, { detail: { token } }));
+  }
+}
 
 export const ROLES = {
   ADMIN: 'ADMIN',
@@ -18,6 +25,7 @@ export function getToken() {
 export function setToken(token) {
   try {
     sessionStorage.setItem(TOKEN_KEY, token);
+    notifyTokenChange(token);
     return true;
   } catch {
     return false;
@@ -27,6 +35,7 @@ export function setToken(token) {
 export function removeToken() {
   try {
     sessionStorage.removeItem(TOKEN_KEY);
+    notifyTokenChange(null);
     return true;
   } catch {
     return false;
@@ -114,7 +123,34 @@ export function getDefaultRouteByUser(user) {
   return '/';
 }
 
-function getInitials(hoTen, tenDangNhap) {
+export function canAccessRoute(user, path) {
+  if (!path || typeof path !== 'string' || path === '/dang-nhap') {
+    return false;
+  }
+  if (path === '/admin' || path.startsWith('/admin/')) {
+    return hasAnyRole(user, [ROLES.ADMIN]);
+  }
+  if (path === '/nhan-vien' || path.startsWith('/nhan-vien/')) {
+    return hasAnyRole(user, [ROLES.NHAN_VIEN, ROLES.ADMIN]);
+  }
+  if (path === '/khach-hang' || path.startsWith('/khach-hang/')) {
+    return hasAnyRole(user, [ROLES.KHACH_HANG]);
+  }
+  return true;
+}
+
+export function resolvePostLoginRoute(user, requestedPath) {
+  if (requestedPath && canAccessRoute(user, requestedPath)) {
+    return requestedPath;
+  }
+  return getDefaultRouteByUser(user);
+}
+
+export function getAvatarInitial(user) {
+  if (!user || typeof user !== 'object') {
+    return '';
+  }
+  const hoTen = user.hoTen || user.fullName || user.name;
   const fullName = typeof hoTen === 'string' ? hoTen.trim() : '';
   if (fullName) {
     const words = fullName.split(/\s+/);
@@ -123,11 +159,12 @@ function getInitials(hoTen, tenDangNhap) {
       return lastWord.charAt(0).toUpperCase();
     }
   }
+  const tenDangNhap = user.tenDangNhap || user.username;
   const username = typeof tenDangNhap === 'string' ? tenDangNhap.trim() : '';
   if (username) {
     return username.charAt(0).toUpperCase();
   }
-  return 'U';
+  return '';
 }
 
 export function enrichUser(rawUser) {
@@ -135,12 +172,7 @@ export function enrichUser(rawUser) {
     return null;
   }
   const roles = getUserRoles(rawUser);
-  const kyTuDaiDien =
-    rawUser.kyTuDaiDien ||
-    getInitials(
-      rawUser.hoTen || rawUser.fullName || rawUser.name,
-      rawUser.tenDangNhap || rawUser.username,
-    );
+  const kyTuDaiDien = rawUser.kyTuDaiDien || getAvatarInitial(rawUser);
 
   return {
     ...rawUser,

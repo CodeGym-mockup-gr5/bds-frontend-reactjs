@@ -3,12 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getMe, login as loginApi, logout as logoutApi } from '../../../api/authApi';
 import {
+  AUTH_TOKEN_CHANGED_EVENT,
   ROLES,
   extractUserFromMeResponse,
+  getDefaultRouteByUser,
   getToken,
   hasAnyRole,
   normalizeAuthPayload,
   removeToken,
+  resolvePostLoginRoute,
   setToken,
 } from '../../../utils/auth';
 
@@ -26,7 +29,7 @@ export function AuthProvider({ children }) {
   const [toast, setToast] = useState({ isOpen: false, message: '', type: 'success' });
 
   const meQuery = useQuery({
-    queryKey: ['authMe', token],
+    queryKey: ['authMe'],
     queryFn: getMe,
     enabled: Boolean(token),
     staleTime: 1000 * 60 * 5,
@@ -34,12 +37,26 @@ export function AuthProvider({ children }) {
   });
 
   useEffect(() => {
-    if (token && meQuery.isError) {
+    function handleTokenChange(event) {
+      const nextToken = event?.detail?.token ?? getToken();
+      setTokenState(nextToken || null);
+      if (!nextToken) {
+        queryClient.removeQueries({ queryKey: ['authMe'] });
+      }
+    }
+
+    window.addEventListener(AUTH_TOKEN_CHANGED_EVENT, handleTokenChange);
+    return () => window.removeEventListener(AUTH_TOKEN_CHANGED_EVENT, handleTokenChange);
+  }, [queryClient]);
+
+  useEffect(() => {
+    const status = meQuery.error?.response?.status;
+    if (token && meQuery.isError && status === 401) {
       removeToken();
       setTokenState(null);
       queryClient.removeQueries({ queryKey: ['authMe'] });
     }
-  }, [token, meQuery.isError, queryClient]);
+  }, [token, meQuery.isError, meQuery.error, queryClient]);
 
   const showToast = useCallback((message, type = 'success') => {
     setToast({ isOpen: true, message, type });
@@ -92,8 +109,9 @@ export function AuthProvider({ children }) {
         setToken(newToken);
         setTokenState(newToken);
         if (normalizedUser) {
-          queryClient.setQueryData(['authMe', newToken], { success: true, data: normalizedUser });
+          queryClient.setQueryData(['authMe'], { success: true, data: normalizedUser });
         }
+        queryClient.invalidateQueries({ queryKey: ['authMe'] });
       }
 
       const targetRedirect = postLoginRedirect || explicitRedirect;
@@ -102,12 +120,10 @@ export function AuthProvider({ children }) {
       setPostLoginRedirect(null);
       showToast(message || 'Đăng nhập thành công', 'success');
 
-      if (hasAnyRole(normalizedUser, [ROLES.ADMIN])) {
-        navigate('/admin', { replace: true });
-      } else if (hasAnyRole(normalizedUser, [ROLES.NHAN_VIEN])) {
-        navigate('/nhan-vien', { replace: true });
-      } else if (targetRedirect) {
-        navigate(targetRedirect, { replace: true });
+      if (targetRedirect) {
+        navigate(resolvePostLoginRoute(normalizedUser, targetRedirect), { replace: true });
+      } else if (hasAnyRole(normalizedUser, [ROLES.ADMIN, ROLES.NHAN_VIEN])) {
+        navigate(getDefaultRouteByUser(normalizedUser), { replace: true });
       }
     },
     [navigate, postLoginRedirect, queryClient, showToast],
@@ -134,27 +150,29 @@ export function AuthProvider({ children }) {
   }, [logoutMutation, navigate, queryClient, showToast]);
 
   const user = useMemo(() => extractUserFromMeResponse(meQuery.data), [meQuery.data]);
-  const isLoggedIn = Boolean(token && !meQuery.isError);
+  const isUnauthorized = Boolean(
+    token && meQuery.isError && meQuery.error?.response?.status === 401,
+  );
+  const isAuthError = Boolean(token && meQuery.isError && !isUnauthorized);
+  const isLoggedIn = Boolean(token && !isUnauthorized);
   const isAuthLoading = Boolean(token && meQuery.isLoading);
-  const isSellerStatusLoading = isAuthLoading;
+  const isSellerStatusLoading = Boolean(
+    token && (meQuery.isLoading || (meQuery.isFetching && user?.laKhBan === undefined)),
+  );
   const isSellerStatusError = Boolean(token && meQuery.isError);
 
   const hasRole = useCallback((allowedRoles) => hasAnyRole(user, allowedRoles), [user]);
-  const isAdmin = hasAnyRole(user, [ROLES.ADMIN]);
-  const isNhanVien = hasAnyRole(user, [ROLES.NHAN_VIEN]);
   const isKhachHang = hasAnyRole(user, [ROLES.KHACH_HANG]);
 
   const value = useMemo(
     () => ({
       user,
-      token,
       isLoggedIn,
       isAuthLoading,
+      isAuthError,
       isSellerStatusLoading,
       isSellerStatusError,
       refetchMe: meQuery.refetch,
-      isAdmin,
-      isNhanVien,
       isKhachHang,
       hasRole,
       loginMutation,
@@ -169,18 +187,16 @@ export function AuthProvider({ children }) {
       confirmLogout,
       toast,
       closeToast,
-      showAuthToast: showToast,
+      showToast,
     }),
     [
       user,
-      token,
       isLoggedIn,
       isAuthLoading,
+      isAuthError,
       isSellerStatusLoading,
       isSellerStatusError,
       meQuery.refetch,
-      isAdmin,
-      isNhanVien,
       isKhachHang,
       hasRole,
       loginMutation,

@@ -31,6 +31,11 @@
   border-bottom: 1px solid var(--color-neutral-200);
 }
 
+.headerCompact {
+  padding: var(--space-16) var(--space-16) 0;
+  border-bottom: none;
+}
+
 .title {
   margin: 0;
   font-family: var(--font-family-base);
@@ -41,6 +46,7 @@
 }
 
 .closeButton {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;

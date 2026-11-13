@@ -5,6 +5,11 @@
   padding: var(--space-32) var(--space-40) var(--space-40);
 }
 
+.cardInModal {
+  padding: 0 var(--space-16) var(--space-16);
+  border-radius: 0;
+}
+
 .cardShadow {
   box-shadow: var(--shadow-lg);
 }
@@ -98,7 +103,7 @@
 
 .input {
   width: 100%;
-  height: 48px;
+  height: var(--space-48);
   padding: 0 var(--space-40) 0 var(--space-16);
   border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-md);
@@ -113,8 +118,12 @@
     box-shadow 0.2s ease;
 }
 
+.inputPassword {
+  padding-right: calc(var(--space-48) + var(--space-8));
+}
+
 .inputWithTwoIcons {
-  padding-right: 76px;
+  padding-right: calc(var(--space-64) + var(--space-16));
 }
 
 .input::placeholder {
@@ -139,10 +148,10 @@
 
 .inputRightControls {
   position: absolute;
-  right: var(--space-12);
+  right: var(--space-8);
   display: inline-flex;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--space-4);
 }
 
 .inputErrorIcon {
@@ -159,8 +168,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: var(--space-40);
+  height: var(--space-40);
   padding: 0;
   border: none;
   background: transparent;
@@ -248,9 +257,53 @@
   outline-offset: 2px;
 }
 
+.actionsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-top: var(--space-8);
+}
+
+.cancelButton {
+  flex: 1;
+  height: var(--space-48);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-20);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-neutral-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+  color: var(--color-neutral-900);
+}
+
+.cancelButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .submitButton {
   width: 100%;
-  height: 48px;
+  height: var(--space-48);
   margin-top: var(--space-8);
   display: inline-flex;
   align-items: center;
@@ -265,6 +318,11 @@
   font-weight: var(--text-h3-weight);
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+.actionsRow .submitButton {
+  margin-top: 0;
+  flex: 1;
 }
 
 .submitButton:hover:not(:disabled) {

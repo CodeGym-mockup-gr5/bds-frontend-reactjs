@@ -9,9 +9,9 @@
 }
 
 .spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--color-neutral-200);
+  width: var(--space-40);
+  height: var(--space-40);
+  border: var(--space-4) solid var(--color-neutral-200);
   border-top-color: var(--color-primary-600);
   border-radius: var(--radius-full);
   animation: spin 0.7s linear infinite;
@@ -22,6 +22,23 @@
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
   color: var(--color-neutral-600);
+}
+
+.retryButton {
+  min-height: 40px;
+  padding: 0 var(--space-20);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background-color: var(--color-primary-700);
 }
 
 @keyframes spin {

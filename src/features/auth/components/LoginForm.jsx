@@ -8,9 +8,11 @@ import styles from './LoginForm.module.css';
 
 export default function LoginForm({
   onSuccess = null,
+  onCancel = null,
   onNavigateAway = null,
   isLoadingSkeleton = false,
   withShadow = false,
+  inModal = false,
 }) {
   const usernameId = useId();
   const passwordId = useId();
@@ -35,7 +37,11 @@ export default function LoginForm({
   const isPasswordInvalid = Boolean(fieldErrors.matKhau) || hasAuthError;
 
   return (
-    <div className={`${styles.card} ${withShadow ? styles.cardShadow : ''}`}>
+    <div
+      className={`${styles.card} ${inModal ? styles.cardInModal : ''} ${
+        withShadow ? styles.cardShadow : ''
+      }`}
+    >
       <div className={styles.header}>
         <img src={logoColor} alt="REALIA" className={styles.logo} />
         <h2 className={styles.title}>Đăng nhập</h2>
@@ -112,9 +118,9 @@ export default function LoginForm({
                   onBlur={(e) => handleFieldBlur('matKhau', e.target.value)}
                   disabled={isSubmitting}
                   aria-invalid={isPasswordInvalid}
-                  className={`${styles.input} ${styles.inputWithTwoIcons} ${
-                    isPasswordInvalid ? styles.inputError : ''
-                  }`}
+                  className={`${styles.input} ${styles.inputPassword} ${
+                    isPasswordInvalid ? styles.inputWithTwoIcons : ''
+                  } ${isPasswordInvalid ? styles.inputError : ''}`}
                 />
                 <span className={styles.inputRightControls}>
                   {isPasswordInvalid && (
@@ -159,10 +165,22 @@ export default function LoginForm({
             </Link>
           </div>
 
-          <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-            {isSubmitting && <span className={styles.spinner} aria-hidden="true" />}
-            <span>{isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}</span>
-          </button>
+          <div className={onCancel ? styles.actionsRow : undefined}>
+            {onCancel && (
+              <button
+                type="button"
+                className={styles.cancelButton}
+                onClick={onCancel}
+                disabled={isSubmitting}
+              >
+                Hủy
+              </button>
+            )}
+            <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+              {isSubmitting && <span className={styles.spinner} aria-hidden="true" />}
+              <span>{isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}</span>
+            </button>
+          </div>
         </form>
       )}
     </div>
