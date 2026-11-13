@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,8 +10,6 @@ import Toast from '../../../components/Toast';
 import HeaderLogo from './components/HeaderLogo';
 import HeaderNav from './components/HeaderNav';
 import HeaderActions from './components/HeaderActions';
-import HeaderMobileDrawer from './components/HeaderMobileDrawer';
-import MobileMenuButton from './components/MobileMenuButton';
 import YeuCauDangTinModal from './components/YeuCauDangTinModal';
 import styles from './Header.module.css';
 
@@ -33,61 +31,35 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
 
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [isYeuCauModalOpen, setIsYeuCauModalOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [toast, setToast] = useState({ isOpen: false, message: '', type: 'success' });
 
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth > 768) setIsMobileMenuOpen(false);
-    }
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+  const showToast = useCallback((message, type = 'error') => {
+    setToast({ isOpen: true, message, type });
   }, []);
 
-  const showDangTin =
-    location.pathname !== '/dang-tin' && location.pathname !== '/bat-dong-san/dang-tin';
+  const showDangTin = !location.pathname.includes('/dang-tin');
 
-  const handleLogin = useCallback(() => {
-    if (onOpenLogin) onOpenLogin();
-    else navigate('/dang-nhap');
-  }, [onOpenLogin, navigate]);
+  const handleLogin = useCallback(
+    () => (onOpenLogin ? onOpenLogin() : navigate('/dang-nhap')),
+    [onOpenLogin, navigate],
+  );
 
-  const handleRegister = useCallback(() => {
-    if (onOpenRegister) onOpenRegister();
-    else navigate('/dang-ky');
-  }, [onOpenRegister, navigate]);
+  const handleRegister = useCallback(
+    () => (onOpenRegister ? onOpenRegister() : navigate('/dang-ky')),
+    [onOpenRegister, navigate],
+  );
 
   const handleDangTinClick = useCallback(() => {
-    if (!isLoggedIn) {
-      handleLogin();
-      return;
-    }
+    if (!isLoggedIn) return handleLogin();
     if (isSellerStatusLoading) {
-      setToast({
-        isOpen: true,
-        message: 'Đang kiểm tra quyền đăng tin, vui lòng đợi trong giây lát...',
-        type: 'error',
-      });
-      return;
+      return showToast('Đang kiểm tra quyền đăng tin, vui lòng đợi trong giây lát...');
     }
     if (isSellerStatusError || user?.laKhBan === undefined) {
-      setToast({
-        isOpen: true,
-        message: 'Không thể xác nhận quyền đăng tin lúc này. Đang thử lại...',
-        type: 'error',
-      });
       if (refetchSellerStatus) refetchSellerStatus();
-      return;
+      return showToast('Không thể xác nhận quyền đăng tin lúc này. Đang thử lại...');
     }
-    if (user.laKhBan === false) {
-      setIsYeuCauModalOpen(true);
-      return;
-    }
-    navigate('/dang-tin');
+    if (user.laKhBan === false) return setIsYeuCauModalOpen(true);
+    return navigate('/dang-tin');
   }, [
     isLoggedIn,
     handleLogin,
@@ -96,28 +68,24 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
     user,
     navigate,
     refetchSellerStatus,
+    showToast,
   ]);
 
   const handleConfirmYeuCau = useCallback(() => {
     yeuCauMutation.mutate(undefined, {
       onSuccess: (res) => {
         setIsYeuCauModalOpen(false);
-        setToast({
-          isOpen: true,
-          message: res?.message || 'Đã gửi yêu cầu đăng tin bán, vui lòng chờ Admin duyệt',
-          type: 'success',
-        });
+        showToast(
+          res?.message || 'Đã gửi yêu cầu đăng tin bán, vui lòng chờ Admin duyệt',
+          'success',
+        );
       },
       onError: (err) => {
         setIsYeuCauModalOpen(false);
-        setToast({
-          isOpen: true,
-          message: err?.response?.data?.message || 'Không thể gửi yêu cầu đăng tin bán lúc này',
-          type: 'error',
-        });
+        showToast(err?.response?.data?.message || 'Không thể gửi yêu cầu đăng tin bán lúc này');
       },
     });
-  }, [yeuCauMutation]);
+  }, [yeuCauMutation, showToast]);
 
   const handleLogout = useCallback(async () => {
     await logoutApi().catch(() => undefined);
@@ -131,10 +99,6 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.leftSection}>
-          <MobileMenuButton
-            isOpen={isMobileMenuOpen}
-            onToggle={() => setIsMobileMenuOpen((prev) => !prev)}
-          />
           <HeaderLogo />
           <HeaderNav items={menuItems} />
         </div>
@@ -154,12 +118,6 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
           onCloseAccountMenu={() => setIsAccountMenuOpen(false)}
         />
       </div>
-
-      <HeaderMobileDrawer
-        isOpen={isMobileMenuOpen}
-        items={menuItems}
-        onClose={() => setIsMobileMenuOpen(false)}
-      />
 
       <YeuCauDangTinModal
         isOpen={isYeuCauModalOpen}
