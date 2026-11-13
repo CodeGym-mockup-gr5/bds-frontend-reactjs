@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import useSuaThongTinForm from '../hooks/useSuaThongTinForm';
-import { CHUC_VU_OPTIONS } from './profileValidation';
+import { formatChucVu } from '../utils/profileValidation';
 import { AlertTriangleIcon, CheckIcon, WarningCircleIcon } from './ProfileIcons';
-import { GenderRadioField, LockedCodeField, LockedSelectField } from './ProfileExtraFields';
+import { GenderRadioField, LockedCodeField } from './ProfileExtraFields';
 import ProfileTextField from './ProfileTextField';
 import styles from '../pages/SuaThongTinCaNhanPage.module.css';
 
@@ -27,28 +26,21 @@ export default function SuaThongTinCaNhanForm({
 
   return (
     <>
-      <div className={styles.cardHeader}>
-        <div>
-          <h1 className={styles.pageTitle}>Sửa thông tin cá nhân</h1>
-          <p className={styles.pageSubtitle}>
-            Cập nhật và hoàn thiện thông tin hồ sơ cá nhân của bạn trên hệ thống REALIA.
-          </p>
-        </div>
-        {hasErrors && (
-          <span className={styles.errorSummaryBadge} role="status">
-            <AlertTriangleIcon className={styles.badgeIcon} />
-            <span>{`Có ${errorCount} trường cần sửa`}</span>
-          </span>
-        )}
-      </div>
-
       {(hasErrors || serverError) && (
         <div className={styles.errorBanner} role="alert">
-          <WarningCircleIcon className={styles.bannerIcon} />
-          <span>
-            {serverError ||
-              'Xin mời kiểm tra lại các trường thông tin có viền đỏ bên dưới trước khi lưu.'}
-          </span>
+          <div className={styles.errorBannerContent}>
+            <WarningCircleIcon className={styles.bannerIcon} />
+            <span>
+              {serverError ||
+                'Xin mời kiểm tra lại các trường thông tin có viền đỏ bên dưới trước khi lưu.'}
+            </span>
+          </div>
+          {hasErrors && (
+            <span className={styles.errorSummaryBadge} role="status">
+              <AlertTriangleIcon className={styles.badgeIcon} />
+              <span>{`Có ${errorCount} trường cần sửa`}</span>
+            </span>
+          )}
         </div>
       )}
 
@@ -130,10 +122,9 @@ export default function SuaThongTinCaNhanForm({
           />
         </div>
 
-        <LockedSelectField
+        <LockedCodeField
           label="Chức vụ"
-          value={profile?.chucVu || ''}
-          options={CHUC_VU_OPTIONS}
+          value={formatChucVu(profile?.chucVu)}
           hint="Chức vụ do Quản trị viên quản lý"
         />
 
@@ -163,26 +154,3 @@ export default function SuaThongTinCaNhanForm({
     </>
   );
 }
-
-SuaThongTinCaNhanForm.propTypes = {
-  profile: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    maNv: PropTypes.string,
-    hoTen: PropTypes.string,
-    ngaySinh: PropTypes.string,
-    gioiTinh: PropTypes.string,
-    diaChi: PropTypes.string,
-    soDienThoai: PropTypes.string,
-    email: PropTypes.string,
-    chucVu: PropTypes.string,
-    laAdmin: PropTypes.bool,
-  }).isRequired,
-  isSubmitting: PropTypes.bool,
-  onSubmitProfile: PropTypes.func.isRequired,
-  onShowToast: PropTypes.func,
-};
-
-SuaThongTinCaNhanForm.defaultProps = {
-  isSubmitting: false,
-  onShowToast: null,
-};

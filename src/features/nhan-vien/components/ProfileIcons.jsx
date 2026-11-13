@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
-
-export function WarningCircleIcon({ className }) {
+export function WarningCircleIcon({ className = '' }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z" />
@@ -8,11 +6,7 @@ export function WarningCircleIcon({ className }) {
   );
 }
 
-WarningCircleIcon.propTypes = {
-  className: PropTypes.string.isRequired,
-};
-
-export function LockIcon({ className }) {
+export function LockIcon({ className = '' }) {
   return (
     <svg
       className={className}
@@ -30,11 +24,7 @@ export function LockIcon({ className }) {
   );
 }
 
-LockIcon.propTypes = {
-  className: PropTypes.string.isRequired,
-};
-
-export function AlertTriangleIcon({ className }) {
+export function AlertTriangleIcon({ className = '' }) {
   return (
     <svg
       className={className}
@@ -53,11 +43,7 @@ export function AlertTriangleIcon({ className }) {
   );
 }
 
-AlertTriangleIcon.propTypes = {
-  className: PropTypes.string.isRequired,
-};
-
-export function CheckIcon({ className }) {
+export function CheckIcon({ className = '' }) {
   return (
     <svg
       className={className}
@@ -73,7 +59,3 @@ export function CheckIcon({ className }) {
     </svg>
   );
 }
-
-CheckIcon.propTypes = {
-  className: PropTypes.string.isRequired,
-};

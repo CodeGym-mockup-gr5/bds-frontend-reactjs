@@ -4,7 +4,7 @@ import {
   buildProfileFormValues,
   validateAllProfileFields,
   validateProfileField,
-} from '../components/profileValidation';
+} from '../utils/profileValidation';
 
 export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToast }) {
   const [values, setValues] = useState(() => buildProfileFormValues(profile));
@@ -93,13 +93,7 @@ export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToa
 
       const fallbackMessage =
         responseData?.message || 'Không thể cập nhật thông tin cá nhân lúc này';
-      if (fallbackMessage.toLowerCase().includes('email')) {
-        setErrors({ email: fallbackMessage });
-      }
       setServerError(fallbackMessage);
-      if (onShowToast) {
-        onShowToast(fallbackMessage, 'error');
-      }
     }
   };
 

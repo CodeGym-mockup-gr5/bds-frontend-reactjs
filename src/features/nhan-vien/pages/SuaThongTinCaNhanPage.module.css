@@ -37,18 +37,10 @@
 
 .breadcrumbCurrent {
   color: var(--color-neutral-900);
-  font-weight: 600;
-}
-
-.layoutGrid {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-24);
+  font-weight: var(--text-h3-weight);
 }
 
 .mainCard {
-  flex: 1;
-  min-width: 0;
   background-color: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -87,11 +79,11 @@
   flex-shrink: 0;
   padding: var(--space-4) var(--space-12);
   border-radius: var(--radius-full);
-  background-color: var(--color-primary-50);
+  background-color: var(--color-white);
   color: var(--color-danger-600);
   font-family: var(--font-family-base);
   font-size: var(--text-caption-size);
-  font-weight: 600;
+  font-weight: var(--text-h3-weight);
 }
 
 .badgeIcon {
@@ -102,7 +94,9 @@
 .errorBanner {
   display: flex;
   align-items: center;
-  gap: var(--space-8);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-12);
   padding: var(--space-12) var(--space-16);
   margin-bottom: var(--space-20);
   border-radius: var(--radius-md);
@@ -112,6 +106,12 @@
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line-height);
+}
+
+.errorBannerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
 }
 
 .bannerIcon {
@@ -163,8 +163,7 @@
   align-items: center;
 }
 
-.input,
-.select {
+.input {
   width: 100%;
   height: 48px;
   padding: 0 var(--space-40) 0 var(--space-16);
@@ -181,10 +180,6 @@
     box-shadow 0.2s ease;
 }
 
-.select {
-  padding-right: var(--space-16);
-}
-
 .input[type='date'] {
   padding-right: var(--space-16);
 }
@@ -193,8 +188,7 @@
   color: var(--color-neutral-400);
 }
 
-.input:focus,
-.select:focus {
+.input:focus {
   outline: none;
   border-color: var(--color-primary-600);
   box-shadow: 0 0 0 2px var(--color-primary-50);
@@ -305,7 +299,7 @@
   color: var(--color-neutral-900);
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
-  font-weight: 500;
+  font-weight: var(--text-label-weight);
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -340,7 +334,7 @@
   color: var(--color-white);
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
-  font-weight: 600;
+  font-weight: var(--text-h3-weight);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -406,7 +400,7 @@
   color: var(--color-white);
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
-  font-weight: 600;
+  font-weight: var(--text-h3-weight);
   cursor: pointer;
 }
 
@@ -438,7 +432,8 @@
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-white), transparent);
+  opacity: 0.65;
   animation: shimmer 1.4s infinite;
 }
 

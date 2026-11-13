@@ -1,5 +1,4 @@
 import { useId } from 'react';
-import PropTypes from 'prop-types';
 import { WarningCircleIcon } from './ProfileIcons';
 import styles from '../pages/SuaThongTinCaNhanPage.module.css';
 
@@ -59,27 +58,3 @@ export default function ProfileTextField({
     </div>
   );
 }
-
-ProfileTextField.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  error: PropTypes.string,
-  showErrorIcon: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
-};
-
-ProfileTextField.defaultProps = {
-  type: 'text',
-  placeholder: '',
-  required: false,
-  disabled: false,
-  error: '',
-  showErrorIcon: true,
-  onBlur: null,
-};

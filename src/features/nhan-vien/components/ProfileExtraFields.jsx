@@ -1,9 +1,8 @@
 import { useId } from 'react';
-import PropTypes from 'prop-types';
 import { LockIcon, WarningCircleIcon } from './ProfileIcons';
 import styles from '../pages/SuaThongTinCaNhanPage.module.css';
 
-export function LockedCodeField({ label, value, hint }) {
+export function LockedCodeField({ label, value, hint = '' }) {
   const inputId = useId();
   return (
     <div className={styles.fieldBlock}>
@@ -27,16 +26,6 @@ export function LockedCodeField({ label, value, hint }) {
     </div>
   );
 }
-
-LockedCodeField.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  hint: PropTypes.string,
-};
-
-LockedCodeField.defaultProps = {
-  hint: '',
-};
 
 export function GenderRadioField({ value, error = '', disabled = false, onChange }) {
   const namId = useId();
@@ -84,55 +73,3 @@ export function GenderRadioField({ value, error = '', disabled = false, onChange
     </div>
   );
 }
-
-GenderRadioField.propTypes = {
-  value: PropTypes.string.isRequired,
-  error: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-};
-
-GenderRadioField.defaultProps = {
-  error: '',
-  disabled: false,
-};
-
-export function LockedSelectField({ label, value, options, hint }) {
-  const selectId = useId();
-  return (
-    <div className={styles.fieldBlock}>
-      <label htmlFor={selectId} className={styles.fieldGroup}>
-        <span className={styles.label}>{label}</span>
-        <select
-          id={selectId}
-          value={value}
-          disabled
-          className={`${styles.select} ${styles.inputDisabled}`}
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      {hint && <span className={styles.helperText}>{hint}</span>}
-    </div>
-  );
-}
-
-LockedSelectField.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  hint: PropTypes.string,
-};
-
-LockedSelectField.defaultProps = {
-  hint: '',
-};

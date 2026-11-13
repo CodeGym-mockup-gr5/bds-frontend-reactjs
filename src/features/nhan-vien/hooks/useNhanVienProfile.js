@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getProfileNhanVien, updateProfileNhanVien } from '../api/nhanVienProfileApi';
+import { getProfileNhanVien, updateProfileNhanVien } from '../../../api/nhanVienProfileApi';
 
 export const NHAN_VIEN_PROFILE_QUERY_KEY = ['nhanVienProfile'];
 
@@ -15,8 +15,10 @@ export default function useNhanVienProfile() {
   const updateMutation = useMutation({
     mutationFn: updateProfileNhanVien,
     onSuccess: (responseData) => {
-      if (responseData) {
+      if (responseData?.data) {
         queryClient.setQueryData(NHAN_VIEN_PROFILE_QUERY_KEY, responseData);
+      } else {
+        queryClient.invalidateQueries({ queryKey: NHAN_VIEN_PROFILE_QUERY_KEY });
       }
       queryClient.invalidateQueries({ queryKey: ['authMe'] });
     },

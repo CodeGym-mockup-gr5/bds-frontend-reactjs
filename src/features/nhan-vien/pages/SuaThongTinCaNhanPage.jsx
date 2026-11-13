@@ -1,8 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Toast from '../../../components/Toast';
-import useNhanVienProfile from '../../../hooks/useNhanVienProfile';
-import AccountSidebar from '../components/AccountSidebar';
+import useNhanVienProfile from '../hooks/useNhanVienProfile';
 import { WarningCircleIcon } from '../components/ProfileIcons';
 import SuaThongTinCaNhanForm from '../components/SuaThongTinCaNhanForm';
 import SuaThongTinCaNhanSkeleton from '../components/SuaThongTinCaNhanSkeleton';
@@ -52,46 +51,39 @@ export default function SuaThongTinCaNhanPage() {
         <span className={styles.breadcrumbCurrent}>Sửa thông tin cá nhân</span>
       </nav>
 
-      <div className={styles.layoutGrid}>
-        <AccountSidebar />
-
-        <div className={styles.mainCard}>
-          {isLoading && (
-            <>
-              <div className={styles.cardHeader}>
-                <div>
-                  <h1 className={styles.pageTitle}>Sửa thông tin cá nhân</h1>
-                  <p className={styles.pageSubtitle}>
-                    Cập nhật và hoàn thiện thông tin hồ sơ cá nhân của bạn trên hệ thống REALIA.
-                  </p>
-                </div>
-              </div>
-              <SuaThongTinCaNhanSkeleton />
-            </>
-          )}
-
-          {!isLoading && isError && (
-            <div className={styles.fetchErrorBox} role="alert">
-              <div className={styles.fetchErrorRow}>
-                <WarningCircleIcon className={styles.bannerIcon} />
-                <span>{errorMessage}</span>
-              </div>
-              <button type="button" className={styles.retryButton} onClick={() => refetch()}>
-                Thử lại
-              </button>
-            </div>
-          )}
-
-          {!isLoading && !isError && profile && (
-            <SuaThongTinCaNhanForm
-              key={formKey}
-              profile={profile}
-              isSubmitting={isSubmitting}
-              onSubmitProfile={updateProfileAsync}
-              onShowToast={handleShowToast}
-            />
-          )}
+      <div className={styles.mainCard}>
+        <div className={styles.cardHeader}>
+          <div>
+            <h1 className={styles.pageTitle}>Sửa thông tin cá nhân</h1>
+            <p className={styles.pageSubtitle}>
+              Cập nhật và hoàn thiện thông tin hồ sơ cá nhân của bạn trên hệ thống REALIA.
+            </p>
+          </div>
         </div>
+
+        {isLoading && <SuaThongTinCaNhanSkeleton />}
+
+        {!isLoading && isError && (
+          <div className={styles.fetchErrorBox} role="alert">
+            <div className={styles.fetchErrorRow}>
+              <WarningCircleIcon className={styles.bannerIcon} />
+              <span>{errorMessage}</span>
+            </div>
+            <button type="button" className={styles.retryButton} onClick={() => refetch()}>
+              Thử lại
+            </button>
+          </div>
+        )}
+
+        {!isLoading && !isError && profile && (
+          <SuaThongTinCaNhanForm
+            key={formKey}
+            profile={profile}
+            isSubmitting={isSubmitting}
+            onSubmitProfile={updateProfileAsync}
+            onShowToast={handleShowToast}
+          />
+        )}
       </div>
 
       <Toast
