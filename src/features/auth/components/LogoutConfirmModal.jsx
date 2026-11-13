@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import Modal from '../../../components/Modal';
 import styles from './LogoutConfirmModal.module.css';
 
@@ -34,14 +33,3 @@ export default function LogoutConfirmModal({ isOpen, isLoading = false, onClose,
     </Modal>
   );
 }
-
-LogoutConfirmModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-};
-
-LogoutConfirmModal.defaultProps = {
-  isLoading: false,
-};

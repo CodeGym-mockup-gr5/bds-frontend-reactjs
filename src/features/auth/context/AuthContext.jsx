@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getMe, login as loginApi, logout as logoutApi } from '../../../api/authApi';
@@ -197,7 +196,3 @@ export function AuthProvider({ children }) {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-
-AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};

@@ -1,6 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
-import { getMe } from '../api/authApi';
-import { getToken } from '../utils/auth';
+import useAuth from './useAuth';
 
 const MENU_ITEMS = [
   { nhan: 'Mua bán', duongDan: '/bat-dong-san' },
@@ -9,27 +7,14 @@ const MENU_ITEMS = [
 ];
 
 export default function useHeader() {
-  const token = getToken();
-
-  const meQuery = useQuery({
-    queryKey: ['authMe'],
-    queryFn: getMe,
-    enabled: Boolean(token),
-    staleTime: 1000 * 60 * 5,
-    retry: false,
-  });
-
-  const user = meQuery.data?.data || null;
-  const isLoggedIn = Boolean(token && !meQuery.isError);
-  const isSellerStatusLoading = Boolean(token && meQuery.isLoading);
-  const isSellerStatusError = Boolean(token && meQuery.isError);
+  const { user, isLoggedIn, isSellerStatusLoading, isSellerStatusError, refetchMe } = useAuth();
 
   return {
     user,
     isLoggedIn,
     isSellerStatusLoading,
     isSellerStatusError,
-    refetchSellerStatus: meQuery.refetch,
+    refetchSellerStatus: refetchMe,
     menuItems: MENU_ITEMS,
   };
 }

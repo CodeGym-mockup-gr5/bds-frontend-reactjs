@@ -22,7 +22,7 @@
   color: var(--color-neutral-600);
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
-  font-weight: 500;
+  font-weight: var(--text-label-weight);
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -55,7 +55,7 @@
   color: var(--color-white);
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
-  font-weight: 600;
+  font-weight: var(--text-h3-weight);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

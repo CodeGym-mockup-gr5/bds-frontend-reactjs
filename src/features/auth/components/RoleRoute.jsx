@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import { getDefaultRouteByUser } from '../../../utils/auth';
@@ -27,13 +26,3 @@ export default function RoleRoute({ allowedRoles = null, children = null }) {
 
   return children || <Outlet />;
 }
-
-RoleRoute.propTypes = {
-  allowedRoles: PropTypes.arrayOf(PropTypes.string),
-  children: PropTypes.node,
-};
-
-RoleRoute.defaultProps = {
-  allowedRoles: null,
-  children: null,
-};

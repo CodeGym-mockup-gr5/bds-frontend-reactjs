@@ -231,7 +231,7 @@
   min-height: 40px;
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
-  font-weight: 600;
+  font-weight: var(--text-h3-weight);
   color: var(--color-primary-600);
   text-decoration: none;
   border-radius: var(--radius-sm);
@@ -262,7 +262,7 @@
   color: var(--color-white);
   font-family: var(--font-family-base);
   font-size: var(--text-body-lg-size);
-  font-weight: 600;
+  font-weight: var(--text-h3-weight);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -318,7 +318,8 @@
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-white), transparent);
+  opacity: 0.65;
   animation: shimmer 1.4s infinite;
 }
 

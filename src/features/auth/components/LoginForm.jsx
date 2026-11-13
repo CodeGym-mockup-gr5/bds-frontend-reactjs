@@ -1,5 +1,4 @@
 import { useId } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import logoColor from '../../../assets/images/logo-color.png';
 import useLoginForm from '../hooks/useLoginForm';
@@ -169,17 +168,3 @@ export default function LoginForm({
     </div>
   );
 }
-
-LoginForm.propTypes = {
-  onSuccess: PropTypes.func,
-  onNavigateAway: PropTypes.func,
-  isLoadingSkeleton: PropTypes.bool,
-  withShadow: PropTypes.bool,
-};
-
-LoginForm.defaultProps = {
-  onSuccess: null,
-  onNavigateAway: null,
-  isLoadingSkeleton: false,
-  withShadow: false,
-};

@@ -1,10 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
+import useAuth from '../../../hooks/useAuth';
 import useHeader from '../../../hooks/useHeader';
 import useYeuCauDangTin from '../../../hooks/useYeuCauDangTin';
-import { logout as logoutApi } from '../../../api/authApi';
-import { removeToken } from '../../../utils/auth';
 import Toast from '../../../components/Toast';
 import HeaderLogo from './components/HeaderLogo';
 import HeaderNav from './components/HeaderNav';
@@ -15,7 +13,7 @@ import styles from './Header.module.css';
 export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const { openLoginModal, openLogoutModal, isKhachHang } = useAuth();
 
   const {
     user,
@@ -36,11 +34,11 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
     setToast({ isOpen: true, message, type });
   }, []);
 
-  const showDangTin = !location.pathname.includes('/dang-tin');
+  const showDangTin = !location.pathname.includes('/dang-tin') && (!isLoggedIn || isKhachHang);
 
   const handleLogin = useCallback(
-    () => (onOpenLogin ? onOpenLogin() : navigate('/dang-nhap')),
-    [onOpenLogin, navigate],
+    () => (onOpenLogin ? onOpenLogin() : openLoginModal()),
+    [onOpenLogin, openLoginModal],
   );
 
   const handleRegister = useCallback(
@@ -84,13 +82,10 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
     });
   }, [yeuCauMutation, showToast]);
 
-  const handleLogout = useCallback(async () => {
+  const handleLogout = useCallback(() => {
     setIsAccountMenuOpen(false);
-    await logoutApi().catch(() => undefined);
-    removeToken();
-    queryClient.clear();
-    navigate('/');
-  }, [navigate, queryClient]);
+    openLogoutModal();
+  }, [openLogoutModal]);
 
   return (
     <header className={styles.header}>

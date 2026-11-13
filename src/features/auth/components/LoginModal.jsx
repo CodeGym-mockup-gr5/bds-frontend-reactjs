@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import LoginForm from './LoginForm';
 import styles from './LoginModal.module.css';
 
@@ -105,9 +104,3 @@ export default function LoginModal({ isOpen, onClose, onSuccess }) {
     </div>
   );
 }
-
-LoginModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-};
