@@ -64,6 +64,10 @@ export function removeRememberedUsername() {
 }
 
 export function normalizeRole(role) {
+  if (role && typeof role === 'object') {
+    const candidate = role.authority || role.role || role.maVaiTro || role.tenVaiTro || role.name;
+    return normalizeRole(candidate);
+  }
   if (typeof role !== 'string') {
     return '';
   }
@@ -71,17 +75,25 @@ export function normalizeRole(role) {
   return normalized.startsWith('ROLE_') ? normalized.slice(5) : normalized;
 }
 
+export function extractRoleList(rawRoles) {
+  if (Array.isArray(rawRoles)) {
+    return [...new Set(rawRoles.map(normalizeRole).filter(Boolean))];
+  }
+  if (typeof rawRoles === 'string') {
+    return [...new Set(rawRoles.split(',').map(normalizeRole).filter(Boolean))];
+  }
+  if (rawRoles && typeof rawRoles === 'object') {
+    const single = normalizeRole(rawRoles);
+    return single ? [single] : [];
+  }
+  return [];
+}
+
 export function getUserRoles(user) {
-  if (!user) {
+  if (!user || typeof user !== 'object') {
     return [];
   }
-  if (Array.isArray(user.roles) && user.roles.length > 0) {
-    return user.roles;
-  }
-  if (!Array.isArray(user.vaiTro)) {
-    return [];
-  }
-  return user.vaiTro.map(normalizeRole).filter(Boolean);
+  return extractRoleList(user.roles ?? user.vaiTro ?? user.role ?? user.authorities);
 }
 
 export function hasAnyRole(user, allowedRoles = []) {
@@ -119,17 +131,71 @@ function getInitials(hoTen, tenDangNhap) {
 }
 
 export function enrichUser(rawUser) {
-  if (!rawUser) {
+  if (!rawUser || typeof rawUser !== 'object') {
     return null;
   }
-  const roles = Array.isArray(rawUser.vaiTro)
-    ? [...new Set(rawUser.vaiTro.map(normalizeRole).filter(Boolean))]
-    : [];
-  const kyTuDaiDien = rawUser.kyTuDaiDien || getInitials(rawUser.hoTen, rawUser.tenDangNhap);
+  const roles = getUserRoles(rawUser);
+  const kyTuDaiDien =
+    rawUser.kyTuDaiDien ||
+    getInitials(
+      rawUser.hoTen || rawUser.fullName || rawUser.name,
+      rawUser.tenDangNhap || rawUser.username,
+    );
 
   return {
     ...rawUser,
     roles,
+    vaiTro: roles,
     kyTuDaiDien,
   };
+}
+
+export function normalizeAuthPayload(apiResponse) {
+  const root =
+    apiResponse?.data && typeof apiResponse.data === 'object' ? apiResponse.data : apiResponse;
+  const payload =
+    root?.data && typeof root.data === 'object' && !root.token && !root.accessToken
+      ? root.data
+      : root;
+
+  const token =
+    payload?.token ||
+    payload?.accessToken ||
+    apiResponse?.token ||
+    apiResponse?.accessToken ||
+    null;
+  const rawUser =
+    payload?.taiKhoan ||
+    payload?.user ||
+    payload?.account ||
+    apiResponse?.taiKhoan ||
+    apiResponse?.user ||
+    null;
+  const topLevelRoles = extractRoleList(
+    payload?.roles ?? payload?.vaiTro ?? payload?.role ?? apiResponse?.roles ?? apiResponse?.vaiTro,
+  );
+
+  let user = enrichUser(rawUser);
+  if (user && user.roles.length === 0 && topLevelRoles.length > 0) {
+    user = { ...user, roles: topLevelRoles, vaiTro: topLevelRoles };
+  } else if (!user && topLevelRoles.length > 0) {
+    user = enrichUser({ roles: topLevelRoles });
+  }
+
+  return {
+    token,
+    user,
+    message: apiResponse?.message || payload?.message || '',
+  };
+}
+
+export function extractUserFromMeResponse(apiResponse) {
+  if (!apiResponse || typeof apiResponse !== 'object') {
+    return null;
+  }
+  const inner = apiResponse.data ?? apiResponse;
+  if (inner && typeof inner === 'object' && (inner.taiKhoan || inner.user || inner.account)) {
+    return enrichUser(inner.taiKhoan || inner.user || inner.account);
+  }
+  return enrichUser(inner);
 }

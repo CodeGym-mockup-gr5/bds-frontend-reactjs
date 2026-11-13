@@ -4,9 +4,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getMe, login as loginApi, logout as logoutApi } from '../../../api/authApi';
 import {
   ROLES,
-  enrichUser,
+  extractUserFromMeResponse,
   getToken,
   hasAnyRole,
+  normalizeAuthPayload,
   removeToken,
   setToken,
 } from '../../../utils/auth';
@@ -85,28 +86,25 @@ export function AuthProvider({ children }) {
 
   const handleLoginSuccess = useCallback(
     (apiResponse, explicitRedirect = null) => {
-      const payload = apiResponse?.data || apiResponse;
-      const newToken = payload?.token;
-      const rawUser = payload?.taiKhoan || null;
+      const { token: newToken, user: normalizedUser, message } = normalizeAuthPayload(apiResponse);
 
       if (newToken) {
         setToken(newToken);
         setTokenState(newToken);
-        if (rawUser) {
-          queryClient.setQueryData(['authMe', newToken], { success: true, data: rawUser });
+        if (normalizedUser) {
+          queryClient.setQueryData(['authMe', newToken], { success: true, data: normalizedUser });
         }
       }
 
-      const enriched = enrichUser(rawUser);
       const targetRedirect = postLoginRedirect || explicitRedirect;
 
       setIsLoginModalOpen(false);
       setPostLoginRedirect(null);
-      showToast(apiResponse?.message || 'Đăng nhập thành công', 'success');
+      showToast(message || 'Đăng nhập thành công', 'success');
 
-      if (hasAnyRole(enriched, [ROLES.ADMIN])) {
+      if (hasAnyRole(normalizedUser, [ROLES.ADMIN])) {
         navigate('/admin', { replace: true });
-      } else if (hasAnyRole(enriched, [ROLES.NHAN_VIEN])) {
+      } else if (hasAnyRole(normalizedUser, [ROLES.NHAN_VIEN])) {
         navigate('/nhan-vien', { replace: true });
       } else if (targetRedirect) {
         navigate(targetRedirect, { replace: true });
@@ -117,18 +115,25 @@ export function AuthProvider({ children }) {
 
   const confirmLogout = useCallback(() => {
     logoutMutation.mutate(undefined, {
-      onSettled: () => {
+      onSuccess: (responseData) => {
         removeToken();
         setTokenState(null);
         queryClient.clear();
         setIsLogoutModalOpen(false);
-        showToast('Đăng xuất thành công', 'success');
+        showToast(responseData?.message || 'Đăng xuất thành công', 'success');
         navigate('/', { replace: true });
+      },
+      onError: (error) => {
+        setIsLogoutModalOpen(false);
+        showToast(
+          error?.response?.data?.message || 'Không thể đăng xuất lúc này. Vui lòng thử lại.',
+          'error',
+        );
       },
     });
   }, [logoutMutation, navigate, queryClient, showToast]);
 
-  const user = useMemo(() => enrichUser(meQuery.data?.data || null), [meQuery.data]);
+  const user = useMemo(() => extractUserFromMeResponse(meQuery.data), [meQuery.data]);
   const isLoggedIn = Boolean(token && !meQuery.isError);
   const isAuthLoading = Boolean(token && meQuery.isLoading);
   const isSellerStatusLoading = isAuthLoading;
