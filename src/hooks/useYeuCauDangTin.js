@@ -7,7 +7,6 @@ export default function useYeuCauDangTin() {
   return useMutation({
     mutationFn: yeuCauDangTinBan,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['header'] });
       queryClient.invalidateQueries({ queryKey: ['authMe'] });
     },
   });

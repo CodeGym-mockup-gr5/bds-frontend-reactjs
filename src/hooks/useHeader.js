@@ -12,7 +12,7 @@ export default function useHeader() {
   const token = getToken();
 
   const meQuery = useQuery({
-    queryKey: ['authMe', token],
+    queryKey: ['authMe'],
     queryFn: getMe,
     enabled: Boolean(token),
     staleTime: 1000 * 60 * 5,

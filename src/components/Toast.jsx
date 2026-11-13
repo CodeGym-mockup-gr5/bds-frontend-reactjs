@@ -1,24 +1,29 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useRef } from 'react';
 import styles from './Toast.module.css';
 
 export default function Toast({
   isOpen,
-  message,
+  message = '',
   type = 'success',
   duration = 4000,
   onClose = null,
 }) {
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
+
   useEffect(() => {
     if (!isOpen || !message) return undefined;
     if (duration <= 0) return undefined;
 
     const timer = setTimeout(() => {
-      if (onClose) onClose();
+      onCloseRef.current?.();
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [isOpen, message, duration, onClose]);
+  }, [isOpen, message, duration]);
 
   if (!isOpen || !message) return null;
 
@@ -92,18 +97,3 @@ export default function Toast({
     </aside>
   );
 }
-
-Toast.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  message: PropTypes.string,
-  type: PropTypes.oneOf(['success', 'error']),
-  duration: PropTypes.number,
-  onClose: PropTypes.func,
-};
-
-Toast.defaultProps = {
-  message: '',
-  type: 'success',
-  duration: 4000,
-  onClose: null,
-};

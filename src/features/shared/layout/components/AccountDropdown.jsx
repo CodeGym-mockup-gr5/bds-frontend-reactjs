@@ -1,5 +1,4 @@
 import { useEffect, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from '../Header.module.css';
 
@@ -47,10 +46,13 @@ export default function AccountDropdown({
 
   if (!isOpen) return null;
 
+  const rawAvatarName = (user?.hoTen || user?.tenDangNhap || '').trim();
+  const avatarInitial = rawAvatarName ? rawAvatarName.charAt(0).toUpperCase() : 'U';
+
   return (
     <div ref={dropdownRef} className={styles.dropdownMenu} role="menu" aria-label="Menu tài khoản">
       <div className={styles.dropdownHeader}>
-        <div className={styles.dropdownUserAvatar}>{user?.kyTuDaiDien || 'U'}</div>
+        <div className={styles.dropdownUserAvatar}>{avatarInitial}</div>
         <div className={styles.dropdownUserInfo}>
           <span className={styles.dropdownUserName}>
             {user?.hoTen || user?.tenDangNhap || 'Tài khoản'}
@@ -161,23 +163,3 @@ export default function AccountDropdown({
     </div>
   );
 }
-
-AccountDropdown.propTypes = {
-  user: PropTypes.shape({
-    tenDangNhap: PropTypes.string,
-    hoTen: PropTypes.string,
-    kyTuDaiDien: PropTypes.string,
-  }),
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
-  triggerRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
-};
-
-AccountDropdown.defaultProps = {
-  user: null,
-  triggerRef: null,
-};

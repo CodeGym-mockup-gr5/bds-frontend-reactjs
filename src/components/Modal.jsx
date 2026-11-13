@@ -1,5 +1,4 @@
 import { useEffect, useRef, useId } from 'react';
-import PropTypes from 'prop-types';
 import styles from './Modal.module.css';
 
 export default function Modal({
@@ -15,7 +14,12 @@ export default function Modal({
   const modalRef = useRef(null);
   const backdropRef = useRef(null);
   const previousActiveElementRef = useRef(null);
+  const onCloseRef = useRef(onClose);
   const titleId = useId();
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -33,9 +37,20 @@ export default function Modal({
       }
     }, 0);
 
+    return () => {
+      clearTimeout(timer);
+      if (previousActiveElementRef.current?.focus) {
+        previousActiveElementRef.current.focus();
+      }
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
-        if (onClose) onClose();
+        onCloseRef.current?.();
         return;
       }
 
@@ -62,8 +77,8 @@ export default function Modal({
     }
 
     function handleBackdropClick(event) {
-      if (closeOnBackdropClick && event.target === backdropRef.current && onClose) {
-        onClose();
+      if (closeOnBackdropClick && event.target === backdropRef.current) {
+        onCloseRef.current?.();
       }
     }
 
@@ -75,16 +90,12 @@ export default function Modal({
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      clearTimeout(timer);
       document.removeEventListener('keydown', handleKeyDown);
       if (backdropElement) {
         backdropElement.removeEventListener('click', handleBackdropClick);
       }
-      if (previousActiveElementRef.current?.focus) {
-        previousActiveElementRef.current.focus();
-      }
     };
-  }, [isOpen, closeOnBackdropClick, onClose]);
+  }, [isOpen, closeOnBackdropClick]);
 
   if (!isOpen) return null;
 
@@ -137,24 +148,3 @@ export default function Modal({
     </div>
   );
 }
-
-Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func,
-  title: PropTypes.string,
-  children: PropTypes.node,
-  footer: PropTypes.node,
-  maxWidth: PropTypes.string,
-  closeOnBackdropClick: PropTypes.bool,
-  ariaLabel: PropTypes.string,
-};
-
-Modal.defaultProps = {
-  onClose: null,
-  title: null,
-  children: null,
-  footer: null,
-  maxWidth: '480px',
-  closeOnBackdropClick: true,
-  ariaLabel: null,
-};

@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import useHeader from '../../../hooks/useHeader';
@@ -135,13 +134,3 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
     </header>
   );
 }
-
-Header.propTypes = {
-  onOpenLogin: PropTypes.func,
-  onOpenRegister: PropTypes.func,
-};
-
-Header.defaultProps = {
-  onOpenLogin: null,
-  onOpenRegister: null,
-};

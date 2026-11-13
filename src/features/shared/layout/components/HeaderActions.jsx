@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from '../Header.module.css';
 import AccountDropdown from './AccountDropdown';
@@ -62,6 +61,8 @@ export default function HeaderActions({
 
   const isChoDuyet = user?.trangThaiDuyet === 'CHO_DUYET';
   const isDangTinDisabled = isChoDuyet || isSellerStatusLoading;
+  const rawAvatarName = (user?.hoTen || user?.tenDangNhap || '').trim();
+  const avatarInitial = rawAvatarName ? rawAvatarName.charAt(0).toUpperCase() : 'U';
 
   let dangTinTooltip = 'Đăng tin bán bất động sản';
   if (isChoDuyet) {
@@ -130,7 +131,7 @@ export default function HeaderActions({
           aria-expanded={isAccountMenuOpen}
           aria-haspopup="true"
         >
-          <div className={styles.userAvatar}>{user?.kyTuDaiDien || 'U'}</div>
+          <div className={styles.userAvatar}>{avatarInitial}</div>
           <span className={styles.userName}>{user?.hoTen || user?.tenDangNhap || 'Tài khoản'}</span>
           <svg
             className={`${styles.chevronIcon} ${isAccountMenuOpen ? styles.chevronRotated : ''}`}
@@ -156,32 +157,3 @@ export default function HeaderActions({
     </div>
   );
 }
-
-HeaderActions.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    tenDangNhap: PropTypes.string,
-    hoTen: PropTypes.string,
-    kyTuDaiDien: PropTypes.string,
-    laKhBan: PropTypes.bool,
-    trangThaiDuyet: PropTypes.string,
-  }),
-  coThongBao: PropTypes.bool,
-  showDangTin: PropTypes.bool,
-  isSellerStatusLoading: PropTypes.bool,
-  onOpenLogin: PropTypes.func.isRequired,
-  onOpenRegister: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
-  onDangTinClick: PropTypes.func.isRequired,
-  isAccountMenuOpen: PropTypes.bool.isRequired,
-  onToggleAccountMenu: PropTypes.func.isRequired,
-  onCloseAccountMenu: PropTypes.func.isRequired,
-};
-
-HeaderActions.defaultProps = {
-  user: null,
-  coThongBao: false,
-  showDangTin: true,
-  isSellerStatusLoading: false,
-};

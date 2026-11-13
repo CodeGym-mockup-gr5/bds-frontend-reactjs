@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styles from '../Header.module.css';
 
@@ -31,18 +30,3 @@ export default function HeaderNav({ items = DEFAULT_ITEMS, onItemClick = null })
     </nav>
   );
 }
-
-HeaderNav.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      nhan: PropTypes.string.isRequired,
-      duongDan: PropTypes.string.isRequired,
-    }),
-  ),
-  onItemClick: PropTypes.func,
-};
-
-HeaderNav.defaultProps = {
-  items: DEFAULT_ITEMS,
-  onItemClick: null,
-};

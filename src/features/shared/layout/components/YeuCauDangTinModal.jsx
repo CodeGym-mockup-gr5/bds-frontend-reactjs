@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import Modal from '../../../../components/Modal';
 import styles from './YeuCauDangTinModal.module.css';
 
@@ -33,14 +32,3 @@ export default function YeuCauDangTinModal({ isOpen, isLoading = false, onClose,
     </Modal>
   );
 }
-
-YeuCauDangTinModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-};
-
-YeuCauDangTinModal.defaultProps = {
-  isLoading: false,
-};
