@@ -1,0 +1,434 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 72px;
+  background-color: var(--color-primary-600);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.container {
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-40);
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  min-height: 40px;
+  outline: none;
+  border-radius: var(--radius-md);
+  transition: opacity 0.2s ease;
+}
+
+.logoLink:hover {
+  opacity: 0.92;
+}
+
+.logoLink:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 4px;
+}
+
+.logoSvg {
+  width: 175px;
+  height: 44px;
+  display: block;
+}
+
+.logoImage {
+  height: 48px;
+  width: auto;
+  max-width: 200px;
+  display: block;
+  object-fit: contain;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-32);
+}
+
+.navItem {
+  display: inline-flex;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-8);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-lg-size);
+  font-weight: 500;
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  opacity: 0.85;
+}
+
+.navLinkActive {
+  font-weight: 700;
+  opacity: 1;
+}
+
+.navLinkActive::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: var(--space-8);
+  right: var(--space-8);
+  height: 2px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.actionsGuest,
+.actionsAuth {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.pillButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: 40px;
+  padding: 0 var(--space-20);
+  background-color: var(--color-white);
+  color: var(--color-primary-600);
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease,
+    color 0.2s ease;
+}
+
+.pillButton:hover:not(:disabled) {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+.pillButton:active:not(:disabled) {
+  background-color: var(--color-primary-50);
+  transform: translateY(1px);
+}
+
+.pillButton:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.btnIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.plusSign {
+  font-size: var(--text-body-lg-size);
+  font-weight: 700;
+}
+
+.dangTinDisabledWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: not-allowed;
+}
+
+.dangTinDisabled {
+  background-color: var(--color-primary-disabled);
+  color: var(--color-neutral-600);
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.dangTinNote {
+  font-family: var(--font-family-base);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  color: var(--color-primary-50);
+}
+
+.notificationButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-primary-700);
+  border: none;
+  border-radius: 50%;
+  color: var(--color-white);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.notificationButton:hover {
+  background-color: var(--color-primary-800);
+}
+
+.notificationButton:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.notificationIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.notificationDot {
+  position: absolute;
+  top: var(--space-8);
+  right: var(--space-8);
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-warning-500);
+  border: 1.5px solid var(--color-primary-700);
+  border-radius: 50%;
+}
+
+.userCapsuleWrapper {
+  position: relative;
+}
+
+.userCapsule {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 40px;
+  padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
+  background-color: var(--color-primary-700);
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  transition: background-color 0.2s ease;
+}
+
+.userCapsule:hover {
+  background-color: var(--color-primary-800);
+}
+
+.userCapsule:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  color: var(--color-primary-600);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.userName {
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  color: var(--color-white);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chevronIcon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.chevronRotated {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + var(--space-8));
+  right: 0;
+  width: 280px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-8) 0;
+  z-index: 1000;
+  animation: fadeInDown 0.15s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+}
+
+.dropdownUserAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+  font-size: var(--text-body-size);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownUserInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dropdownUserName {
+  font-size: var(--text-body-size);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownUserSub {
+  font-size: var(--text-caption-size);
+  color: var(--color-neutral-600);
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: var(--color-neutral-200);
+  margin: var(--space-4) 0;
+}
+
+.dropdownList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  color: var(--color-neutral-900);
+  text-decoration: none;
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.dropdownItem:hover {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.dropdownIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-neutral-600);
+}
+
+.dropdownItem:hover .dropdownIcon {
+  color: var(--color-primary-600);
+}
+
+.dropdownLogout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  padding: var(--space-12) var(--space-16);
+  background: none;
+  border: none;
+  color: var(--color-danger-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.dropdownLogout:hover {
+  background-color: var(--color-primary-50);
+}
+
+.dropdownIconDanger {
+  width: 18px;
+  height: 18px;
+  color: var(--color-danger-600);
+}
