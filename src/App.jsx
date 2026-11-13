@@ -3,6 +3,7 @@ import AuthModals from './features/auth/components/AuthModals';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import LoginPage from './features/auth/pages/LoginPage';
+import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
 import Layout from './features/shared/layout/Layout';
 import HomePage from './features/shared/pages/HomePage';
 import NotFoundPage from './features/shared/pages/NotFoundPage';
@@ -29,7 +30,10 @@ const router = createBrowserRouter([
           { path: 'dang-nhap', element: <LoginPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
-            children: [{ path: 'khach-hang', element: <HomePage /> }],
+            children: [
+              { path: 'khach-hang', element: <HomePage /> },
+              { path: 'dang-tin', element: <DangTinPage /> },
+            ],
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.NHAN_VIEN, ROLES.ADMIN]} />,
