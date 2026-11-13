@@ -77,7 +77,7 @@ export default function BatDongSanFilter({ form }) {
             <RangeField
               label="Diện tích"
               unit="m²"
-              hint="Nhập diện tích tối thiểu và tối đa."
+              hint="Nhập diện tích tối thiểu và tối đa, ví dụ 85 hoặc 85,5."
               from={{
                 value: draft.dienTichTu,
                 onChange: (v) => form.setNumberField('dienTichTu', v),
@@ -90,9 +90,9 @@ export default function BatDongSanFilter({ form }) {
               onBlur={() => form.touchRange('dienTich')}
             />
             <RangeField
-              label="Giá tiền (triệu đồng)"
-              unit="triệu đồng"
-              hint="Đơn vị nhập: triệu đồng (1 tỷ = 1.000 triệu)."
+              label="Giá tiền"
+              unit="VNĐ"
+              hint="Nhập đủ số tiền, ví dụ 3.200.000.000."
               from={{ value: draft.giaTu, onChange: (v) => form.setNumberField('giaTu', v) }}
               to={{ value: draft.giaDen, onChange: (v) => form.setNumberField('giaDen', v) }}
               error={errors.gia}

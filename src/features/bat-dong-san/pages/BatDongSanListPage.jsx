@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { HomeIcon } from '../../../components/Icons';
 import useCurrentUser from '../../../hooks/useCurrentUser';
 import ActiveFilterChips from '../components/ActiveFilterChips';
 import BatDongSanFilter from '../components/BatDongSanFilter';
@@ -61,20 +60,11 @@ export default function BatDongSanListPage() {
     <div className={styles.page}>
       <PageBreadcrumb items={BREADCRUMB_ITEMS} />
 
-      <div className={styles.heading}>
-        <div>
-          <h1 className={styles.title}>Danh sách bất động sản</h1>
-          <p className={styles.subtitle}>Tìm nhà ở và đất phù hợp với nhu cầu mua của bạn.</p>
-        </div>
-        <span className={styles.tag}>
-          <HomeIcon size={14} />
-          Mua / Bán
-        </span>
-      </div>
+      <h1 className={styles.title}>Danh sách bất động sản</h1>
 
       <BatDongSanFilter form={form} />
 
-      {!form.isExpanded && (
+      {!form.isExpanded && !filterState.moiDang && (
         <ActiveFilterChips
           filters={filterState.filters}
           onRemove={filterState.removeFilters}

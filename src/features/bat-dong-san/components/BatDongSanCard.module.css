@@ -30,7 +30,11 @@
   position: absolute;
   inset: auto 0 0;
   height: var(--space-48);
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-neutral-900) 45%, transparent),
+    transparent
+  );
   pointer-events: none;
 }
 
@@ -78,18 +82,30 @@
   padding: var(--space-16);
 }
 
-.metaTop {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-8);
+.meta {
+  margin: 0;
+  overflow: hidden;
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line-height);
   color: var(--color-neutral-600);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.loai {
+.price {
+  margin: 0;
+  overflow-wrap: anywhere;
   color: var(--color-primary-600);
-  font-weight: var(--text-label-weight);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+  font-weight: var(--text-h1-weight);
+}
+
+.specs {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
 }
 
 .address {
@@ -97,9 +113,8 @@
   align-items: center;
   gap: var(--space-4);
   margin: 0;
-  font-size: var(--text-body-lg-size);
-  line-height: var(--text-body-lg-line-height);
-  font-weight: var(--text-h3-weight);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
 }
 
 .pin {
@@ -113,66 +128,14 @@
   white-space: nowrap;
 }
 
-.priceRow {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-12);
-}
-
-.priceBlock {
-  min-width: 0;
-}
-
-.areaBlock {
-  flex-shrink: 0;
-  text-align: right;
-}
-
-.price,
-.area {
-  margin: 0;
-  font-size: var(--text-h3-size);
-  line-height: var(--text-h3-line-height);
-  font-weight: var(--text-h1-weight);
-}
-
-.price {
-  color: var(--color-primary-600);
-  overflow-wrap: anywhere;
-}
-
-.caption {
-  margin: 0;
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-neutral-600);
-}
-
-.attrs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-16);
-  margin: 0;
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-neutral-600);
-}
-
-.note,
 .owner {
   margin: 0;
   overflow: hidden;
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line-height);
-  color: var(--color-neutral-600);
+  font-weight: var(--text-label-weight);
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.owner {
-  color: var(--color-neutral-900);
-  font-weight: var(--text-label-weight);
 }
 
 .more {

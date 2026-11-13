@@ -2,34 +2,42 @@ import { useState } from 'react';
 import { RANGE_ERROR_MESSAGE } from '../constants';
 import { EMPTY_FILTERS } from './useBatDongSanFilters';
 
-export const MILLION = 1000000;
+const DECIMAL_FIELDS = ['dienTichTu', 'dienTichDen'];
+const MAX_DECIMALS = 2;
 
-function sanitizeNumber(value) {
-  const [integerPart, ...fractionParts] = value.replace(/[^\d.,]/g, '').split(/[.,]/);
-  return fractionParts.length ? `${integerPart},${fractionParts.join('')}` : integerPart;
+function groupThousands(digits) {
+  return digits.replace(/^0+(?=\d)/, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
-function toInput(value, divisor = 1) {
+function sanitizeNumber(value, allowDecimal) {
+  const [integerPart, ...fractionParts] = value.replace(/[^\d,]/g, '').split(',');
+  const integerText = groupThousands(integerPart);
+  if (!allowDecimal || !fractionParts.length) {
+    return integerText;
+  }
+  return `${integerText},${fractionParts.join('').slice(0, MAX_DECIMALS)}`;
+}
+
+function toInput(value) {
   if (!value) {
     return '';
   }
-  return String(Number(value) / divisor).replace('.', ',');
+  const [integerPart, fractionPart] = String(Number(value)).split('.');
+  const integerText = groupThousands(integerPart);
+  return fractionPart ? `${integerText},${fractionPart}` : integerText;
 }
 
 function parseInput(text) {
   if (!text) {
     return null;
   }
-  const number = Number(text.replace(',', '.'));
+  const number = Number(text.replace(/\./g, '').replace(',', '.'));
   return Number.isFinite(number) ? number : null;
 }
 
-function toParam(text, multiplier = 1) {
+function toParam(text) {
   const number = parseInput(text);
-  if (number === null) {
-    return '';
-  }
-  return String(multiplier === 1 ? number : Math.round(number * multiplier));
+  return number === null ? '' : String(number);
 }
 
 function getRangeError(from, to) {
@@ -46,8 +54,8 @@ function toDraft(filters) {
     huong: filters.huong,
     dienTichTu: toInput(filters.dienTichTu),
     dienTichDen: toInput(filters.dienTichDen),
-    giaTu: toInput(filters.giaTu, MILLION),
-    giaDen: toInput(filters.giaDen, MILLION),
+    giaTu: toInput(filters.giaTu),
+    giaDen: toInput(filters.giaDen),
   };
 }
 
@@ -78,7 +86,8 @@ export default function useFilterForm({ filters, filterKey, onApply, onReset }) 
 
   const setField = (name, value) => setDraft((prev) => ({ ...prev, [name]: value }));
 
-  const setNumberField = (name, value) => setField(name, sanitizeNumber(value));
+  const setNumberField = (name, value) =>
+    setField(name, sanitizeNumber(value, DECIMAL_FIELDS.includes(name)));
 
   const touchRange = (range) => setTouched((prev) => ({ ...prev, [range]: true }));
 
@@ -95,8 +104,8 @@ export default function useFilterForm({ filters, filterKey, onApply, onReset }) 
       huong: draft.huong,
       dienTichTu: toParam(draft.dienTichTu),
       dienTichDen: toParam(draft.dienTichDen),
-      giaTu: toParam(draft.giaTu, MILLION),
-      giaDen: toParam(draft.giaDen, MILLION),
+      giaTu: toParam(draft.giaTu),
+      giaDen: toParam(draft.giaDen),
     });
     setIsExpanded(false);
   };

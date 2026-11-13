@@ -19,9 +19,12 @@
 }
 
 .option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
   min-height: var(--space-40);
   padding: 0 var(--space-16);
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--radius-full);
   background-color: var(--color-neutral-100);
   color: var(--color-neutral-900);
@@ -44,6 +47,7 @@
 
 .selected,
 .selected:hover {
-  background-color: var(--color-neutral-900);
-  color: var(--color-white);
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
 }

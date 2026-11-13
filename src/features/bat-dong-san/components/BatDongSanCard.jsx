@@ -4,7 +4,7 @@ import { ArrowUpRightIcon, ImageIcon, PinIcon } from '../../../components/Icons'
 import StatusBadge from '../../../components/StatusBadge';
 import { formatArea, formatCurrency, formatDate, formatPricePerM2 } from '../../../utils/format';
 import resolveAssetUrl from '../../../utils/url';
-import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, VI_TRI_OPTIONS, getOptionLabel } from '../constants';
+import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, getOptionLabel } from '../constants';
 import styles from './BatDongSanCard.module.css';
 
 function CardImage({ src, alt }) {
@@ -31,10 +31,11 @@ function CardImage({ src, alt }) {
 }
 
 export default function BatDongSanCard({ batDongSan }) {
-  const { id, maBds, diaChi, ghiChu, ngayDang, maKh, tenChuSoHuu } = batDongSan;
+  const { id, maBds, diaChi, ngayDang, maKh, tenChuSoHuu } = batDongSan;
   const loaiLabel = getOptionLabel(LOAI_BDS_OPTIONS, batDongSan.loaiBds);
-  const viTriLabel = getOptionLabel(VI_TRI_OPTIONS, batDongSan.viTri);
   const huongLabel = getOptionLabel(HUONG_OPTIONS, batDongSan.huong);
+  const meta = [maBds, loaiLabel, huongLabel && `Hướng ${huongLabel}`].filter(Boolean);
+  const specs = [formatPricePerM2(batDongSan.giaM2), formatArea(batDongSan.dienTich)];
   const chuSoHuu = [maKh, tenChuSoHuu].filter(Boolean).join(' · ');
   const ngayDangText = formatDate(ngayDang);
 
@@ -47,9 +48,11 @@ export default function BatDongSanCard({ batDongSan }) {
       </div>
 
       <div className={styles.body}>
-        <div className={styles.metaTop}>
-          <span>Mã BĐS · {maBds}</span>
-          <span className={styles.loai}>{loaiLabel}</span>
+        <p className={styles.meta}>{meta.join(' · ')}</p>
+
+        <div>
+          <p className={styles.price}>{formatCurrency(batDongSan.gia)}</p>
+          <p className={styles.specs}>{specs.filter(Boolean).join(' · ')}</p>
         </div>
 
         <p className={styles.address} title={diaChi}>
@@ -57,22 +60,6 @@ export default function BatDongSanCard({ batDongSan }) {
           <span className={styles.addressText}>{diaChi}</span>
         </p>
 
-        <div className={styles.priceRow}>
-          <div className={styles.priceBlock}>
-            <p className={styles.price}>{formatCurrency(batDongSan.gia)}</p>
-            <p className={styles.caption}>{formatPricePerM2(batDongSan.giaM2)}</p>
-          </div>
-          <div className={styles.areaBlock}>
-            <p className={styles.area}>{formatArea(batDongSan.dienTich)}</p>
-            <p className={styles.caption}>Diện tích</p>
-          </div>
-        </div>
-
-        <p className={styles.attrs}>
-          <span>Vị trí: {viTriLabel}</span>
-          <span>Hướng: {huongLabel}</span>
-        </p>
-        {ghiChu && <p className={styles.note}>Ghi chú: {ghiChu}</p>}
         {chuSoHuu && <p className={styles.owner}>Chủ sở hữu: {chuSoHuu}</p>}
 
         <span className={styles.more}>

@@ -89,6 +89,14 @@ export function ChevronRightIcon({ size, className }) {
   );
 }
 
+export function CheckIcon({ size, className }) {
+  return (
+    <Icon size={size} className={className}>
+      <polyline points="20 6 9 17 4 12" />
+    </Icon>
+  );
+}
+
 export function CloseIcon({ size, className }) {
   return (
     <Icon size={size} className={className}>

@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { CheckIcon } from '../../../components/Icons';
 import styles from './OptionGroup.module.css';
 
 export default function OptionGroup({ label, options, value, onChange, allLabel = 'Tất cả' }) {
@@ -22,6 +23,7 @@ export default function OptionGroup({ label, options, value, onChange, allLabel 
               className={`${styles.option} ${isSelected ? styles.selected : ''}`}
               onClick={() => onChange(option.value)}
             >
+              {isSelected && <CheckIcon size={14} />}
               {option.label}
             </button>
           );

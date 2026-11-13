@@ -58,9 +58,12 @@ function compact(values) {
 export default function useBatDongSanFilters({ isNoiBo, isAdmin }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const filters = useMemo(() => readFilters(searchParams), [searchParams]);
-  const tinhTrang = isNoiBo ? pickEnum(searchParams.get('tinhTrang'), TINH_TRANG_OPTIONS) : '';
   const moiDang = isAdmin && searchParams.get('moiDang') === MOI_DANG_FLAG;
+  const filters = useMemo(
+    () => (moiDang ? EMPTY_FILTERS : readFilters(searchParams)),
+    [moiDang, searchParams],
+  );
+  const tinhTrang = isNoiBo ? pickEnum(searchParams.get('tinhTrang'), TINH_TRANG_OPTIONS) : '';
   const page = pickPage(searchParams.get('page'));
 
   const baseParams = useMemo(() => compact(filters), [filters]);
@@ -100,10 +103,7 @@ export default function useBatDongSanFilters({ isNoiBo, isAdmin }) {
     [writeParams, filters],
   );
 
-  const selectMoiDang = useCallback(
-    () => writeParams({ ...filters, moiDang: MOI_DANG_FLAG }),
-    [writeParams, filters],
-  );
+  const selectMoiDang = useCallback(() => writeParams({ moiDang: MOI_DANG_FLAG }), [writeParams]);
 
   const goToPage = useCallback(
     (nextPage) => {
