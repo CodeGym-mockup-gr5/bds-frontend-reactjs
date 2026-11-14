@@ -12,7 +12,7 @@ import styles from './Header.module.css';
 export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { openLoginModal, openLogoutModal, isKhachHang, showToast } = useAuth();
+  const { openLoginModal, openRegisterModal, openLogoutModal, isKhachHang, showToast } = useAuth();
 
   const {
     user,
@@ -36,8 +36,8 @@ export default function Header({ onOpenLogin = null, onOpenRegister = null }) {
   );
 
   const handleRegister = useCallback(
-    () => (onOpenRegister ? onOpenRegister() : navigate('/dang-ky')),
-    [onOpenRegister, navigate],
+    () => (onOpenRegister ? onOpenRegister() : openRegisterModal()),
+    [onOpenRegister, openRegisterModal],
   );
 
   const handleDangTinClick = useCallback(() => {

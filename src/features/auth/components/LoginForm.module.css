@@ -352,6 +352,42 @@
   animation: spin 0.7s linear infinite;
 }
 
+.footerSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-top: var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  color: var(--color-neutral-600);
+}
+
+.switchButton {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--space-40);
+  padding: 0 var(--space-4);
+  border: none;
+  background: transparent;
+  color: var(--color-primary-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.switchButton:hover:not(:disabled) {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+}
+
+.switchButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
 .skeletonContainer {
   display: flex;
   flex-direction: column;
