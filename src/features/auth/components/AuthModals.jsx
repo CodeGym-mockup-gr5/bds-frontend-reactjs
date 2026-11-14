@@ -2,12 +2,17 @@ import Toast from '../../../components/Toast';
 import useAuth from '../../../hooks/useAuth';
 import LoginModal from './LoginModal';
 import LogoutConfirmModal from './LogoutConfirmModal';
+import RegisterModal from './RegisterModal';
 
 export default function AuthModals() {
   const {
     isLoginModalOpen,
+    openLoginModal,
     closeLoginModal,
     handleLoginSuccess,
+    isRegisterModalOpen,
+    openRegisterModal,
+    closeRegisterModal,
     isLogoutModalOpen,
     logoutMutation,
     closeLogoutModal,
@@ -22,6 +27,13 @@ export default function AuthModals() {
         isOpen={isLoginModalOpen}
         onClose={closeLoginModal}
         onSuccess={handleLoginSuccess}
+        onSwitchToRegister={openRegisterModal}
+      />
+
+      <RegisterModal
+        isOpen={isRegisterModalOpen}
+        onClose={closeRegisterModal}
+        onSwitchToLogin={() => openLoginModal()}
       />
 
       <LogoutConfirmModal

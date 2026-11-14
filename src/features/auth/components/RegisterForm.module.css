@@ -1,0 +1,486 @@
+.card {
+  width: 100%;
+  background-color: var(--color-white);
+  padding: 0 var(--space-8);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.logo {
+  height: var(--space-48);
+  width: auto;
+  display: block;
+  object-fit: contain;
+  margin-bottom: var(--space-8);
+}
+
+.title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+  font-weight: var(--text-h3-weight);
+  color: var(--color-neutral-900);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.rowTwoCols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+.generalError {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8);
+  padding: var(--space-12);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger-600);
+  background-color: var(--color-primary-50);
+  color: var(--color-danger-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+}
+
+.generalErrorIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line-height);
+  font-weight: var(--text-label-weight);
+  color: var(--color-neutral-600);
+}
+
+.requiredMark {
+  color: var(--color-danger-600);
+}
+
+.optionalHint {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-weight);
+  color: var(--color-neutral-400);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  height: calc(var(--space-40) + var(--space-4));
+  padding: 0 var(--space-40) 0 var(--space-12);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-900);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputPassword {
+  padding-right: calc(var(--space-48) + var(--space-8));
+}
+
+.inputWithTwoIcons {
+  padding-right: calc(var(--space-64) + var(--space-16));
+}
+
+.input::placeholder {
+  color: var(--color-neutral-400);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary-600);
+  box-shadow: 0 0 0 2px var(--color-primary-50);
+}
+
+.inputError {
+  border-color: var(--color-danger-600);
+  background-color: var(--color-primary-50);
+}
+
+.inputError:focus {
+  border-color: var(--color-danger-600);
+  box-shadow: 0 0 0 2px var(--color-primary-50);
+}
+
+.inputRightControls {
+  position: absolute;
+  right: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.inputErrorIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-danger-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.eyeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-40);
+  height: var(--space-40);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-neutral-600);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.eyeButton:hover {
+  color: var(--color-neutral-900);
+}
+
+.eyeButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.errorText {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-danger-600);
+}
+
+.errorCaptionIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.sellerOptionBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-md);
+  background-color: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-200);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--space-32);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  font-weight: var(--text-label-weight);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxInput {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  accent-color: var(--color-primary-600);
+  cursor: pointer;
+}
+
+.sellerHint {
+  margin: 0;
+  padding-left: calc(var(--space-24) + var(--space-4));
+  font-family: var(--font-family-base);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-neutral-600);
+}
+
+.bottomRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  margin-top: var(--space-4);
+}
+
+.actionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-12);
+}
+
+.cancelButton {
+  min-width: 96px;
+  height: var(--space-40);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-neutral-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+  color: var(--color-neutral-900);
+}
+
+.cancelButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitButton {
+  min-width: 136px;
+  height: var(--space-40);
+  padding: 0 var(--space-20);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+}
+
+.submitButton:active:not(:disabled) {
+  background-color: var(--color-primary-800);
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.submitButton:disabled {
+  background-color: var(--color-primary-disabled);
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-white);
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+}
+
+.footerSwitch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  color: var(--color-neutral-600);
+}
+
+.switchButton {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--space-40);
+  padding: 0 var(--space-4);
+  border: none;
+  background: transparent;
+  color: var(--color-primary-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.switchButton:hover:not(:disabled) {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+}
+
+.switchButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.skeletonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.skeleton {
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--color-white), transparent);
+  opacity: 0.65;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonLabel {
+  width: 104px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+}
+
+.skeletonInput {
+  width: 100%;
+  height: var(--space-48);
+}
+
+.skeletonCheckboxBox {
+  width: 100%;
+  height: var(--space-64);
+}
+
+.skeletonActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-12);
+  margin-top: var(--space-8);
+}
+
+.skeletonBtnCancel {
+  width: 108px;
+  height: var(--space-48);
+}
+
+.skeletonBtnSubmit {
+  width: 152px;
+  height: var(--space-48);
+  background-color: var(--color-neutral-200);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 0 0 var(--space-8);
+  }
+
+  .rowTwoCols {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomRow {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .footerSwitch {
+    justify-content: center;
+  }
+
+  .actionsRow {
+    flex-direction: column-reverse;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}

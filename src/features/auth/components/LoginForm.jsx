@@ -10,6 +10,7 @@ export default function LoginForm({
   onSuccess = null,
   onCancel = null,
   onNavigateAway = null,
+  onSwitchToRegister = null,
   isLoadingSkeleton = false,
   withShadow = false,
   inModal = false,
@@ -181,6 +182,20 @@ export default function LoginForm({
               <span>{isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}</span>
             </button>
           </div>
+
+          {onSwitchToRegister && (
+            <div className={styles.footerSwitch}>
+              <span>Chưa có tài khoản?</span>
+              <button
+                type="button"
+                className={styles.switchButton}
+                onClick={onSwitchToRegister}
+                disabled={isSubmitting}
+              >
+                Đăng ký
+              </button>
+            </div>
+          )}
         </form>
       )}
     </div>
