@@ -64,6 +64,11 @@ export function formatCurrency(value) {
   return number === null ? '' : `${formatInteger(number)} đ`;
 }
 
+export function formatNumber(value) {
+  const number = toNumber(value);
+  return number === null ? '' : formatInteger(number);
+}
+
 export function formatPricePerM2(value) {
   const number = toNumber(value);
   return number === null ? '' : `${formatInteger(number)} đ/m²`;
