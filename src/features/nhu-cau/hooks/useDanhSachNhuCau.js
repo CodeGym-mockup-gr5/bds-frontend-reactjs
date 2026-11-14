@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getNhuCauCuaToi } from '../../../api/nhuCauApi';
+import useAuth from '../../../hooks/useAuth';
 import { NHU_CAU_QUERY_KEY } from '../constants/nhuCauOptions';
 import {
   DIEN_TICH_ERROR,
@@ -11,15 +12,17 @@ import {
 } from '../utils/nhuCauFilter';
 
 export default function useDanhSachNhuCau() {
+  const { user } = useAuth();
   const [draftFilter, setDraftFilter] = useState(EMPTY_FILTER);
   const [appliedFilter, setAppliedFilter] = useState(EMPTY_FILTER);
   const [page, setPage] = useState(0);
   const [dienTichError, setDienTichError] = useState('');
 
   const query = useQuery({
-    queryKey: [NHU_CAU_QUERY_KEY, appliedFilter, page],
+    queryKey: [NHU_CAU_QUERY_KEY, user?.id, appliedFilter, page],
     queryFn: () => getNhuCauCuaToi(buildNhuCauParams(appliedFilter, page)),
     placeholderData: keepPreviousData,
+    enabled: Boolean(user?.id),
   });
 
   const pageData = query.data?.data;
