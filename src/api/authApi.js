@@ -25,10 +25,22 @@ export async function changePassword(payload) {
   return response.data;
 }
 
+export async function forgotPassword(payload) {
+  const response = await axiosClient.post('/auth/forgot-password', payload);
+  return response.data;
+}
+
+export async function setPassword(payload) {
+  const response = await axiosClient.post('/auth/set-password', payload);
+  return response.data;
+}
+
 export default {
   login,
   register,
   getMe,
   logout,
   changePassword,
+  forgotPassword,
+  setPassword,
 };

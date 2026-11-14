@@ -26,6 +26,7 @@ export default function useLoginForm(onSuccess = null) {
   const [fieldErrors, setFieldErrors] = useState({ tenDangNhap: '', matKhau: '' });
   const [generalError, setGeneralError] = useState('');
   const [hasAuthError, setHasAuthError] = useState(false);
+  const [isAccountLocked, setIsAccountLocked] = useState(false);
 
   const handleFieldChange = (name, value) => {
     if (name === 'tenDangNhap') {
@@ -36,6 +37,8 @@ export default function useLoginForm(onSuccess = null) {
 
     setGeneralError('');
     setHasAuthError(false);
+    setIsAccountLocked(false);
+    setIsAccountLocked(false);
     if (fieldErrors[name]) {
       setFieldErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -62,6 +65,7 @@ export default function useLoginForm(onSuccess = null) {
 
     setGeneralError('');
     setHasAuthError(false);
+    setIsAccountLocked(false);
 
     const trimmedUsername = tenDangNhap.trim();
     loginMutation.mutate(
@@ -100,11 +104,13 @@ export default function useLoginForm(onSuccess = null) {
             return;
           }
 
-          setGeneralError(
-            responseData?.message || 'Không thể đăng nhập lúc này. Vui lòng thử lại.',
-          );
+          const message = responseData?.message || 'Không thể đăng nhập lúc này. Vui lòng thử lại.';
+          setGeneralError(message);
           if (error?.response?.status === 401 || error?.response?.status === 403) {
             setHasAuthError(true);
+          }
+          if (error?.response?.status === 403 && message.includes('bị khóa')) {
+            setIsAccountLocked(true);
           }
         },
       },
@@ -121,6 +127,7 @@ export default function useLoginForm(onSuccess = null) {
     fieldErrors,
     generalError,
     hasAuthError,
+    isAccountLocked,
     isSubmitting: loginMutation.isPending,
     handleFieldChange,
     handleFieldBlur,
