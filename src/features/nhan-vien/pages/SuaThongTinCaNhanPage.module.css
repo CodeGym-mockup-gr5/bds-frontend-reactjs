@@ -1,0 +1,127 @@
+.pageSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
+}
+
+.breadcrumbLink {
+  color: var(--color-neutral-600);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.breadcrumbLink:hover {
+  color: var(--color-primary-600);
+  text-decoration: underline;
+}
+
+.breadcrumbLink:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.breadcrumbSeparator {
+  color: var(--color-neutral-400);
+}
+
+.breadcrumbCurrent {
+  color: var(--color-neutral-900);
+  font-weight: var(--text-h3-weight);
+}
+
+.mainCard {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-32);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+}
+
+.pageTitle {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line-height);
+  font-weight: var(--text-h2-weight);
+  color: var(--color-neutral-900);
+}
+
+.pageSubtitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
+}
+
+.fetchErrorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-20);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger-600);
+  background-color: var(--color-primary-50);
+  color: var(--color-danger-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+}
+
+.fetchErrorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.bannerIcon {
+  width: var(--space-20);
+  height: var(--space-20);
+  flex-shrink: 0;
+}
+
+.retryButton {
+  min-height: var(--space-40);
+  padding: 0 var(--space-20);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background-color: var(--color-primary-700);
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+@media (max-width: 639px) {
+  .mainCard {
+    padding: var(--space-20);
+  }
+}

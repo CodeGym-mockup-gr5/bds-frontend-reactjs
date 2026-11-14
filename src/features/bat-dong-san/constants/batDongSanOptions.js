@@ -1,7 +1,3 @@
-export const PAGE_SIZE = 9;
-export const SKELETON_COUNT = 9;
-export const TU_KHOA_MAX_LENGTH = 100;
-
 export const LOAI_BDS_OPTIONS = [
   { value: 'DAT', label: 'Đất' },
   { value: 'NHA_O', label: 'Nhà ở' },
@@ -23,13 +19,14 @@ export const HUONG_OPTIONS = [
   { value: 'TAY_NAM', label: 'Tây Nam' },
 ];
 
-export const TINH_TRANG_OPTIONS = [
-  { value: 'CO_SAN', label: 'Có sẵn' },
-  { value: 'DA_BAN', label: 'Đã bán' },
-];
+export const MAX_IMAGE_COUNT = 10;
+export const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
+export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 
-export const RANGE_ERROR_MESSAGE = 'Giá trị tối thiểu không được vượt quá giá trị tối đa.';
-export const EMPTY_MESSAGE = 'Không tìm thấy thông tin.';
+export const DIA_CHI_MAX_LENGTH = 255;
+export const PHAP_LY_MAX_LENGTH = 255;
+export const GHI_CHU_MAX_LENGTH = 50;
+export const GIA_MAX_DIGITS = 15;
 
 export function getOptionLabel(options, value) {
   return options.find((option) => option.value === value)?.label || '';

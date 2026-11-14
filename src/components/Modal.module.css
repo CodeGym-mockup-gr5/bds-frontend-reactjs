@@ -32,7 +32,7 @@
 }
 
 .headerCompact {
-  padding: var(--space-16) var(--space-16) 0;
+  padding: var(--space-12) var(--space-16) 0;
   border-bottom: none;
 }
 
@@ -76,6 +76,8 @@
 .body {
   padding: var(--space-24);
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-neutral-200) transparent;
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line-height);

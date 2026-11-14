@@ -1,4 +1,4 @@
-import { TINH_TRANG_OPTIONS } from '../constants';
+import { TINH_TRANG_OPTIONS } from '../constants/batDongSanList';
 import styles from './TinhTrangChips.module.css';
 
 const MOI_DANG_ID = 'moiDang';

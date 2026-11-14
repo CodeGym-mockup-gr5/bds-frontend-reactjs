@@ -1,7 +1,12 @@
 import { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getMe, login as loginApi, logout as logoutApi } from '../../../api/authApi';
+import {
+  getMe,
+  login as loginApi,
+  logout as logoutApi,
+  register as registerApi,
+} from '../../../api/authApi';
 import {
   AUTH_TOKEN_CHANGED_EVENT,
   ROLES,
@@ -24,6 +29,7 @@ export function AuthProvider({ children }) {
 
   const [token, setTokenState] = useState(() => getToken());
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [postLoginRedirect, setPostLoginRedirect] = useState(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [toast, setToast] = useState({ isOpen: false, message: '', type: 'success' });
@@ -41,7 +47,7 @@ export function AuthProvider({ children }) {
       const nextToken = event?.detail?.token ?? getToken();
       setTokenState(nextToken || null);
       if (!nextToken) {
-        queryClient.removeQueries({ queryKey: ['authMe'] });
+        queryClient.clear();
       }
     }
 
@@ -54,7 +60,7 @@ export function AuthProvider({ children }) {
     if (token && meQuery.isError && status === 401) {
       removeToken();
       setTokenState(null);
-      queryClient.removeQueries({ queryKey: ['authMe'] });
+      queryClient.clear();
     }
   }, [token, meQuery.isError, meQuery.error, queryClient]);
 
@@ -70,6 +76,10 @@ export function AuthProvider({ children }) {
     mutationFn: loginApi,
   });
 
+  const registerMutation = useMutation({
+    mutationFn: registerApi,
+  });
+
   const logoutMutation = useMutation({
     mutationFn: logoutApi,
   });
@@ -79,6 +89,7 @@ export function AuthProvider({ children }) {
       if (location.pathname === '/dang-nhap') {
         return;
       }
+      setIsRegisterModalOpen(false);
       setPostLoginRedirect(typeof redirectPath === 'string' ? redirectPath : null);
       setIsLoginModalOpen(true);
     },
@@ -89,6 +100,19 @@ export function AuthProvider({ children }) {
     setIsLoginModalOpen(false);
     setPostLoginRedirect(null);
   }, []);
+
+  const openRegisterModal = useCallback(() => {
+    setIsLoginModalOpen(false);
+    setPostLoginRedirect(null);
+    setIsRegisterModalOpen(true);
+  }, []);
+
+  const closeRegisterModal = useCallback(() => {
+    if (registerMutation.isPending) {
+      return;
+    }
+    setIsRegisterModalOpen(false);
+  }, [registerMutation.isPending]);
 
   const openLogoutModal = useCallback(() => {
     setIsLogoutModalOpen(true);
@@ -102,7 +126,7 @@ export function AuthProvider({ children }) {
   }, [logoutMutation.isPending]);
 
   const handleLoginSuccess = useCallback(
-    (apiResponse, explicitRedirect = null) => {
+    (apiResponse, explicitRedirect = null, customMessage = null) => {
       const { token: newToken, user: normalizedUser, message } = normalizeAuthPayload(apiResponse);
 
       if (newToken) {
@@ -117,8 +141,9 @@ export function AuthProvider({ children }) {
       const targetRedirect = postLoginRedirect || explicitRedirect;
 
       setIsLoginModalOpen(false);
+      setIsRegisterModalOpen(false);
       setPostLoginRedirect(null);
-      showToast(message || 'Đăng nhập thành công', 'success');
+      showToast(customMessage || message || 'Đăng nhập thành công', 'success');
 
       if (targetRedirect) {
         navigate(resolvePostLoginRoute(normalizedUser, targetRedirect), { replace: true });
@@ -176,11 +201,15 @@ export function AuthProvider({ children }) {
       isKhachHang,
       hasRole,
       loginMutation,
+      registerMutation,
       logoutMutation,
       handleLoginSuccess,
       isLoginModalOpen,
       openLoginModal,
       closeLoginModal,
+      isRegisterModalOpen,
+      openRegisterModal,
+      closeRegisterModal,
       isLogoutModalOpen,
       openLogoutModal,
       closeLogoutModal,
@@ -200,11 +229,15 @@ export function AuthProvider({ children }) {
       isKhachHang,
       hasRole,
       loginMutation,
+      registerMutation,
       logoutMutation,
       handleLoginSuccess,
       isLoginModalOpen,
       openLoginModal,
       closeLoginModal,
+      isRegisterModalOpen,
+      openRegisterModal,
+      closeRegisterModal,
       isLogoutModalOpen,
       openLogoutModal,
       closeLogoutModal,

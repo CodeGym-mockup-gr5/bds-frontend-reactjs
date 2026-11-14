@@ -1,6 +1,7 @@
 import { useId } from 'react';
 import { ChevronDownIcon, FilterIcon, ResetIcon, SearchIcon } from '../../../components/Icons';
-import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, TU_KHOA_MAX_LENGTH, VI_TRI_OPTIONS } from '../constants';
+import { TU_KHOA_MAX_LENGTH } from '../constants/batDongSanList';
+import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, VI_TRI_OPTIONS } from '../constants/batDongSanOptions';
 import OptionGroup from './OptionGroup';
 import RangeField from './RangeField';
 import styles from './BatDongSanFilter.module.css';

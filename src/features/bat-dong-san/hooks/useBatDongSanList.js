@@ -1,6 +1,6 @@
 import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query';
 import { getBatDongSanMoiDang, searchBatDongSan } from '../../../api/batDongSanApi';
-import { PAGE_SIZE, TINH_TRANG_OPTIONS } from '../constants';
+import { PAGE_SIZE, TINH_TRANG_OPTIONS } from '../constants/batDongSanList';
 
 const COUNT_KEYS = ['', ...TINH_TRANG_OPTIONS.map((option) => option.value)];
 

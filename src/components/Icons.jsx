@@ -135,15 +135,6 @@ export function ImageIcon({ size, className }) {
   );
 }
 
-export function HomeIcon({ size, className }) {
-  return (
-    <Icon size={size} className={className}>
-      <path d="M3 10.5 12 3l9 7.5" />
-      <path d="M5 9.5V21h14V9.5" />
-    </Icon>
-  );
-}
-
 export function FilterIcon({ size, className }) {
   return (
     <Icon size={size} className={className}>

@@ -20,9 +20,15 @@ export async function logout() {
   return response.data;
 }
 
+export async function changePassword(payload) {
+  const response = await axiosClient.post('/auth/change-password', payload);
+  return response.data;
+}
+
 export default {
   login,
   register,
   getMe,
   logout,
+  changePassword,
 };

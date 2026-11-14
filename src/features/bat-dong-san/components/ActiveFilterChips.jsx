@@ -1,6 +1,11 @@
 import { CloseIcon } from '../../../components/Icons';
 import { formatArea, formatCurrency } from '../../../utils/format';
-import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, VI_TRI_OPTIONS, getOptionLabel } from '../constants';
+import {
+  HUONG_OPTIONS,
+  LOAI_BDS_OPTIONS,
+  VI_TRI_OPTIONS,
+  getOptionLabel,
+} from '../constants/batDongSanOptions';
 import styles from './ActiveFilterChips.module.css';
 
 function formatRange(from, to, format) {

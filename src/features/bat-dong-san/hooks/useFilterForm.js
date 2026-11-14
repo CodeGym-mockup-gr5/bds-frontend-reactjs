@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RANGE_ERROR_MESSAGE } from '../constants';
+import { RANGE_ERROR_MESSAGE } from '../constants/batDongSanList';
 import { EMPTY_FILTERS } from './useBatDongSanFilters';
 
 const DECIMAL_FIELDS = ['dienTichTu', 'dienTichDen'];

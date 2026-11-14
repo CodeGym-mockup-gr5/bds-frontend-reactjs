@@ -1,5 +1,5 @@
 import Pagination from '../../../components/Pagination';
-import { PAGE_SIZE, SKELETON_COUNT } from '../constants';
+import { PAGE_SIZE, SKELETON_COUNT } from '../constants/batDongSanList';
 import BatDongSanCard from './BatDongSanCard';
 import BatDongSanCardSkeleton from './BatDongSanCardSkeleton';
 import { EmptyState, ErrorBanner } from './ListState';

@@ -1,0 +1,164 @@
+.errorBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  margin-bottom: var(--space-20);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger-600);
+  background-color: var(--color-primary-50);
+  color: var(--color-danger-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+}
+
+.errorBannerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.bannerIcon {
+  width: var(--space-20);
+  height: var(--space-20);
+  flex-shrink: 0;
+}
+
+.errorSummaryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  color: var(--color-danger-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-h3-weight);
+}
+
+.badgeIcon {
+  width: var(--space-12);
+  height: var(--space-12);
+  flex-shrink: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.twoColGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.formFooter {
+  margin-top: var(--space-8);
+  padding-top: var(--space-20);
+  border-top: 1px solid var(--color-neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-12);
+}
+
+.cancelButton {
+  min-height: var(--space-40);
+  padding: 0 var(--space-20);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+}
+
+.cancelButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitButton {
+  min-height: var(--space-40);
+  padding: 0 var(--space-20);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+}
+
+.submitButton:active:not(:disabled) {
+  background-color: var(--color-primary-800);
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.submitButton:disabled {
+  background-color: var(--color-primary-disabled);
+  cursor: not-allowed;
+}
+
+.btnCheckIcon {
+  width: var(--space-16);
+  height: var(--space-16);
+}
+
+.spinner {
+  width: var(--space-16);
+  height: var(--space-16);
+  border: 2px solid var(--color-white);
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 639px) {
+  .twoColGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

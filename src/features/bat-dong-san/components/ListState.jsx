@@ -1,5 +1,5 @@
 import { AlertIcon, ResetIcon, SearchXIcon } from '../../../components/Icons';
-import { EMPTY_MESSAGE } from '../constants';
+import { EMPTY_MESSAGE } from '../constants/batDongSanList';
 import styles from './ListState.module.css';
 
 export function EmptyState({

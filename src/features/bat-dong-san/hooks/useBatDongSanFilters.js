@@ -1,13 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import {
-  HUONG_OPTIONS,
-  LOAI_BDS_OPTIONS,
-  PAGE_SIZE,
-  TINH_TRANG_OPTIONS,
-  TU_KHOA_MAX_LENGTH,
-  VI_TRI_OPTIONS,
-} from '../constants';
+import { PAGE_SIZE, TINH_TRANG_OPTIONS, TU_KHOA_MAX_LENGTH } from '../constants/batDongSanList';
+import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, VI_TRI_OPTIONS } from '../constants/batDongSanOptions';
 
 const NUMBER_PATTERN = /^\d+(\.\d+)?$/;
 const MOI_DANG_FLAG = '1';

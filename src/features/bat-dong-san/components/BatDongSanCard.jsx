@@ -4,7 +4,7 @@ import { ArrowUpRightIcon, ImageIcon, PinIcon } from '../../../components/Icons'
 import StatusBadge from '../../../components/StatusBadge';
 import { formatArea, formatCurrency, formatDate, formatPricePerM2 } from '../../../utils/format';
 import resolveAssetUrl from '../../../utils/url';
-import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, getOptionLabel } from '../constants';
+import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, getOptionLabel } from '../constants/batDongSanOptions';
 import styles from './BatDongSanCard.module.css';
 
 function CardImage({ src, alt }) {
