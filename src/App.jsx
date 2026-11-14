@@ -5,6 +5,7 @@ import { AuthProvider } from './features/auth/context/AuthContext';
 import LoginPage from './features/auth/pages/LoginPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
+import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
 import Layout from './features/shared/layout/Layout';
 import HomePage from './features/shared/pages/HomePage';
 import NotFoundPage from './features/shared/pages/NotFoundPage';
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
                 element: <AccountLayout />,
                 children: [{ path: 'nhu-cau-cua-toi', element: <DanhSachNhuCauPage /> }],
               },
+              { path: 'dang-tin', element: <DangTinPage /> },
             ],
           },
           {

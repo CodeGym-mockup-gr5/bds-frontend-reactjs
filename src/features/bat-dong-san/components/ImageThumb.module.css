@@ -1,0 +1,130 @@
+.errorIcon {
+  flex-shrink: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+}
+
+.thumb {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-8);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  cursor: grab;
+}
+
+.thumbDragging {
+  opacity: 0.5;
+}
+
+.thumbFailed {
+  border-color: var(--color-danger-600);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-neutral-100);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverBadge {
+  position: absolute;
+  top: var(--space-8);
+  left: var(--space-8);
+  padding: 0 var(--space-8);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+  color: var(--color-primary-600);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-label-weight);
+}
+
+.progressTrack {
+  position: absolute;
+  right: var(--space-8);
+  bottom: var(--space-8);
+  left: var(--space-8);
+  height: var(--space-4);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--color-primary-600);
+  transition: width 0.2s ease;
+}
+
+.status {
+  margin: 0;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-neutral-600);
+}
+
+.thumbActions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-40);
+  height: var(--space-40);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+.iconButton:hover:not(:disabled) {
+  background-color: var(--color-neutral-200);
+}
+
+.iconButton:disabled {
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.iconButtonDanger {
+  color: var(--color-danger-600);
+}
+
+.actionIcon {
+  width: var(--space-20);
+  height: var(--space-20);
+}
+
+.statusError {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin: 0;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-danger-600);
+  word-break: break-word;
+}
