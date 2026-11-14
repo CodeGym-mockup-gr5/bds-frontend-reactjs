@@ -1,7 +1,19 @@
 .layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-color: var(--color-neutral-50);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebarSlot > aside {
+  top: 72px;
+  height: calc(100vh - 72px);
 }
 
 .mainArea {
@@ -21,4 +33,3 @@
     padding: var(--space-20);
   }
 }
-
