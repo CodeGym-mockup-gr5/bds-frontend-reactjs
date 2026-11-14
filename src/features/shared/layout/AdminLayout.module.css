@@ -1,0 +1,35 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-neutral-50);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebarSlot > aside {
+  top: 72px;
+  height: calc(100vh - 72px);
+}
+
+.mainArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.content {
+  flex: 1;
+  padding: var(--space-32);
+}
+
+@media (max-width: 1024px) {
+  .content {
+    padding: var(--space-20);
+  }
+}
