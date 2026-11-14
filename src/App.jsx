@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
+import DoiMatKhauPage from './features/auth/pages/DoiMatKhauPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
@@ -48,6 +49,15 @@ const router = createBrowserRouter([
           {
             element: <RoleRoute allowedRoles={[ROLES.ADMIN]} />,
             children: [{ path: 'admin', element: <HomePage /> }],
+          },
+          {
+            element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG, ROLES.NHAN_VIEN, ROLES.ADMIN]} />,
+            children: [
+              {
+                element: <AccountLayout />,
+                children: [{ path: 'doi-mat-khau', element: <DoiMatKhauPage /> }],
+              },
+            ],
           },
           { path: '*', element: <NotFoundPage /> },
         ],
