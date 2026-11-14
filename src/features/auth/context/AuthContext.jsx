@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
       const nextToken = event?.detail?.token ?? getToken();
       setTokenState(nextToken || null);
       if (!nextToken) {
-        queryClient.removeQueries({ queryKey: ['authMe'] });
+        queryClient.clear();
       }
     }
 
@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
     if (token && meQuery.isError && status === 401) {
       removeToken();
       setTokenState(null);
-      queryClient.removeQueries({ queryKey: ['authMe'] });
+      queryClient.clear();
     }
   }, [token, meQuery.isError, meQuery.error, queryClient]);
 

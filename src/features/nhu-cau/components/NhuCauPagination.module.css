@@ -1,0 +1,84 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+.pageList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  min-width: var(--space-40);
+  min-height: var(--space-40);
+  padding: 0 var(--space-12);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  color: var(--color-neutral-900);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-family-base);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+}
+
+.pageButton:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+}
+
+.pageButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.pageButton:disabled {
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+.pageButtonCurrent,
+.pageButtonCurrent:hover:not(:disabled) {
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  cursor: default;
+}
+
+.stepButton {
+  padding: 0 var(--space-16);
+}
+
+.icon {
+  width: var(--space-16);
+  height: var(--space-16);
+}
+
+.gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--space-24);
+  color: var(--color-neutral-600);
+}
+
+@media (max-width: 479px) {
+  .stepLabel {
+    display: none;
+  }
+
+  .stepButton {
+    padding: 0;
+  }
+}
