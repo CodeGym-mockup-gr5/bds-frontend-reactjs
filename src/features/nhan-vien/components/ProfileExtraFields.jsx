@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { LockIcon, WarningCircleIcon } from './ProfileIcons';
-import styles from '../pages/SuaThongTinCaNhanPage.module.css';
+import styles from './ProfileExtraFields.module.css';
 
 export function LockedCodeField({ label, value, hint = '' }) {
   const inputId = useId();
@@ -30,13 +30,25 @@ export function LockedCodeField({ label, value, hint = '' }) {
 export function GenderRadioField({ value, error = '', disabled = false, onChange }) {
   const namId = useId();
   const nuId = useId();
+  const labelId = useId();
+  const errorId = useId();
+  const hasError = Boolean(error);
 
   return (
     <div className={styles.fieldBlock}>
-      <span className={styles.label}>
-        Giới tính <span className={styles.requiredMark}>*</span>
+      <span id={labelId} className={styles.label}>
+        Giới tính{' '}
+        <span className={styles.requiredMark} aria-hidden="true">
+          *
+        </span>
       </span>
-      <div className={styles.radioGroup} role="radiogroup" aria-label="Giới tính">
+      <div
+        className={styles.radioGroup}
+        role="radiogroup"
+        aria-labelledby={labelId}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? errorId : undefined}
+      >
         <label htmlFor={namId} className={styles.radioLabel}>
           <input
             id={namId}
@@ -64,8 +76,8 @@ export function GenderRadioField({ value, error = '', disabled = false, onChange
           <span>Nữ</span>
         </label>
       </div>
-      {error && (
-        <span className={styles.errorText} role="alert">
+      {hasError && (
+        <span id={errorId} className={styles.errorText}>
           <WarningCircleIcon className={styles.captionIcon} />
           {error}
         </span>

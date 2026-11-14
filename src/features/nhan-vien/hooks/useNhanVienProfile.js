@@ -30,7 +30,6 @@ export default function useNhanVienProfile() {
     isError: profileQuery.isError,
     error: profileQuery.error,
     refetch: profileQuery.refetch,
-    updateProfile: updateMutation.mutate,
     updateProfileAsync: updateMutation.mutateAsync,
     isSubmitting: updateMutation.isPending,
   };

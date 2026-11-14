@@ -1,19 +1,7 @@
-const NAME_REGEX = /^[\p{L}\s]+$/u;
+const NAME_REGEX = /^[\p{L} ]+$/u;
 const PHONE_REGEX = /^0\d{9}$/;
 const DIGITS_ONLY_REGEX = /^\d+$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export const CHUC_VU_LABELS = {
-  ADMIN: 'Quản trị viên',
-  TRUONG_PHONG: 'Trưởng phòng Môi giới',
-  KE_TOAN: 'Kế toán',
-  NHAN_VIEN: 'Nhân viên Môi giới',
-};
-
-export function formatChucVu(chucVu) {
-  if (!chucVu) return '';
-  return CHUC_VU_LABELS[chucVu] || chucVu;
-}
 
 export const EDITABLE_FIELDS = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi', 'soDienThoai', 'email'];
 

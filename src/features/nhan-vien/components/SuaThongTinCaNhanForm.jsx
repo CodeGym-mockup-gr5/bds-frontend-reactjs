@@ -1,9 +1,9 @@
 import useSuaThongTinForm from '../hooks/useSuaThongTinForm';
-import { formatChucVu } from '../utils/profileValidation';
+import { formatChucVu } from '../constants/chucVu';
 import { AlertTriangleIcon, CheckIcon, WarningCircleIcon } from './ProfileIcons';
 import { GenderRadioField, LockedCodeField } from './ProfileExtraFields';
 import ProfileTextField from './ProfileTextField';
-import styles from '../pages/SuaThongTinCaNhanPage.module.css';
+import styles from './SuaThongTinCaNhanForm.module.css';
 
 export default function SuaThongTinCaNhanForm({
   profile,
@@ -36,7 +36,7 @@ export default function SuaThongTinCaNhanForm({
             </span>
           </div>
           {hasErrors && (
-            <span className={styles.errorSummaryBadge} role="status">
+            <span className={styles.errorSummaryBadge}>
               <AlertTriangleIcon className={styles.badgeIcon} />
               <span>{`Có ${errorCount} trường cần sửa`}</span>
             </span>
@@ -124,7 +124,7 @@ export default function SuaThongTinCaNhanForm({
 
         <LockedCodeField
           label="Chức vụ"
-          value={formatChucVu(profile?.chucVu)}
+          value={formatChucVu(profile?.chucVu, profile?.laAdmin)}
           hint="Chức vụ do Quản trị viên quản lý"
         />
 

@@ -1,6 +1,5 @@
-import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import Toast from '../../../components/Toast';
+import useAuth from '../../../hooks/useAuth';
 import useNhanVienProfile from '../hooks/useNhanVienProfile';
 import { WarningCircleIcon } from '../components/ProfileIcons';
 import SuaThongTinCaNhanForm from '../components/SuaThongTinCaNhanForm';
@@ -8,17 +7,9 @@ import SuaThongTinCaNhanSkeleton from '../components/SuaThongTinCaNhanSkeleton';
 import styles from './SuaThongTinCaNhanPage.module.css';
 
 export default function SuaThongTinCaNhanPage() {
+  const { showToast } = useAuth();
   const { profile, isLoading, isError, error, refetch, updateProfileAsync, isSubmitting } =
     useNhanVienProfile();
-  const [toast, setToast] = useState({ isOpen: false, message: '', type: 'success' });
-
-  const handleShowToast = useCallback((message, type = 'success') => {
-    setToast({ isOpen: true, message, type });
-  }, []);
-
-  const handleCloseToast = useCallback(() => {
-    setToast((prev) => ({ ...prev, isOpen: false }));
-  }, []);
 
   const formKey = profile
     ? [
@@ -81,17 +72,10 @@ export default function SuaThongTinCaNhanPage() {
             profile={profile}
             isSubmitting={isSubmitting}
             onSubmitProfile={updateProfileAsync}
-            onShowToast={handleShowToast}
+            onShowToast={showToast}
           />
         )}
       </div>
-
-      <Toast
-        isOpen={toast.isOpen}
-        message={toast.message}
-        type={toast.type}
-        onClose={handleCloseToast}
-      />
     </section>
   );
 }

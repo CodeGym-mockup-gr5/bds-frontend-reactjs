@@ -1,4 +1,4 @@
-import styles from '../pages/SuaThongTinCaNhanPage.module.css';
+import styles from './SuaThongTinCaNhanSkeleton.module.css';
 
 export default function SuaThongTinCaNhanSkeleton() {
   return (

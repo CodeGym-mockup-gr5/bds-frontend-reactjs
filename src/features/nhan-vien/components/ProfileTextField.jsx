@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { WarningCircleIcon } from './ProfileIcons';
-import styles from '../pages/SuaThongTinCaNhanPage.module.css';
+import styles from './ProfileTextField.module.css';
 
 export default function ProfileTextField({
   label,
@@ -16,6 +16,7 @@ export default function ProfileTextField({
   onBlur = null,
 }) {
   const inputId = useId();
+  const errorId = useId();
   const hasError = Boolean(error);
 
   return (
@@ -40,6 +41,7 @@ export default function ProfileTextField({
             onBlur={onBlur ? (e) => onBlur(name, e.target.value) : undefined}
             disabled={disabled}
             aria-invalid={hasError}
+            aria-describedby={hasError ? errorId : undefined}
             className={`${styles.input} ${hasError ? styles.inputError : ''}`}
           />
           {hasError && showErrorIcon && (
@@ -50,7 +52,7 @@ export default function ProfileTextField({
         </span>
       </label>
       {hasError && (
-        <span className={styles.errorText} role="alert">
+        <span id={errorId} className={styles.errorText}>
           <WarningCircleIcon className={styles.captionIcon} />
           {error}
         </span>

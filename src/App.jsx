@@ -46,7 +46,10 @@ const router = createBrowserRouter([
             element: <RoleRoute allowedRoles={[ROLES.NHAN_VIEN, ROLES.ADMIN]} />,
             children: [
               { path: 'nhan-vien', element: <HomePage /> },
-              { path: 'thong-tin-ca-nhan', element: <SuaThongTinCaNhanPage /> },
+              {
+                element: <AccountLayout />,
+                children: [{ path: 'thong-tin-ca-nhan', element: <SuaThongTinCaNhanPage /> }],
+              },
             ],
           },
           {

@@ -93,6 +93,10 @@ export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToa
 
       const fallbackMessage =
         responseData?.message || 'Không thể cập nhật thông tin cá nhân lúc này';
+      if (responseData?.message?.toLowerCase().includes('email')) {
+        setErrors({ email: fallbackMessage });
+        return;
+      }
       setServerError(fallbackMessage);
     }
   };
