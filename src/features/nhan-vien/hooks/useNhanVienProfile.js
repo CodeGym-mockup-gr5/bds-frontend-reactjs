@@ -1,0 +1,36 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getProfileNhanVien, updateProfileNhanVien } from '../../../api/nhanVienProfileApi';
+
+export const NHAN_VIEN_PROFILE_QUERY_KEY = ['nhanVienProfile'];
+
+export default function useNhanVienProfile() {
+  const queryClient = useQueryClient();
+
+  const profileQuery = useQuery({
+    queryKey: NHAN_VIEN_PROFILE_QUERY_KEY,
+    queryFn: getProfileNhanVien,
+    retry: false,
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: updateProfileNhanVien,
+    onSuccess: (responseData) => {
+      if (responseData?.data) {
+        queryClient.setQueryData(NHAN_VIEN_PROFILE_QUERY_KEY, responseData);
+      } else {
+        queryClient.invalidateQueries({ queryKey: NHAN_VIEN_PROFILE_QUERY_KEY });
+      }
+      queryClient.invalidateQueries({ queryKey: ['authMe'] });
+    },
+  });
+
+  return {
+    profile: profileQuery.data?.data || null,
+    isLoading: profileQuery.isLoading,
+    isError: profileQuery.isError,
+    error: profileQuery.error,
+    refetch: profileQuery.refetch,
+    updateProfileAsync: updateMutation.mutateAsync,
+    isSubmitting: updateMutation.isPending,
+  };
+}
