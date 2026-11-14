@@ -1,0 +1,95 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+}
+
+.th {
+  padding: var(--space-12) var(--space-16);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  color: var(--color-neutral-600);
+  border-bottom: 1px solid var(--color-neutral-200);
+  white-space: nowrap;
+}
+
+.td {
+  padding: var(--space-16);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-neutral-100);
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.tr:hover {
+  background-color: var(--color-neutral-50);
+}
+
+.codeCell {
+  color: var(--color-primary-600);
+  font-weight: 600;
+}
+
+.nameCell {
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-4) var(--space-8);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+  color: var(--color-neutral-600);
+  font-size: var(--text-caption-size);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 6px var(--space-12);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  font-size: var(--text-caption-size);
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.deleteButton {
+  color: var(--color-danger-600);
+}
+
+.deleteButton:hover {
+  background-color: var(--color-primary-50);
+  border-color: var(--color-danger-600);
+}
+
+.editButton {
+  color: var(--color-neutral-900);
+}
+
+.editButton:hover {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+}
