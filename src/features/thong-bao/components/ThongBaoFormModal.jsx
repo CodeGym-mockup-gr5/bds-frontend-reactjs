@@ -62,6 +62,7 @@ export default function ThongBaoFormModal({
       onClose={isLoading ? undefined : onClose}
       title={title}
       maxWidth="560px"
+      closeOnBackdropClick={false}
       footer={
         <div className={styles.actions}>
           <button type="submit" form={formId} className={styles.primaryButton} disabled={isLoading}>
