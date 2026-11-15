@@ -41,12 +41,19 @@ export default function ThongBaoFormModal({
   title,
   initialValues,
   mutation,
+  buildMutationInput = undefined,
   onSuccess,
   onError,
   onClose,
 }) {
   const formId = useId();
-  const form = useThongBaoForm({ initialValues, mutation, onSuccess, onError });
+  const form = useThongBaoForm({
+    initialValues,
+    mutation,
+    buildMutationInput,
+    onSuccess,
+    onError,
+  });
   const isLoading = mutation.isPending;
 
   return (
@@ -55,6 +62,7 @@ export default function ThongBaoFormModal({
       onClose={isLoading ? undefined : onClose}
       title={title}
       maxWidth="560px"
+      closeOnBackdropClick={false}
       footer={
         <div className={styles.actions}>
           <button type="submit" form={formId} className={styles.primaryButton} disabled={isLoading}>

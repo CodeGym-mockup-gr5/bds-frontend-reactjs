@@ -9,12 +9,12 @@ import ThongBaoTable from '../components/ThongBaoTable';
 import XoaThongBaoModal from '../components/XoaThongBaoModal';
 import useChonThongBao from '../hooks/useChonThongBao';
 import useDanhSachThongBao from '../hooks/useDanhSachThongBao';
-import { useThemThongBao } from '../hooks/useThongBaoMutations';
+import { useSuaThongBao, useThemThongBao } from '../hooks/useThongBaoMutations';
 import useXoaThongBao from '../hooks/useXoaThongBao';
-import { EMPTY_THONG_BAO_FORM } from '../utils/thongBaoValidation';
+import { EMPTY_THONG_BAO_FORM, toFormValues } from '../utils/thongBaoValidation';
 import styles from './QuanLyThongBaoPage.module.css';
 
-function ThongBaoResults({ danhSach, chon, onAdd, onDelete }) {
+function ThongBaoResults({ danhSach, chon, onAdd, onEdit, onDelete }) {
   if (danhSach.isError) return <ThongBaoError onRetry={() => danhSach.refetch()} />;
   if (danhSach.isPending) return <ThongBaoLoading />;
   if (danhSach.totalElements === 0) return <ThongBaoEmpty onAdd={onAdd} />;
@@ -33,6 +33,7 @@ function ThongBaoResults({ danhSach, chon, onAdd, onDelete }) {
       isUpdating={isUpdating}
       onToggleOne={chon.toggleOne}
       onToggleAll={chon.toggleAll}
+      onEdit={onEdit}
       onDelete={(item) => onDelete([item])}
       footer={
         <ThongBaoPagination
@@ -58,14 +59,24 @@ export default function QuanLyThongBaoPage() {
   const xoaMutation = useXoaThongBao();
   const themMutation = useThemThongBao();
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const suaMutation = useSuaThongBao();
+  const [formState, setFormState] = useState(null);
+
+  const closeForm = () => setFormState(null);
 
   const handleCreated = (response) => {
-    setIsFormOpen(false);
+    closeForm();
     chon.clearSelection();
     danhSach.setPage(0);
     showToast(response?.message || 'Thêm thông báo thành công', 'success');
   };
+
+  const handleUpdated = (response) => {
+    closeForm();
+    showToast(response?.message || 'Sửa thông báo thành công', 'success');
+  };
+
+  const isEdit = formState?.mode === 'edit';
 
   const handleDeleteSelected = () => {
     const selected = danhSach.items.filter((item) => chon.selectedIds.includes(item.id));
@@ -101,7 +112,11 @@ export default function QuanLyThongBaoPage() {
       </header>
 
       <div className={styles.toolbar}>
-        <button type="button" className={styles.primaryButton} onClick={() => setIsFormOpen(true)}>
+        <button
+          type="button"
+          className={styles.primaryButton}
+          onClick={() => setFormState({ mode: 'create' })}
+        >
           <Icon name="plus" />
           Thêm mới thông báo
         </button>
@@ -114,7 +129,8 @@ export default function QuanLyThongBaoPage() {
       <ThongBaoResults
         danhSach={danhSach}
         chon={chon}
-        onAdd={() => setIsFormOpen(true)}
+        onAdd={() => setFormState({ mode: 'create' })}
+        onEdit={(item) => setFormState({ mode: 'edit', item })}
         onDelete={(items) => setDeleteTarget({ items })}
       />
 
@@ -125,15 +141,19 @@ export default function QuanLyThongBaoPage() {
         </Link>
       </div>
 
-      {isFormOpen && (
+      {formState && (
         <ThongBaoFormModal
+          key={isEdit ? formState.item.id : 'create'}
           isOpen
-          title="Thêm mới thông báo"
-          initialValues={EMPTY_THONG_BAO_FORM}
-          mutation={themMutation}
-          onSuccess={handleCreated}
+          title={isEdit ? 'Chỉnh sửa thông báo' : 'Thêm mới thông báo'}
+          initialValues={isEdit ? toFormValues(formState.item) : EMPTY_THONG_BAO_FORM}
+          mutation={isEdit ? suaMutation : themMutation}
+          buildMutationInput={
+            isEdit ? (payload) => ({ id: formState.item.id, payload }) : undefined
+          }
+          onSuccess={isEdit ? handleUpdated : handleCreated}
           onError={(message) => showToast(message, 'error')}
-          onClose={() => setIsFormOpen(false)}
+          onClose={closeForm}
         />
       )}
 

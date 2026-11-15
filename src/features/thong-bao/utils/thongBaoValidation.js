@@ -2,6 +2,14 @@ export const THONG_BAO_FIELDS = ['ngay', 'tenThongBao', 'noiDung'];
 
 export const EMPTY_THONG_BAO_FORM = { ngay: '', tenThongBao: '', noiDung: '' };
 
+export function toFormValues(thongBao) {
+  return {
+    ngay: thongBao?.ngay || '',
+    tenThongBao: thongBao?.tenThongBao || '',
+    noiDung: thongBao?.noiDung || '',
+  };
+}
+
 export const REQUIRED_MESSAGE = 'Chưa nhập đủ thông tin cần thiết';
 
 const MAX_LENGTH = { tenThongBao: 255, noiDung: 5000 };

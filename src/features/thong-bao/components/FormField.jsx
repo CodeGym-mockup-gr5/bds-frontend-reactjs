@@ -38,6 +38,7 @@ export default function FormField({
           placeholder={placeholder}
           maxLength={maxLength}
           disabled={disabled}
+          aria-required="true"
           aria-invalid={error ? 'true' : undefined}
           aria-describedby={error ? errorId : undefined}
           onChange={handleChange}
