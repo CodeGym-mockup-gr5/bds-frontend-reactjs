@@ -2,6 +2,7 @@ import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query';
 import { getBatDongSanMoiDang, searchBatDongSan } from '../../../api/batDongSanApi';
 import { PAGE_SIZE, TINH_TRANG_OPTIONS } from '../constants/batDongSanList';
 
+const BAD_REQUEST = 400;
 const COUNT_KEYS = ['', ...TINH_TRANG_OPTIONS.map((option) => option.value)];
 
 function getAnhDaiDien(danhSachHinhAnh) {
@@ -64,16 +65,23 @@ export default function useBatDongSanList({
         queryKey: ['batDongSan', 'list', params, userKey],
         queryFn: () => searchBatDongSan(params),
         retry: 1,
-        enabled: enabled && isNoiBo,
+        enabled: enabled && isNoiBo && (tinhTrang !== '' || Boolean(apiParams.tinhTrang)),
       };
     }),
   });
 
-  const counts = Object.fromEntries(
-    COUNT_KEYS.map((key, index) => [key, countQueries[index].data?.data?.totalElements]),
-  );
-
   const pageData = listQuery.data?.data;
+  const isAllSelected = !apiParams.tinhTrang;
+  const counts = Object.fromEntries(
+    COUNT_KEYS.map((key, index) => {
+      const isListTotal = key === '' && isAllSelected;
+      const countTotal = countQueries[index].data?.data?.totalElements;
+      return [key, isListTotal ? pageData?.totalElements : countTotal];
+    }),
+  );
+  const errorStatus = listQuery.error?.response?.status;
+  const errorMessage =
+    errorStatus === BAD_REQUEST ? listQuery.error?.response?.data?.message || '' : '';
 
   return {
     items: pageData?.content || [],
@@ -84,6 +92,7 @@ export default function useBatDongSanList({
     isFetching: listQuery.isFetching,
     isPlaceholderData: listQuery.isPlaceholderData,
     isError: listQuery.isError,
+    errorMessage,
     refetch: listQuery.refetch,
   };
 }

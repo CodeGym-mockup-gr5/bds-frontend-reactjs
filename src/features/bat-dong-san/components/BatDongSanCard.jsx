@@ -4,7 +4,12 @@ import { ArrowUpRightIcon, ImageIcon, PinIcon } from '../../../components/Icons'
 import StatusBadge from '../../../components/StatusBadge';
 import { formatArea, formatCurrency, formatDate, formatPricePerM2 } from '../../../utils/format';
 import resolveAssetUrl from '../../../utils/url';
-import { HUONG_OPTIONS, LOAI_BDS_OPTIONS, getOptionLabel } from '../constants/batDongSanOptions';
+import {
+  HUONG_OPTIONS,
+  LOAI_BDS_OPTIONS,
+  VI_TRI_OPTIONS,
+  getOptionLabel,
+} from '../constants/batDongSanOptions';
 import styles from './BatDongSanCard.module.css';
 
 function CardImage({ src, alt }) {
@@ -30,10 +35,14 @@ function CardImage({ src, alt }) {
   );
 }
 
+const DEFAULT_ALT = 'Bất động sản';
+
 export default function BatDongSanCard({ batDongSan }) {
   const { id, maBds, diaChi, ngayDang, maKh, tenChuSoHuu } = batDongSan;
   const loaiLabel = getOptionLabel(LOAI_BDS_OPTIONS, batDongSan.loaiBds);
   const huongLabel = getOptionLabel(HUONG_OPTIONS, batDongSan.huong);
+  const viTriLabel = getOptionLabel(VI_TRI_OPTIONS, batDongSan.viTri);
+  const imageAlt = [loaiLabel, diaChi].filter(Boolean).join(' ') || DEFAULT_ALT;
   const meta = [maBds, loaiLabel, huongLabel && `Hướng ${huongLabel}`].filter(Boolean);
   const specs = [formatPricePerM2(batDongSan.giaM2), formatArea(batDongSan.dienTich)];
   const chuSoHuu = [maKh, tenChuSoHuu].filter(Boolean).join(' · ');
@@ -43,7 +52,7 @@ export default function BatDongSanCard({ batDongSan }) {
   return (
     <Link to={`/bat-dong-san/${id}`} className={styles.card}>
       <div className={styles.media}>
-        <CardImage key={anhDaiDienUrl} src={anhDaiDienUrl} alt={`${loaiLabel} ${diaChi}`} />
+        <CardImage key={anhDaiDienUrl} src={anhDaiDienUrl} alt={imageAlt} />
         <StatusBadge tinhTrang={batDongSan.tinhTrang} className={styles.badge} />
         {ngayDangText && <span className={styles.date}>Đăng {ngayDangText}</span>}
       </div>
@@ -61,6 +70,12 @@ export default function BatDongSanCard({ batDongSan }) {
           <span className={styles.addressText}>{diaChi}</span>
         </p>
 
+        {viTriLabel && <p className={styles.extra}>Vị trí: {viTriLabel}</p>}
+        {batDongSan.ghiChu && (
+          <p className={styles.extra} title={batDongSan.ghiChu}>
+            Ghi chú: {batDongSan.ghiChu}
+          </p>
+        )}
         {chuSoHuu && <p className={styles.owner}>Chủ sở hữu: {chuSoHuu}</p>}
 
         <span className={styles.more}>

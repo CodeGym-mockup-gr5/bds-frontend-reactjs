@@ -70,7 +70,7 @@ export default function BatDongSanListPage() {
 
       <h1 className={styles.title}>Danh sách bất động sản</h1>
 
-      <BatDongSanFilter form={form} />
+      <BatDongSanFilter form={form} isSearching={list.isFetching && !list.isLoading} />
 
       {!form.isExpanded && !filterState.moiDang && (
         <ActiveFilterChips

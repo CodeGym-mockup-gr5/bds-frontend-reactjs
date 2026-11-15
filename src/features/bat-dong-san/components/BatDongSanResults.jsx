@@ -6,6 +6,7 @@ import { EmptyState, ErrorBanner } from './ListState';
 import styles from './BatDongSanResults.module.css';
 
 const SKELETON_KEYS = Array.from({ length: SKELETON_COUNT }, (_, index) => `skeleton-${index}`);
+const NETWORK_ERROR_MESSAGE = 'Đã có lỗi kết nối hoặc máy chủ. Bộ lọc của bạn vẫn được giữ nguyên.';
 const EMPTY_HINT =
   'Hãy mở rộng khoảng giá hoặc diện tích để có thêm kết quả. ' +
   'Bạn cũng có thể xóa bộ lọc để xem lại toàn bộ danh sách bất động sản.';
@@ -41,7 +42,7 @@ function ResultsBody({ list, hasActiveFilters, onReset, onLastPage }) {
   const errorBanner = list.isError && (
     <ErrorBanner
       title="Không tải được danh sách bất động sản"
-      message="Đã có lỗi kết nối hoặc máy chủ. Bộ lọc của bạn vẫn được giữ nguyên."
+      message={list.errorMessage || NETWORK_ERROR_MESSAGE}
       actionLabel="Thử lại"
       onAction={() => list.refetch()}
     />

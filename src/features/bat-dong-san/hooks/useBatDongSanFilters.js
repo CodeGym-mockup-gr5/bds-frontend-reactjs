@@ -79,7 +79,7 @@ export default function useBatDongSanFilters({ isNoiBo, isAdmin }) {
     [writeParams, tinhTrang],
   );
 
-  const resetFilters = useCallback(() => writeParams({}), [writeParams]);
+  const resetFilters = useCallback(() => writeParams({ tinhTrang }), [writeParams, tinhTrang]);
 
   const removeFilters = useCallback(
     (keys) => {

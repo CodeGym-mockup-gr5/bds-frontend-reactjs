@@ -31,7 +31,7 @@ function HuongSelect({ value, onChange }) {
   );
 }
 
-export default function BatDongSanFilter({ form }) {
+export default function BatDongSanFilter({ form, isSearching = false }) {
   const { draft, errors, isExpanded } = form;
   const panelId = useId();
 
@@ -66,8 +66,13 @@ export default function BatDongSanFilter({ form }) {
           <span>Bộ lọc</span>
           <ChevronDownIcon className={isExpanded ? styles.chevronUp : ''} />
         </button>
-        <button type="submit" className={styles.submitButton}>
-          <SearchIcon />
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSearching}
+          aria-busy={isSearching}
+        >
+          {isSearching ? <span className={styles.spinner} aria-hidden="true" /> : <SearchIcon />}
           Tìm kiếm
         </button>
       </div>
@@ -93,6 +98,7 @@ export default function BatDongSanFilter({ form }) {
             <RangeField
               label="Giá tiền"
               unit="VNĐ"
+              inputMode="numeric"
               hint="Nhập đủ số tiền, ví dụ 3.200.000.000."
               from={{ value: draft.giaTu, onChange: (v) => form.setNumberField('giaTu', v) }}
               to={{ value: draft.giaDen, onChange: (v) => form.setNumberField('giaDen', v) }}
