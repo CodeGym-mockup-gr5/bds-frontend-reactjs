@@ -28,6 +28,7 @@ export default function LoginForm({
     fieldErrors,
     generalError,
     hasAuthError,
+    isAccountLocked,
     isSubmitting,
     handleFieldChange,
     handleFieldBlur,
@@ -56,7 +57,19 @@ export default function LoginForm({
           {generalError && (
             <div className={styles.generalError} role="alert">
               <WarningCircleIcon className={styles.generalErrorIcon} />
-              <span>{generalError}</span>
+              <div className={styles.generalErrorBody}>
+                <span>{generalError}</span>
+                {isAccountLocked && (
+                  <Link
+                    to="/quen-mat-khau"
+                    state={{ tenDangNhap: tenDangNhap.trim() }}
+                    className={styles.lockedResetLink}
+                    onClick={onNavigateAway}
+                  >
+                    Đặt lại mật khẩu để mở khóa
+                  </Link>
+                )}
+              </div>
             </div>
           )}
 
@@ -161,7 +174,12 @@ export default function LoginForm({
               <span>Nhớ mật khẩu</span>
             </label>
 
-            <Link to="/quen-mat-khau" className={styles.forgotLink} onClick={onNavigateAway}>
+            <Link
+              to="/quen-mat-khau"
+              state={{ tenDangNhap: tenDangNhap.trim() }}
+              className={styles.forgotLink}
+              onClick={onNavigateAway}
+            >
               Quên mật khẩu?
             </Link>
           </div>

@@ -2,7 +2,17 @@ import { useId } from 'react';
 import { AlertIcon } from '../../../components/Icons';
 import styles from './RangeField.module.css';
 
-function RangeInput({ id, prefix, value, unit, hasError, describedBy, onChange, onBlur }) {
+function RangeInput({
+  id,
+  prefix,
+  value,
+  unit,
+  inputMode,
+  hasError,
+  describedBy,
+  onChange,
+  onBlur,
+}) {
   return (
     <div className={`${styles.inputWrap} ${hasError ? styles.inputError : ''}`}>
       <label htmlFor={id} className={styles.prefix}>
@@ -12,7 +22,7 @@ function RangeInput({ id, prefix, value, unit, hasError, describedBy, onChange, 
         id={id}
         className={styles.input}
         type="text"
-        inputMode="decimal"
+        inputMode={inputMode}
         autoComplete="off"
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -25,7 +35,16 @@ function RangeInput({ id, prefix, value, unit, hasError, describedBy, onChange, 
   );
 }
 
-export default function RangeField({ label, unit, hint, from, to, error, onBlur }) {
+export default function RangeField({
+  label,
+  unit,
+  hint,
+  inputMode = 'decimal',
+  from,
+  to,
+  error,
+  onBlur,
+}) {
   const baseId = useId();
   const messageId = `${baseId}-message`;
   const hasError = Boolean(error);
@@ -39,6 +58,7 @@ export default function RangeField({ label, unit, hint, from, to, error, onBlur 
           prefix="Từ"
           value={from.value}
           unit={unit}
+          inputMode={inputMode}
           hasError={hasError}
           describedBy={messageId}
           onChange={from.onChange}
@@ -49,6 +69,7 @@ export default function RangeField({ label, unit, hint, from, to, error, onBlur 
           prefix="Đến"
           value={to.value}
           unit={unit}
+          inputMode={inputMode}
           hasError={hasError}
           describedBy={messageId}
           onChange={to.onChange}

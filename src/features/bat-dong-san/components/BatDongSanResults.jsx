@@ -6,6 +6,7 @@ import { EmptyState, ErrorBanner } from './ListState';
 import styles from './BatDongSanResults.module.css';
 
 const SKELETON_KEYS = Array.from({ length: SKELETON_COUNT }, (_, index) => `skeleton-${index}`);
+const NETWORK_ERROR_MESSAGE = 'Đã có lỗi kết nối hoặc máy chủ. Bộ lọc của bạn vẫn được giữ nguyên.';
 const EMPTY_HINT =
   'Hãy mở rộng khoảng giá hoặc diện tích để có thêm kết quả. ' +
   'Bạn cũng có thể xóa bộ lọc để xem lại toàn bộ danh sách bất động sản.';
@@ -27,7 +28,7 @@ function getSubtitle({ total, counts, hasActiveFilters, moiDang }) {
   return `${prefix} · ${counts.CO_SAN} có sẵn · ${counts.DA_BAN} đã bán`;
 }
 
-function ResultsBody({ list, hasActiveFilters, onReset }) {
+function ResultsBody({ list, hasActiveFilters, onReset, onLastPage }) {
   if (list.isLoading) {
     return (
       <div className={styles.grid} aria-busy="true">
@@ -41,11 +42,22 @@ function ResultsBody({ list, hasActiveFilters, onReset }) {
   const errorBanner = list.isError && (
     <ErrorBanner
       title="Không tải được danh sách bất động sản"
-      message="Đã có lỗi kết nối hoặc máy chủ. Bộ lọc của bạn vẫn được giữ nguyên."
+      message={list.errorMessage || NETWORK_ERROR_MESSAGE}
       actionLabel="Thử lại"
       onAction={() => list.refetch()}
     />
   );
+
+  if (!list.items.length && list.totalElements > 0 && !list.isError) {
+    return (
+      <EmptyState
+        title="Trang này không có kết quả"
+        description={`Danh sách hiện chỉ có ${list.totalPages} trang.`}
+        actionLabel="Về trang cuối"
+        onAction={onLastPage}
+      />
+    );
+  }
 
   if (!list.items.length) {
     return (
@@ -85,8 +97,9 @@ export default function BatDongSanResults({
   onReset,
 }) {
   const total = list.totalElements;
-  const from = total ? (page - 1) * PAGE_SIZE + 1 : 0;
-  const to = Math.min(page * PAGE_SIZE, total);
+  const count = list.items.length;
+  const from = (page - 1) * PAGE_SIZE + 1;
+  const to = from + count - 1;
   const hasNoData = list.isError && !list.items.length;
   const summary = {
     total,
@@ -101,7 +114,7 @@ export default function BatDongSanResults({
     <section className={styles.results} aria-labelledby="ket-qua-bds">
       <div className={styles.header}>
         <div>
-          <h2 id="ket-qua-bds" className={styles.title}>
+          <h2 id="ket-qua-bds" className={styles.title} aria-live="polite">
             {getTitle(summary)}
           </h2>
           {!list.isLoading && !hasNoData && (
@@ -111,13 +124,20 @@ export default function BatDongSanResults({
         {toolbar}
       </div>
 
-      <ResultsBody list={list} hasActiveFilters={hasActiveFilters} onReset={onReset} />
+      <ResultsBody
+        list={list}
+        hasActiveFilters={hasActiveFilters}
+        onReset={onReset}
+        onLastPage={() => onPageChange(list.totalPages)}
+      />
 
       {!list.isLoading && total > 0 && (
         <div className={styles.footer}>
-          <p className={styles.range}>
-            Hiển thị {from}–{to} trên {total} bất động sản
-          </p>
+          {count > 0 && (
+            <p className={styles.range}>
+              Hiển thị {from}–{to} trên {total} bất động sản
+            </p>
+          )}
           <Pagination
             page={page}
             totalPages={list.totalPages}

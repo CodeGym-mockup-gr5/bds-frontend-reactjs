@@ -128,6 +128,16 @@
   white-space: nowrap;
 }
 
+.extra {
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-neutral-600);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .owner {
   margin: 0;
   overflow: hidden;

@@ -1,0 +1,134 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 100vh;
+  padding: var(--space-24) var(--space-12);
+  background-color: var(--color-white);
+  border-right: 1px solid var(--color-neutral-200);
+  flex-shrink: 0;
+}
+
+.logoLink {
+  display: block;
+  padding: 0 var(--space-12) var(--space-24);
+}
+
+.logo {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+
+.nav {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: var(--space-48);
+  padding: 0 var(--space-12);
+  border-radius: var(--radius-md);
+  color: var(--color-neutral-900);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line-height);
+  font-weight: var(--text-label-weight);
+  text-decoration: none;
+}
+
+.item:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.itemActive,
+.itemActive:hover {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.itemDisabled,
+.itemDisabled:hover {
+  color: var(--color-neutral-400);
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-16) var(--space-12) 0;
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.accountInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--color-neutral-900);
+}
+
+.accountName {
+  margin: 0;
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line-height);
+  font-weight: var(--text-label-weight);
+}
+
+.accountRole {
+  margin: 0;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-neutral-600);
+}
+
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--space-40);
+  padding: 0 var(--space-12);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.logoutButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--color-neutral-200);
+  }
+}
