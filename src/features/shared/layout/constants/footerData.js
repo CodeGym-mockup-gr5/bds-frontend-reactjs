@@ -26,7 +26,6 @@ export const COT_LIEN_KET = [
     danhSach: [
       { id: 'mua-ban', nhan: 'Mua bán bất động sản', duongDan: '/bat-dong-san', noiBo: true },
       { id: 'du-an', nhan: 'Dự án bất động sản', duongDan: '/du-an', noiBo: true },
-      { id: 'dang-tin', nhan: 'Đăng tin bán', duongDan: '/dang-tin', noiBo: true },
       { id: 'quy-dinh', nhan: 'Quy định đăng tin', duongDan: '#quy-dinh-dang-tin' },
       { id: 'huong-dan', nhan: 'Báo giá & Hướng dẫn', duongDan: '#huong-dan' },
     ],
