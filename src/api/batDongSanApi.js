@@ -1,5 +1,15 @@
 import axiosClient from './axiosClient';
 
+export async function searchBatDongSan(params) {
+  const response = await axiosClient.get('/bat-dong-san', { params });
+  return response.data;
+}
+
+export async function getBatDongSanMoiDang(params) {
+  const response = await axiosClient.get('/bat-dong-san/moi-dang', { params });
+  return response.data;
+}
+
 export async function createBatDongSan(payload) {
   const response = await axiosClient.post('/bat-dong-san', payload);
   return response.data;
@@ -20,6 +30,8 @@ export async function uploadHinhAnhBatDongSan(file, { onProgress = null, signal 
 }
 
 export default {
+  searchBatDongSan,
+  getBatDongSanMoiDang,
   createBatDongSan,
   uploadHinhAnhBatDongSan,
 };

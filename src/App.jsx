@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
+import BatDongSanListPage from './features/bat-dong-san/pages/BatDongSanListPage';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import DatMatKhauPage from './features/auth/pages/DatMatKhauPage';
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
           { path: 'dang-nhap', element: <LoginPage /> },
           { path: 'quen-mat-khau', element: <QuenMatKhauPage /> },
           { path: 'dat-mat-khau', element: <DatMatKhauPage /> },
+          { path: 'bat-dong-san', element: <BatDongSanListPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
             children: [
