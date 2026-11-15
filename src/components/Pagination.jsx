@@ -15,15 +15,16 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
     return null;
   }
 
-  const pages = getVisiblePages(Math.min(page, totalPages), totalPages);
+  const currentPage = Math.min(Math.max(page, 1), totalPages);
+  const pages = getVisiblePages(currentPage, totalPages);
 
   return (
     <nav className={styles.pagination} aria-label="Phân trang">
       <button
         type="button"
         className={styles.button}
-        onClick={() => onChange(page - 1)}
-        disabled={disabled || page <= 1}
+        onClick={() => onChange(currentPage - 1)}
+        disabled={disabled || currentPage <= 1}
         aria-label="Trang trước"
       >
         <ChevronLeftIcon />
@@ -32,11 +33,11 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
         <button
           key={item}
           type="button"
-          className={`${styles.button} ${item === page ? styles.active : ''}`}
+          className={`${styles.button} ${item === currentPage ? styles.active : ''}`}
           onClick={() => onChange(item)}
           disabled={disabled}
           aria-label={`Trang ${item}`}
-          aria-current={item === page ? 'page' : undefined}
+          aria-current={item === currentPage ? 'page' : undefined}
         >
           {item}
         </button>
@@ -44,8 +45,8 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
       <button
         type="button"
         className={styles.button}
-        onClick={() => onChange(page + 1)}
-        disabled={disabled || page >= totalPages}
+        onClick={() => onChange(currentPage + 1)}
+        disabled={disabled || currentPage >= totalPages}
         aria-label="Trang sau"
       >
         <ChevronRightIcon />

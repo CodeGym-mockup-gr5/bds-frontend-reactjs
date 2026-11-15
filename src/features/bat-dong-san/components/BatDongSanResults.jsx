@@ -27,7 +27,7 @@ function getSubtitle({ total, counts, hasActiveFilters, moiDang }) {
   return `${prefix} · ${counts.CO_SAN} có sẵn · ${counts.DA_BAN} đã bán`;
 }
 
-function ResultsBody({ list, hasActiveFilters, onReset }) {
+function ResultsBody({ list, hasActiveFilters, onReset, onLastPage }) {
   if (list.isLoading) {
     return (
       <div className={styles.grid} aria-busy="true">
@@ -46,6 +46,17 @@ function ResultsBody({ list, hasActiveFilters, onReset }) {
       onAction={() => list.refetch()}
     />
   );
+
+  if (!list.items.length && list.totalElements > 0 && !list.isError) {
+    return (
+      <EmptyState
+        title="Trang này không có kết quả"
+        description={`Danh sách hiện chỉ có ${list.totalPages} trang.`}
+        actionLabel="Về trang cuối"
+        onAction={onLastPage}
+      />
+    );
+  }
 
   if (!list.items.length) {
     return (
@@ -112,7 +123,12 @@ export default function BatDongSanResults({
         {toolbar}
       </div>
 
-      <ResultsBody list={list} hasActiveFilters={hasActiveFilters} onReset={onReset} />
+      <ResultsBody
+        list={list}
+        hasActiveFilters={hasActiveFilters}
+        onReset={onReset}
+        onLastPage={() => onPageChange(list.totalPages)}
+      />
 
       {!list.isLoading && total > 0 && (
         <div className={styles.footer}>

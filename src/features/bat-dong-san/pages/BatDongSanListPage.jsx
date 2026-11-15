@@ -48,6 +48,11 @@ export default function BatDongSanListPage() {
     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const handleMoiDang = () => {
+    form.collapse();
+    filterState.selectMoiDang();
+  };
+
   const toolbar = isNoiBo && (
     <TinhTrangChips
       value={filterState.tinhTrang}
@@ -55,7 +60,7 @@ export default function BatDongSanListPage() {
       moiDang={filterState.moiDang}
       showMoiDang={isAdmin}
       onSelect={filterState.selectTinhTrang}
-      onMoiDang={filterState.selectMoiDang}
+      onMoiDang={handleMoiDang}
     />
   );
 
