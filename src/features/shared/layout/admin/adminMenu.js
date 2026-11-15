@@ -1,5 +1,5 @@
 const ADMIN_MENU_ITEMS = [
-  { key: 'nhan-vien', label: 'Nhân viên', icon: 'users', to: null },
+  { key: 'nhan-vien', label: 'Nhân viên', icon: 'users', to: '/admin/nhan-vien' },
   { key: 'thong-bao', label: 'Thông báo', icon: 'bell', to: '/admin/thong-bao' },
   { key: 'khach-hang', label: 'Khách hàng', icon: 'user', to: null },
   { key: 'bat-dong-san', label: 'Bất động sản', icon: 'home', to: null },
