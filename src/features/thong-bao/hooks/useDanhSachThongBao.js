@@ -20,7 +20,7 @@ export default function useDanhSachThongBao() {
   const totalElements = Number(pageData?.totalElements) || 0;
   const totalPages = Number(pageData?.totalPages) || 0;
   const displayedPage = Number.isInteger(pageData?.page) ? pageData.page : page;
-  const isPlaceholderData = query.isPlaceholderData;
+  const { isPlaceholderData } = query;
 
   useEffect(() => {
     if (!isPlaceholderData && totalPages > 0 && page >= totalPages) {
