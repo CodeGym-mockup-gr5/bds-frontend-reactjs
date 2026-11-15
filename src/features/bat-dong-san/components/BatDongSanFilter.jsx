@@ -66,12 +66,7 @@ export default function BatDongSanFilter({ form, isSearching = false }) {
           <span>Bộ lọc</span>
           <ChevronDownIcon className={isExpanded ? styles.chevronUp : ''} />
         </button>
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSearching}
-          aria-busy={isSearching}
-        >
+        <button type="submit" className={styles.submitButton} aria-busy={isSearching}>
           {isSearching ? <span className={styles.spinner} aria-hidden="true" /> : <SearchIcon />}
           Tìm kiếm
         </button>

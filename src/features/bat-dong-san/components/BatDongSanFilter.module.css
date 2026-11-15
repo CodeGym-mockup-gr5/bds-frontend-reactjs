@@ -95,11 +95,6 @@
   background-color: var(--color-primary-800);
 }
 
-.submitButton:disabled {
-  background-color: var(--color-primary-disabled);
-  cursor: wait;
-}
-
 .spinner {
   width: var(--space-16);
   height: var(--space-16);

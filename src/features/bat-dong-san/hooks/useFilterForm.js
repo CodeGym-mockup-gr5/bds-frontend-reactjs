@@ -73,17 +73,26 @@ function toDraft(filters) {
   };
 }
 
+function keepUnsavedEdits(current, previousSeed, nextSeed) {
+  return Object.fromEntries(
+    Object.keys(nextSeed).map((name) => [
+      name,
+      current[name] === previousSeed[name] ? nextSeed[name] : current[name],
+    ]),
+  );
+}
+
 export default function useFilterForm({ filters, filterKey, onApply, onReset }) {
-  const [seedKey, setSeedKey] = useState(filterKey);
-  const [draft, setDraft] = useState(() => toDraft(filters));
+  const [seed, setSeed] = useState(() => ({ key: filterKey, draft: toDraft(filters) }));
+  const [draft, setDraft] = useState(seed.draft);
   const [touched, setTouched] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (seedKey !== filterKey) {
-    setSeedKey(filterKey);
-    setDraft(toDraft(filters));
-    setTouched({});
+  if (seed.key !== filterKey) {
+    const nextSeedDraft = toDraft(filters);
+    setSeed({ key: filterKey, draft: nextSeedDraft });
+    setDraft(keepUnsavedEdits(draft, seed.draft, nextSeedDraft));
     setIsSubmitted(false);
   }
 
