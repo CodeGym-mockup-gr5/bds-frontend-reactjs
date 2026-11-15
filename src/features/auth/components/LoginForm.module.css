@@ -74,6 +74,29 @@
   margin-top: 1px;
 }
 
+.generalErrorBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.lockedResetLink {
+  align-self: flex-start;
+  color: var(--color-primary-600);
+  font-weight: var(--text-h3-weight);
+  text-decoration: underline;
+  border-radius: var(--radius-sm);
+}
+
+.lockedResetLink:hover {
+  color: var(--color-primary-700);
+}
+
+.lockedResetLink:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
 .fieldGroup {
   display: flex;
   flex-direction: column;
