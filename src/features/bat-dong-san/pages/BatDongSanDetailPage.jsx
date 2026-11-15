@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftIcon, PinIcon } from '../../../components/Icons';
 import StatusBadge from '../../../components/StatusBadge';
 import { formatArea, formatCurrency, formatPricePerM2 } from '../../../utils/format';
@@ -13,6 +13,8 @@ import useBatDongSanDetail from '../hooks/useBatDongSanDetail';
 import styles from './BatDongSanDetailPage.module.css';
 
 const LIST_PATH = '/bat-dong-san';
+const FIRST_ENTRY_KEY = 'default';
+const DEFAULT_ALT = 'Bất động sản';
 const BASE_BREADCRUMB = [
   { label: 'Mua bất động sản', to: '/' },
   { label: 'Danh sách bất động sản', to: LIST_PATH },
@@ -76,17 +78,20 @@ function DetailContent({ detail, onBack }) {
   }
 
   const loaiLabel = getOptionLabel(LOAI_BDS_OPTIONS, batDongSan.loaiBds);
+  const imageAlt = [loaiLabel, batDongSan.diaChi].filter(Boolean).join(' ') || DEFAULT_ALT;
 
   return (
     <div className={styles.layout}>
-      <div className={styles.main}>
-        <ImageGallery hinhAnh={batDongSan.hinhAnh} alt={`${loaiLabel} ${batDongSan.diaChi}`} />
-        <ThongTinChiTiet batDongSan={batDongSan} />
+      <div className={styles.galleryArea}>
+        <ImageGallery key={batDongSan.id} hinhAnh={batDongSan.hinhAnh} alt={imageAlt} />
       </div>
       <aside className={styles.side}>
         <SummaryCard batDongSan={batDongSan} onBack={onBack} />
         <ChuSoHuuCard chuSoHuu={batDongSan.chuSoHuu} />
       </aside>
+      <div className={styles.infoArea}>
+        <ThongTinChiTiet batDongSan={batDongSan} />
+      </div>
     </div>
   );
 }
@@ -94,7 +99,15 @@ function DetailContent({ detail, onBack }) {
 export default function BatDongSanDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const detail = useBatDongSanDetail(id);
+  const goBack = () => {
+    if (location.key === FIRST_ENTRY_KEY) {
+      navigate(LIST_PATH);
+      return;
+    }
+    navigate(-1);
+  };
   const breadcrumb = [
     ...BASE_BREADCRUMB,
     { label: detail.batDongSan?.maBds || 'Chi tiết bất động sản' },
@@ -104,7 +117,7 @@ export default function BatDongSanDetailPage() {
     <div className={styles.page}>
       <PageBreadcrumb items={breadcrumb} fallbackPath={LIST_PATH} />
       <h1 className={styles.title}>Chi tiết bất động sản</h1>
-      <DetailContent detail={detail} onBack={() => navigate(LIST_PATH)} />
+      <DetailContent detail={detail} onBack={goBack} />
     </div>
   );
 }

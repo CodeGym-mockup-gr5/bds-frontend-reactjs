@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider, ScrollRestoration } from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
 import BatDongSanDetailPage from './features/bat-dong-san/pages/BatDongSanDetailPage';
 import BatDongSanListPage from './features/bat-dong-san/pages/BatDongSanListPage';
@@ -15,9 +15,12 @@ import HomePage from './features/shared/pages/HomePage';
 import NotFoundPage from './features/shared/pages/NotFoundPage';
 import { ROLES } from './utils/auth';
 
+const getScrollKey = (location) => location.pathname;
+
 function RootLayout() {
   return (
     <AuthProvider>
+      <ScrollRestoration getKey={getScrollKey} />
       <Outlet />
       <AuthModals />
     </AuthProvider>
