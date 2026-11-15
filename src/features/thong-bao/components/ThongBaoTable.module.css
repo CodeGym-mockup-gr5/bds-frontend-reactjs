@@ -123,6 +123,11 @@
   outline-offset: 2px;
 }
 
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .actionDanger {
   color: var(--color-danger-600);
 }

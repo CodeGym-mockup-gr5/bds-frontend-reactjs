@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.ADMIN]} />,
-            children: [{ path: 'admin', element: <HomePage /> }],
+            children: [{ path: 'admin', element: <Navigate to="/admin/thong-bao" replace /> }],
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG, ROLES.NHAN_VIEN, ROLES.ADMIN]} />,

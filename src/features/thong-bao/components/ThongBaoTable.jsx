@@ -31,8 +31,8 @@ export default function ThongBaoTable({
   footer = null,
   onToggleOne,
   onToggleAll,
-  onEdit,
-  onDelete,
+  onEdit = undefined,
+  onDelete = undefined,
 }) {
   const checkedCount = items.filter((item) => selectedIds.includes(item.id)).length;
 
@@ -72,6 +72,7 @@ export default function ThongBaoTable({
                       type="checkbox"
                       className={styles.checkbox}
                       checked={isSelected}
+                      disabled={isUpdating}
                       onChange={() => onToggleOne(item.id)}
                       aria-label={`Chọn thông báo ${item.tenThongBao}`}
                     />
@@ -87,6 +88,7 @@ export default function ThongBaoTable({
                         type="button"
                         className={styles.actionButton}
                         onClick={() => onEdit(item)}
+                        disabled={!onEdit}
                         aria-label={`Sửa thông báo ${item.tenThongBao}`}
                       >
                         <Icon name="pencil" />
@@ -96,6 +98,7 @@ export default function ThongBaoTable({
                         type="button"
                         className={`${styles.actionButton} ${styles.actionDanger}`}
                         onClick={() => onDelete(item)}
+                        disabled={!onDelete}
                         aria-label={`Xóa thông báo ${item.tenThongBao}`}
                       >
                         <Icon name="trash" />

@@ -8,6 +8,7 @@ export default function ThongBaoPagination({
   itemCount,
   totalElements,
   totalPages,
+  rangePage = undefined,
   disabled = false,
   onChange,
 }) {
@@ -17,7 +18,7 @@ export default function ThongBaoPagination({
   return (
     <div className={styles.footer}>
       <p className={styles.summary} role="status">
-        {getRangeText(page, size, itemCount, totalElements)}
+        {getRangeText(rangePage ?? page, size, itemCount, totalElements)}
       </p>
 
       {totalPages > 1 && (

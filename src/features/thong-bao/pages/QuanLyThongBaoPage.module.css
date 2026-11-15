@@ -53,11 +53,17 @@
   color: var(--color-white);
 }
 
-.primaryButton:hover {
+.primaryButton:disabled,
+.dangerButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primaryButton:hover:not(:disabled) {
   background-color: var(--color-primary-700);
 }
 
-.primaryButton:active {
+.primaryButton:active:not(:disabled) {
   background-color: var(--color-primary-800);
 }
 
@@ -67,7 +73,7 @@
   color: var(--color-danger-600);
 }
 
-.dangerButton:hover {
+.dangerButton:hover:not(:disabled) {
   background-color: var(--color-neutral-100);
 }
 

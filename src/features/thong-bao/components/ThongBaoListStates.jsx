@@ -22,14 +22,14 @@ export function ThongBaoLoading() {
   );
 }
 
-export function ThongBaoEmpty({ onAdd }) {
+export function ThongBaoEmpty({ onAdd = undefined }) {
   return (
     <div className={`${styles.card} ${styles.panel}`}>
       <span className={styles.illustration}>
         <Icon name="clipboard" size={32} />
       </span>
       <p className={styles.title}>Chưa có thông báo nào</p>
-      <button type="button" className={styles.primaryButton} onClick={onAdd}>
+      <button type="button" className={styles.primaryButton} onClick={onAdd} disabled={!onAdd}>
         <Icon name="plus" />
         Thêm mới thông báo
       </button>

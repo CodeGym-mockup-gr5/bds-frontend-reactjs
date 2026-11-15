@@ -34,6 +34,7 @@ function ThongBaoResults({ danhSach, chon }) {
           itemCount={danhSach.items.length}
           totalElements={danhSach.totalElements}
           totalPages={danhSach.totalPages}
+          rangePage={danhSach.displayedPage}
           disabled={isUpdating}
           onChange={handleChangePage}
         />
@@ -57,11 +58,11 @@ export default function QuanLyThongBaoPage() {
       </header>
 
       <div className={styles.toolbar}>
-        <button type="button" className={styles.primaryButton}>
+        <button type="button" className={styles.primaryButton} disabled>
           <Icon name="plus" />
           Thêm mới thông báo
         </button>
-        <button type="button" className={styles.dangerButton}>
+        <button type="button" className={styles.dangerButton} disabled>
           <Icon name="trash" />
           Xóa nhiều
         </button>

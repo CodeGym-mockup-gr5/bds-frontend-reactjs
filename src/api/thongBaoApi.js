@@ -5,11 +5,6 @@ export async function getDanhSachThongBao(params) {
   return response.data;
 }
 
-export async function getThongBaoMoiNhat(params) {
-  const response = await axiosClient.get('/thong-bao/moi-nhat', { params });
-  return response.data;
-}
-
 export async function getThongBaoById(id) {
   const response = await axiosClient.get(`/thong-bao/${id}`);
   return response.data;
@@ -32,7 +27,6 @@ export async function deleteThongBao(id) {
 
 export default {
   getDanhSachThongBao,
-  getThongBaoMoiNhat,
   getThongBaoById,
   createThongBao,
   updateThongBao,
