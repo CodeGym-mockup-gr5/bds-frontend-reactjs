@@ -4,17 +4,20 @@ import Icon from '../../../components/Icon';
 import useAuth from '../../../hooks/useAuth';
 import ThongBaoPagination from '../components/ThongBaoPagination';
 import { ThongBaoEmpty, ThongBaoError, ThongBaoLoading } from '../components/ThongBaoListStates';
+import ThongBaoFormModal from '../components/ThongBaoFormModal';
 import ThongBaoTable from '../components/ThongBaoTable';
 import XoaThongBaoModal from '../components/XoaThongBaoModal';
 import useChonThongBao from '../hooks/useChonThongBao';
 import useDanhSachThongBao from '../hooks/useDanhSachThongBao';
+import { useThemThongBao } from '../hooks/useThongBaoMutations';
 import useXoaThongBao from '../hooks/useXoaThongBao';
+import { EMPTY_THONG_BAO_FORM } from '../utils/thongBaoValidation';
 import styles from './QuanLyThongBaoPage.module.css';
 
-function ThongBaoResults({ danhSach, chon, onDelete }) {
+function ThongBaoResults({ danhSach, chon, onAdd, onDelete }) {
   if (danhSach.isError) return <ThongBaoError onRetry={() => danhSach.refetch()} />;
   if (danhSach.isPending) return <ThongBaoLoading />;
-  if (danhSach.totalElements === 0) return <ThongBaoEmpty />;
+  if (danhSach.totalElements === 0) return <ThongBaoEmpty onAdd={onAdd} />;
 
   const isUpdating = danhSach.isFetching && danhSach.isPlaceholderData;
 
@@ -53,7 +56,16 @@ export default function QuanLyThongBaoPage() {
   const chon = useChonThongBao(danhSach.items);
   const { showToast } = useAuth();
   const xoaMutation = useXoaThongBao();
+  const themMutation = useThemThongBao();
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const handleCreated = (response) => {
+    setIsFormOpen(false);
+    chon.clearSelection();
+    danhSach.setPage(0);
+    showToast(response?.message || 'Thêm thông báo thành công', 'success');
+  };
 
   const handleDeleteSelected = () => {
     const selected = danhSach.items.filter((item) => chon.selectedIds.includes(item.id));
@@ -89,7 +101,7 @@ export default function QuanLyThongBaoPage() {
       </header>
 
       <div className={styles.toolbar}>
-        <button type="button" className={styles.primaryButton} disabled>
+        <button type="button" className={styles.primaryButton} onClick={() => setIsFormOpen(true)}>
           <Icon name="plus" />
           Thêm mới thông báo
         </button>
@@ -102,6 +114,7 @@ export default function QuanLyThongBaoPage() {
       <ThongBaoResults
         danhSach={danhSach}
         chon={chon}
+        onAdd={() => setIsFormOpen(true)}
         onDelete={(items) => setDeleteTarget({ items })}
       />
 
@@ -111,6 +124,18 @@ export default function QuanLyThongBaoPage() {
           Quay lại
         </Link>
       </div>
+
+      {isFormOpen && (
+        <ThongBaoFormModal
+          isOpen
+          title="Thêm mới thông báo"
+          initialValues={EMPTY_THONG_BAO_FORM}
+          mutation={themMutation}
+          onSuccess={handleCreated}
+          onError={(message) => showToast(message, 'error')}
+          onClose={() => setIsFormOpen(false)}
+        />
+      )}
 
       <XoaThongBaoModal
         target={deleteTarget}
