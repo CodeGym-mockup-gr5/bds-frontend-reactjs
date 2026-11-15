@@ -8,6 +8,8 @@ import LoginPage from './features/auth/pages/LoginPage';
 import QuenMatKhauPage from './features/auth/pages/QuenMatKhauPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
+import AdminLayout from './features/shared/layout/AdminLayout';
+import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
 import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
 import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import Layout from './features/shared/layout/Layout';
@@ -71,6 +73,22 @@ const router = createBrowserRouter([
             ],
           },
           { path: '*', element: <NotFoundPage /> },
+        ],
+      },
+      {
+        element: <RoleRoute allowedRoles={[ROLES.ADMIN]} />,
+        children: [
+          {
+            path: 'admin/thong-bao',
+            element: <AdminLayout />,
+            children: [
+              {
+                index: true,
+                element: <QuanLyThongBaoPage />,
+                handle: { breadcrumb: ['Thông báo', 'Danh sách'] },
+              },
+            ],
+          },
         ],
       },
     ],

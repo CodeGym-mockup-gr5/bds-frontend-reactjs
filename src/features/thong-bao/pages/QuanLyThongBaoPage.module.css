@@ -1,0 +1,93 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line-height);
+  font-weight: var(--text-h1-weight);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.primaryButton,
+.dangerButton,
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--space-40);
+  padding: 0 var(--space-20);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-base);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line-height);
+  font-weight: var(--text-label-weight);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primaryButton {
+  border: none;
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+}
+
+.primaryButton:hover {
+  background-color: var(--color-primary-700);
+}
+
+.primaryButton:active {
+  background-color: var(--color-primary-800);
+}
+
+.dangerButton {
+  border: 1px solid var(--color-danger-600);
+  background-color: var(--color-white);
+  color: var(--color-danger-600);
+}
+
+.dangerButton:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.backLink {
+  background-color: var(--color-white);
+  color: var(--color-neutral-900);
+  box-shadow: var(--shadow-sm);
+}
+
+.backLink:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.primaryButton:focus-visible,
+.dangerButton:focus-visible,
+.backLink:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.back {
+  display: flex;
+}
