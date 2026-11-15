@@ -1,5 +1,6 @@
 .pagination {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-8);
 }
@@ -44,4 +45,14 @@
   border-color: var(--color-primary-600);
   background-color: var(--color-primary-600);
   color: var(--color-white);
+}
+
+@media (max-width: 479px) {
+  .pagination {
+    gap: var(--space-4);
+  }
+
+  .button {
+    padding: 0 var(--space-8);
+  }
 }

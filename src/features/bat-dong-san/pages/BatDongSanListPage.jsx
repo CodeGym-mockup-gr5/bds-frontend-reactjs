@@ -11,6 +11,8 @@ import useBatDongSanList from '../hooks/useBatDongSanList';
 import useFilterForm from '../hooks/useFilterForm';
 import styles from './BatDongSanListPage.module.css';
 
+const GUEST_KEY = 'guest';
+
 const BREADCRUMB_ITEMS = [
   { label: 'Mua bất động sản', to: '/' },
   { label: 'Danh sách bất động sản' },
@@ -22,7 +24,7 @@ const BLOCKED_MESSAGE =
 
 export default function BatDongSanListPage() {
   const resultsRef = useRef(null);
-  const { isNoiBo, isAdmin, isLoading: isUserLoading } = useCurrentUser();
+  const { user, isNoiBo, isAdmin, isLoading: isUserLoading } = useCurrentUser();
   const filterState = useBatDongSanFilters({ isNoiBo, isAdmin });
 
   const list = useBatDongSanList({
@@ -30,6 +32,7 @@ export default function BatDongSanListPage() {
     baseParams: filterState.baseParams,
     moiDang: filterState.moiDang,
     isNoiBo,
+    userKey: user?.id ?? GUEST_KEY,
     enabled: !isUserLoading,
   });
 

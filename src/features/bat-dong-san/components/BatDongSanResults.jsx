@@ -85,8 +85,9 @@ export default function BatDongSanResults({
   onReset,
 }) {
   const total = list.totalElements;
-  const from = total ? (page - 1) * PAGE_SIZE + 1 : 0;
-  const to = Math.min(page * PAGE_SIZE, total);
+  const count = list.items.length;
+  const from = (page - 1) * PAGE_SIZE + 1;
+  const to = from + count - 1;
   const hasNoData = list.isError && !list.items.length;
   const summary = {
     total,
@@ -101,7 +102,7 @@ export default function BatDongSanResults({
     <section className={styles.results} aria-labelledby="ket-qua-bds">
       <div className={styles.header}>
         <div>
-          <h2 id="ket-qua-bds" className={styles.title}>
+          <h2 id="ket-qua-bds" className={styles.title} aria-live="polite">
             {getTitle(summary)}
           </h2>
           {!list.isLoading && !hasNoData && (
@@ -115,9 +116,11 @@ export default function BatDongSanResults({
 
       {!list.isLoading && total > 0 && (
         <div className={styles.footer}>
-          <p className={styles.range}>
-            Hiển thị {from}–{to} trên {total} bất động sản
-          </p>
+          {count > 0 && (
+            <p className={styles.range}>
+              Hiển thị {from}–{to} trên {total} bất động sản
+            </p>
+          )}
           <Pagination
             page={page}
             totalPages={list.totalPages}

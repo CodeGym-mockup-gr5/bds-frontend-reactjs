@@ -38,11 +38,12 @@ export default function BatDongSanCard({ batDongSan }) {
   const specs = [formatPricePerM2(batDongSan.giaM2), formatArea(batDongSan.dienTich)];
   const chuSoHuu = [maKh, tenChuSoHuu].filter(Boolean).join(' · ');
   const ngayDangText = formatDate(ngayDang);
+  const anhDaiDienUrl = resolveAssetUrl(batDongSan.anhDaiDien);
 
   return (
     <Link to={`/bat-dong-san/${id}`} className={styles.card}>
       <div className={styles.media}>
-        <CardImage src={resolveAssetUrl(batDongSan.anhDaiDien)} alt={`${loaiLabel} ${diaChi}`} />
+        <CardImage key={anhDaiDienUrl} src={anhDaiDienUrl} alt={`${loaiLabel} ${diaChi}`} />
         <StatusBadge tinhTrang={batDongSan.tinhTrang} className={styles.badge} />
         {ngayDangText && <span className={styles.date}>Đăng {ngayDangText}</span>}
       </div>

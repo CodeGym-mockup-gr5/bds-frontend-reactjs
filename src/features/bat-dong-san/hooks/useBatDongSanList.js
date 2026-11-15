@@ -39,11 +39,18 @@ async function fetchMoiDang(page) {
   return { ...response, data: { ...pageData, content: pageData.content.map(toListItem) } };
 }
 
-export default function useBatDongSanList({ apiParams, baseParams, moiDang, isNoiBo, enabled }) {
+export default function useBatDongSanList({
+  apiParams,
+  baseParams,
+  moiDang,
+  isNoiBo,
+  userKey,
+  enabled,
+}) {
   const listQuery = useQuery({
     queryKey: moiDang
-      ? ['batDongSan', 'moiDang', apiParams.page]
-      : ['batDongSan', 'list', apiParams],
+      ? ['batDongSan', 'moiDang', apiParams.page, userKey]
+      : ['batDongSan', 'list', apiParams, userKey],
     queryFn: () => (moiDang ? fetchMoiDang(apiParams.page) : searchBatDongSan(apiParams)),
     placeholderData: keepPreviousData,
     retry: 1,
@@ -54,7 +61,7 @@ export default function useBatDongSanList({ apiParams, baseParams, moiDang, isNo
     queries: COUNT_KEYS.map((tinhTrang) => {
       const params = { ...baseParams, page: 0, size: 1, ...(tinhTrang ? { tinhTrang } : {}) };
       return {
-        queryKey: ['batDongSan', 'list', params],
+        queryKey: ['batDongSan', 'list', params, userKey],
         queryFn: () => searchBatDongSan(params),
         retry: 1,
         enabled: enabled && isNoiBo,
