@@ -41,12 +41,19 @@ export default function ThongBaoFormModal({
   title,
   initialValues,
   mutation,
+  buildMutationInput = undefined,
   onSuccess,
   onError,
   onClose,
 }) {
   const formId = useId();
-  const form = useThongBaoForm({ initialValues, mutation, onSuccess, onError });
+  const form = useThongBaoForm({
+    initialValues,
+    mutation,
+    buildMutationInput,
+    onSuccess,
+    onError,
+  });
   const isLoading = mutation.isPending;
 
   return (

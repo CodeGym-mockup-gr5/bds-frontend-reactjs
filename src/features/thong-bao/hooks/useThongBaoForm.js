@@ -6,7 +6,13 @@ import {
   validateForm,
 } from '../utils/thongBaoValidation';
 
-export default function useThongBaoForm({ initialValues, mutation, onSuccess, onError }) {
+export default function useThongBaoForm({
+  initialValues,
+  mutation,
+  buildMutationInput = undefined,
+  onSuccess,
+  onError,
+}) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
 
@@ -29,7 +35,8 @@ export default function useThongBaoForm({ initialValues, mutation, onSuccess, on
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    mutation.mutate(buildPayload(values), {
+    const payload = buildPayload(values);
+    mutation.mutate(buildMutationInput ? buildMutationInput(payload) : payload, {
       onSuccess,
       onError: (error) => {
         const response = error?.response?.data;
