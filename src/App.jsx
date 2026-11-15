@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
+import BatDongSanDetailPage from './features/bat-dong-san/pages/BatDongSanDetailPage';
 import BatDongSanListPage from './features/bat-dong-san/pages/BatDongSanListPage';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           { path: 'dang-nhap', element: <LoginPage /> },
           { path: 'bat-dong-san', element: <BatDongSanListPage /> },
+          { path: 'bat-dong-san/:id', element: <BatDongSanDetailPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
             children: [
