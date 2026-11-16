@@ -1,5 +1,12 @@
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+  ScrollRestoration,
+} from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
+import BatDongSanDetailPage from './features/bat-dong-san/pages/BatDongSanDetailPage';
 import BatDongSanListPage from './features/bat-dong-san/pages/BatDongSanListPage';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
@@ -20,9 +27,12 @@ import NotFoundPage from './features/shared/pages/NotFoundPage';
 import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
 import { ROLES } from './utils/auth';
 
+const getScrollKey = (location) => location.pathname;
+
 function RootLayout() {
   return (
     <AuthProvider>
+      <ScrollRestoration getKey={getScrollKey} />
       <Outlet />
       <AuthModals />
     </AuthProvider>
@@ -42,6 +52,7 @@ const router = createBrowserRouter([
           { path: 'quen-mat-khau', element: <QuenMatKhauPage /> },
           { path: 'dat-mat-khau', element: <DatMatKhauPage /> },
           { path: 'bat-dong-san', element: <BatDongSanListPage /> },
+          { path: 'bat-dong-san/:id', element: <BatDongSanDetailPage /> },
           { path: 'ho-tro', element: <HoTroPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
