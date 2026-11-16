@@ -8,7 +8,9 @@ import {
 } from '../components/NhanVienListStates';
 import NhanVienPagination from '../components/NhanVienPagination';
 import NhanVienTable from '../components/NhanVienTable';
+import XoaNhanVienModal from '../components/XoaNhanVienModal';
 import useDanhSachNhanVien from '../hooks/useDanhSachNhanVien';
+import useXoaNhanVien from '../hooks/useXoaNhanVien';
 import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {
@@ -29,6 +31,9 @@ export default function DanhSachNhanVienPage() {
     isError,
     refetch,
   } = useDanhSachNhanVien();
+
+  const { selectedEmployee, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete } =
+    useXoaNhanVien();
 
   const renderContent = () => {
     if (isError) {
@@ -52,7 +57,7 @@ export default function DanhSachNhanVienPage() {
           <h2 className={styles.cardTitle}>Danh sách nhân viên</h2>
           <span className={styles.cardCount}>{`${totalElements} nhân viên`}</span>
         </div>
-        <NhanVienTable items={items} />
+        <NhanVienTable items={items} onDelete={openDeleteModal} />
         <NhanVienPagination
           page={page}
           pageSize={pageSize}
@@ -83,6 +88,13 @@ export default function DanhSachNhanVienPage() {
       <NhanVienFilterCard filter={draftFilter} onChange={changeDraft} onSubmit={applyFilter} />
 
       <div className={styles.card}>{renderContent()}</div>
+
+      <XoaNhanVienModal
+        employee={selectedEmployee}
+        isDeleting={isDeleting}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

@@ -5,6 +5,12 @@ export async function getDanhSachNhanVien(params) {
   return response.data;
 }
 
+export async function deleteNhanVien(id) {
+  const response = await axiosClient.delete(`/nhan-vien/${id}`);
+  return response.data;
+}
+
 export default {
   getDanhSachNhanVien,
+  deleteNhanVien,
 };
