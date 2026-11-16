@@ -7,16 +7,17 @@ import DatMatKhauPage from './features/auth/pages/DatMatKhauPage';
 import DoiMatKhauPage from './features/auth/pages/DoiMatKhauPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import QuenMatKhauPage from './features/auth/pages/QuenMatKhauPage';
+import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
+import HoTroPage from './features/ho-tro/pages/HoTroPage';
+import DanhSachNhanVienPage from './features/nhan-vien/pages/DanhSachNhanVienPage';
+import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
 import AdminLayout from './features/shared/layout/AdminLayout';
-import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
-import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
-import HoTroPage from './features/ho-tro/pages/HoTroPage';
-import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import Layout from './features/shared/layout/Layout';
 import HomePage from './features/shared/pages/HomePage';
 import NotFoundPage from './features/shared/pages/NotFoundPage';
+import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
 import { ROLES } from './utils/auth';
 
 function RootLayout() {
@@ -90,6 +91,17 @@ const router = createBrowserRouter([
                 index: true,
                 element: <QuanLyThongBaoPage />,
                 handle: { breadcrumb: ['Thông báo', 'Danh sách'] },
+              },
+            ],
+          },
+          {
+            path: 'admin/nhan-vien',
+            element: <AdminLayout />,
+            children: [
+              {
+                index: true,
+                element: <DanhSachNhanVienPage />,
+                handle: { breadcrumb: ['Nhân viên', 'Danh sách'] },
               },
             ],
           },
