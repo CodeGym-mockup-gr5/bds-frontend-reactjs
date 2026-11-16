@@ -12,6 +12,7 @@ import AccountLayout from './features/shared/layout/AccountLayout';
 import AdminLayout from './features/shared/layout/AdminLayout';
 import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
 import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
+import HoTroPage from './features/ho-tro/pages/HoTroPage';
 import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import Layout from './features/shared/layout/Layout';
 import HomePage from './features/shared/pages/HomePage';
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
           { path: 'quen-mat-khau', element: <QuenMatKhauPage /> },
           { path: 'dat-mat-khau', element: <DatMatKhauPage /> },
           { path: 'bat-dong-san', element: <BatDongSanListPage /> },
+          { path: 'ho-tro', element: <HoTroPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
             children: [

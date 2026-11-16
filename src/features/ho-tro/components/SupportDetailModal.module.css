@@ -1,0 +1,93 @@
+.modalDescription {
+  margin: 0 0 var(--space-20);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
+}
+
+.stepsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.stepItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-md);
+}
+
+.stepBadge {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.stepTitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+.stepDetail {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-neutral-600);
+}
+
+.closeFooterButton {
+  min-width: 96px;
+  min-height: 40px;
+  padding: var(--space-8) var(--space-20);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.closeFooterButton:hover {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+  color: var(--color-neutral-900);
+}
+
+.closeFooterButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
