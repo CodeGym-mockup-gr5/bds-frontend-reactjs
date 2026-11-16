@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import NhanVienFilterCard from '../components/NhanVienFilterCard';
 import { PlusIcon } from '../components/NhanVienIcons';
 import {
@@ -8,12 +10,24 @@ import {
 } from '../components/NhanVienListStates';
 import NhanVienPagination from '../components/NhanVienPagination';
 import NhanVienTable from '../components/NhanVienTable';
+import NhanVienToast from '../components/NhanVienToast';
 import XoaNhanVienModal from '../components/XoaNhanVienModal';
 import useDanhSachNhanVien from '../hooks/useDanhSachNhanVien';
 import useXoaNhanVien from '../hooks/useXoaNhanVien';
 import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [toast, setToast] = useState(location.state?.toast || null);
+
+  useEffect(() => {
+    if (location.state?.toast) {
+      setToast(location.state.toast);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
   const {
     draftFilter,
     changeDraft,
@@ -35,6 +49,10 @@ export default function DanhSachNhanVienPage() {
   const { selectedEmployee, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete } =
     useXoaNhanVien();
 
+  const handleAddNew = () => {
+    navigate('/admin/nhan-vien/them-moi');
+  };
+
   const renderContent = () => {
     if (isError) {
       return <NhanVienError onRetry={() => refetch()} />;
@@ -48,7 +66,7 @@ export default function DanhSachNhanVienPage() {
       if (isFiltered) {
         return <NhanVienEmptySearch />;
       }
-      return <NhanVienEmptyData />;
+      return <NhanVienEmptyData onAddNew={handleAddNew} />;
     }
 
     return (
@@ -72,14 +90,13 @@ export default function DanhSachNhanVienPage() {
 
   return (
     <div className={styles.page}>
+      {toast && (
+        <NhanVienToast title={toast.title} message={toast.message} onClose={() => setToast(null)} />
+      )}
+
       <div className={styles.header}>
         <h1 className={styles.title}>Quản lý nhân viên</h1>
-        <button
-          type="button"
-          className={styles.addButton}
-          disabled
-          title="Tính năng đang phát triển"
-        >
+        <button type="button" className={styles.addButton} onClick={handleAddNew}>
           <PlusIcon size={16} />
           <span>Thêm mới</span>
         </button>

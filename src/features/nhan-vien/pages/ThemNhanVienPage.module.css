@@ -1,0 +1,16 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: var(--space-24);
+}
+
+.title {
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line-height);
+  font-weight: var(--text-h1-weight);
+  color: var(--color-neutral-900);
+  margin: 0;
+}

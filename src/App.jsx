@@ -17,6 +17,7 @@ import QuenMatKhauPage from './features/auth/pages/QuenMatKhauPage';
 import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
 import HoTroPage from './features/ho-tro/pages/HoTroPage';
 import DanhSachNhanVienPage from './features/nhan-vien/pages/DanhSachNhanVienPage';
+import ThemNhanVienPage from './features/nhan-vien/pages/ThemNhanVienPage';
 import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
@@ -113,6 +114,11 @@ const router = createBrowserRouter([
                 index: true,
                 element: <DanhSachNhanVienPage />,
                 handle: { breadcrumb: ['Nhân viên', 'Danh sách'] },
+              },
+              {
+                path: 'them-moi',
+                element: <ThemNhanVienPage />,
+                handle: { breadcrumb: ['Nhân viên', 'Thêm mới'] },
               },
             ],
           },
