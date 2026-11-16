@@ -92,7 +92,7 @@ export const DANH_SACH_HUONG_DAN = [
     id: 'huong-dan-giao-dich',
     tieuDe: 'Hướng dẫn giao dịch với khách hàng',
     moTa: 'Tìm hiểu quy trình trao đổi và giao dịch với khách hàng.',
-    icon: 'handshake',
+    icon: 'giao-dich',
     cacBuoc: [
       {
         tieuDeBuoc: 'Tiếp nhận và phân tích nhu cầu',

@@ -1,4 +1,4 @@
-import { UserIcon, DocumentIcon, LockIcon, HandshakeIcon, ArrowRightIcon } from './SupportIcons';
+import { UserIcon, DocumentIcon, LockIcon, TransactionIcon, ArrowRightIcon } from './SupportIcons';
 import styles from './SupportCard.module.css';
 
 function renderIcon(iconType) {
@@ -9,8 +9,10 @@ function renderIcon(iconType) {
       return <DocumentIcon className={styles.icon} />;
     case 'lock':
       return <LockIcon className={styles.icon} />;
+    case 'giao-dich':
+    case 'transaction':
     case 'handshake':
-      return <HandshakeIcon className={styles.icon} />;
+      return <TransactionIcon className={styles.icon} />;
     default:
       return null;
   }

@@ -55,7 +55,7 @@ export function LockIcon({ className = '' }) {
   );
 }
 
-export function HandshakeIcon({ className = '' }) {
+export function TransactionIcon({ className = '' }) {
   return (
     <svg
       className={className}
@@ -67,15 +67,13 @@ export function HandshakeIcon({ className = '' }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="m11 17 2 2a1 1 0 0 0 1.4 0l4.3-4.3a1 1 0 0 0 0-1.4l-3-3" />
-      <path d="m14 14 2.5 2.5a1 1 0 0 0 1.4 0l2.8-2.8a1 1 0 0 0 0-1.4l-3.2-3.2" />
-      <path d="m2 11 4.5 4.5a2 2 0 0 0 2.8 0L14 11" />
-      <path d="M7 6 4.3 8.7a2 2 0 0 0 0 2.8L7 14" />
-      <path d="M11 2 8.3 4.7a2 2 0 0 0 0 2.8L11 10" />
-      <path d="m18 8 3 3" />
+      <path d="M4 8h16m0 0l-4-4m4 4l-4 4" />
+      <path d="M20 16H4m0 0l4-4m-4 4l4 4" />
     </svg>
   );
 }
+
+export const HandshakeIcon = TransactionIcon;
 
 export function ArrowRightIcon({ className = '' }) {
   return (
