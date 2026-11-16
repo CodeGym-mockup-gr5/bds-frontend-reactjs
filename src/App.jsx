@@ -1,18 +1,22 @@
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import AuthModals from './features/auth/components/AuthModals';
+import BatDongSanListPage from './features/bat-dong-san/pages/BatDongSanListPage';
 import RoleRoute from './features/auth/components/RoleRoute';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import DatMatKhauPage from './features/auth/pages/DatMatKhauPage';
 import DoiMatKhauPage from './features/auth/pages/DoiMatKhauPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import QuenMatKhauPage from './features/auth/pages/QuenMatKhauPage';
+import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
+import DanhSachNhanVienPage from './features/nhan-vien/pages/DanhSachNhanVienPage';
+import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
-import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
-import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
+import AdminLayout from './features/shared/layout/AdminLayout';
 import Layout from './features/shared/layout/Layout';
 import HomePage from './features/shared/pages/HomePage';
 import NotFoundPage from './features/shared/pages/NotFoundPage';
+import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
 import { ROLES } from './utils/auth';
 
 function RootLayout() {
@@ -36,6 +40,7 @@ const router = createBrowserRouter([
           { path: 'dang-nhap', element: <LoginPage /> },
           { path: 'quen-mat-khau', element: <QuenMatKhauPage /> },
           { path: 'dat-mat-khau', element: <DatMatKhauPage /> },
+          { path: 'bat-dong-san', element: <BatDongSanListPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
             children: [
@@ -59,7 +64,7 @@ const router = createBrowserRouter([
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.ADMIN]} />,
-            children: [{ path: 'admin', element: <HomePage /> }],
+            children: [{ path: 'admin', element: <Navigate to="/admin/thong-bao" replace /> }],
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG, ROLES.NHAN_VIEN, ROLES.ADMIN]} />,
@@ -71,6 +76,33 @@ const router = createBrowserRouter([
             ],
           },
           { path: '*', element: <NotFoundPage /> },
+        ],
+      },
+      {
+        element: <RoleRoute allowedRoles={[ROLES.ADMIN]} />,
+        children: [
+          {
+            path: 'admin/thong-bao',
+            element: <AdminLayout />,
+            children: [
+              {
+                index: true,
+                element: <QuanLyThongBaoPage />,
+                handle: { breadcrumb: ['Thông báo', 'Danh sách'] },
+              },
+            ],
+          },
+          {
+            path: 'admin/nhan-vien',
+            element: <AdminLayout />,
+            children: [
+              {
+                index: true,
+                element: <DanhSachNhanVienPage />,
+                handle: { breadcrumb: ['Nhân viên', 'Danh sách'] },
+              },
+            ],
+          },
         ],
       },
     ],

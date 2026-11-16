@@ -1,0 +1,133 @@
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.scroller {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 880px;
+  border-collapse: collapse;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+}
+
+.tableUpdating {
+  opacity: 0.6;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: var(--space-16) var(--space-12);
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-600);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line-height);
+  font-weight: var(--text-label-weight);
+  text-align: left;
+}
+
+.table td {
+  padding: var(--space-12);
+  border-top: 1px solid var(--color-neutral-100);
+  vertical-align: middle;
+}
+
+.rowSelected td {
+  background-color: var(--color-primary-50);
+}
+
+.colCheck {
+  width: var(--space-48);
+  text-align: center;
+}
+
+.colDate {
+  width: 120px;
+  white-space: nowrap;
+}
+
+.colTitle {
+  width: 24%;
+}
+
+.colActions {
+  width: 200px;
+}
+
+.titleCell {
+  font-weight: var(--text-label-weight);
+}
+
+.contentCell {
+  color: var(--color-neutral-600);
+}
+
+.clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.checkbox {
+  width: var(--space-16);
+  height: var(--space-16);
+  margin: 0;
+  accent-color: var(--color-primary-600);
+  cursor: pointer;
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--space-40);
+  padding: 0 var(--space-16);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionDanger {
+  color: var(--color-danger-600);
+}

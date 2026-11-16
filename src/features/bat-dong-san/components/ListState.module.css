@@ -1,0 +1,106 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-48) var(--space-24);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.emptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-48);
+  height: var(--space-48);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+  font-weight: var(--text-h3-weight);
+}
+
+.emptyText {
+  max-width: 480px;
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-neutral-600);
+}
+
+.secondaryButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--space-40);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  color: var(--color-primary-600);
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+}
+
+.secondaryButton:hover {
+  background-color: var(--color-primary-50);
+}
+
+.secondaryButton:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-16);
+  border: 1px solid var(--color-danger-600);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-white);
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  color: var(--color-danger-600);
+}
+
+.bannerContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.bannerTitle,
+.bannerText {
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+}
+
+.bannerTitle {
+  color: var(--color-danger-600);
+  font-weight: var(--text-h3-weight);
+}
+
+.bannerText {
+  color: var(--color-neutral-900);
+}
+
+@media (max-width: 767px) {
+  .banner {
+    flex-wrap: wrap;
+  }
+}
