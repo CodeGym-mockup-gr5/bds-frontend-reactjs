@@ -15,8 +15,14 @@ export async function createNhanVien(data) {
   return response.data;
 }
 
+export async function updateNhanVien(id, data) {
+  const response = await axiosClient.put(`/nhan-vien/${id}`, data);
+  return response.data;
+}
+
 export default {
   getDanhSachNhanVien,
   deleteNhanVien,
   createNhanVien,
+  updateNhanVien,
 };

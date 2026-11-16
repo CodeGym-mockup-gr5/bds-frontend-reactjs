@@ -3,7 +3,7 @@ import { CHUC_VU_LABEL_MAP, GIOI_TINH_LABEL_MAP } from '../constants/nhanVienCon
 import { PencilIcon, TrashIcon } from './NhanVienIcons';
 import styles from './NhanVienTable.module.css';
 
-export default function NhanVienTable({ items, onDelete }) {
+export default function NhanVienTable({ items, onEdit, onDelete }) {
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -51,8 +51,7 @@ export default function NhanVienTable({ items, onDelete }) {
                     <button
                       type="button"
                       className={`${styles.actionButton} ${styles.editButton}`}
-                      disabled
-                      title="Tính năng đang phát triển"
+                      onClick={() => onEdit?.(nv)}
                       aria-label={`Sửa nhân viên ${nv.hoTen}`}
                     >
                       <PencilIcon size={14} />

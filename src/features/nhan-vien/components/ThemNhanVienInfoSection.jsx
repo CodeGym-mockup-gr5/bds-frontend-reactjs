@@ -1,4 +1,4 @@
-import { SolidWarningCircleIcon, UserHeaderIcon } from './NhanVienIcons';
+import { LockIcon, SolidWarningCircleIcon, UserHeaderIcon } from './NhanVienIcons';
 
 export default function ThemNhanVienInfoSection({
   formData,
@@ -7,6 +7,7 @@ export default function ThemNhanVienInfoSection({
   setField,
   handleBlur,
   styles,
+  isEdit = false,
 }) {
   const showError = (name) => Boolean(touched[name] && errors[name]);
 
@@ -20,45 +21,55 @@ export default function ThemNhanVienInfoSection({
       </div>
 
       <div className={styles.grid2Col}>
-        {/* Mã nhân viên — do backend tự sinh, chỉ hiển thị, không cho nhập */}
+        {/* Mã nhân viên */}
         <div className={styles.field}>
           <label htmlFor="field-maNv" className={styles.label}>
-            Mã Nhân viên
+            <span>Mã Nhân viên</span>
+            {isEdit && <LockIcon size={14} className={styles.labelLockIcon} />}
+            <span className={styles.inputWrapper}>
+              <input
+                id="field-maNv"
+                name="maNv"
+                type="text"
+                className={`${styles.input} ${styles.inputReadOnly}`}
+                placeholder={isEdit ? '' : 'Hệ thống tự cấp phát'}
+                value={isEdit ? formData.maNv || '' : ''}
+                readOnly
+                aria-label={
+                  isEdit ? 'Mã nhân viên (chỉ đọc)' : 'Mã nhân viên do hệ thống tự cấp phát'
+                }
+              />
+              {isEdit && (
+                <span className={styles.inputLockBadge} aria-hidden="true">
+                  <LockIcon size={16} />
+                </span>
+              )}
+            </span>
           </label>
-          <div className={styles.inputWrapper}>
-            <input
-              id="field-maNv"
-              name="maNv"
-              type="text"
-              className={`${styles.input} ${styles.inputReadOnly}`}
-              placeholder="Hệ thống tự cấp phát"
-              value=""
-              readOnly
-              aria-label="Mã nhân viên do hệ thống tự cấp phát"
-            />
-          </div>
         </div>
 
         {/* Họ và tên */}
         <div className={styles.field}>
           <label htmlFor="field-hoTen" className={styles.label}>
-            Họ và tên <span className={styles.requiredMark}>*</span>
+            <span>
+              Họ và tên <span className={styles.requiredMark}>*</span>
+            </span>
+            <span className={styles.inputWrapper}>
+              <input
+                id="field-hoTen"
+                name="hoTen"
+                type="text"
+                maxLength={45}
+                className={`${styles.input} ${showError('hoTen') ? styles.inputError : ''}`}
+                placeholder="VD: Nguyễn Văn A"
+                value={formData.hoTen}
+                onChange={(e) => setField('hoTen', e.target.value)}
+                onBlur={() => handleBlur('hoTen')}
+                aria-invalid={showError('hoTen')}
+                aria-describedby={showError('hoTen') ? 'error-hoTen' : undefined}
+              />
+            </span>
           </label>
-          <div className={styles.inputWrapper}>
-            <input
-              id="field-hoTen"
-              name="hoTen"
-              type="text"
-              maxLength={45}
-              className={`${styles.input} ${showError('hoTen') ? styles.inputError : ''}`}
-              placeholder="VD: Nguyễn Văn A"
-              value={formData.hoTen}
-              onChange={(e) => setField('hoTen', e.target.value)}
-              onBlur={() => handleBlur('hoTen')}
-              aria-invalid={showError('hoTen')}
-              aria-describedby={showError('hoTen') ? 'error-hoTen' : undefined}
-            />
-          </div>
           {showError('hoTen') && (
             <div id="error-hoTen" className={styles.errorRow}>
               <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
@@ -70,22 +81,24 @@ export default function ThemNhanVienInfoSection({
         {/* Ngày sinh */}
         <div className={styles.field}>
           <label htmlFor="field-ngaySinh" className={styles.label}>
-            Ngày sinh <span className={styles.requiredMark}>*</span>
+            <span>
+              Ngày sinh <span className={styles.requiredMark}>*</span>
+            </span>
+            <span className={styles.inputWrapper}>
+              <input
+                id="field-ngaySinh"
+                name="ngaySinh"
+                type="date"
+                className={`${styles.input} ${styles.dateInput} ${showError('ngaySinh') ? styles.inputError : ''}`}
+                placeholder="dd/MM/yyyy"
+                value={formData.ngaySinh}
+                onChange={(e) => setField('ngaySinh', e.target.value)}
+                onBlur={() => handleBlur('ngaySinh')}
+                aria-invalid={showError('ngaySinh')}
+                aria-describedby={showError('ngaySinh') ? 'error-ngaySinh' : undefined}
+              />
+            </span>
           </label>
-          <div className={styles.inputWrapper}>
-            <input
-              id="field-ngaySinh"
-              name="ngaySinh"
-              type="date"
-              className={`${styles.input} ${styles.dateInput} ${showError('ngaySinh') ? styles.inputError : ''}`}
-              placeholder="dd/MM/yyyy"
-              value={formData.ngaySinh}
-              onChange={(e) => setField('ngaySinh', e.target.value)}
-              onBlur={() => handleBlur('ngaySinh')}
-              aria-invalid={showError('ngaySinh')}
-              aria-describedby={showError('ngaySinh') ? 'error-ngaySinh' : undefined}
-            />
-          </div>
           {showError('ngaySinh') && (
             <div id="error-ngaySinh" className={styles.errorRow}>
               <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
@@ -105,8 +118,9 @@ export default function ThemNhanVienInfoSection({
             aria-label="Giới tính"
             aria-describedby={showError('gioiTinh') ? 'error-gioiTinh' : undefined}
           >
-            <label className={styles.radioLabel}>
+            <label htmlFor="field-gioiTinh-nam" className={styles.radioLabel}>
               <input
+                id="field-gioiTinh-nam"
                 type="radio"
                 name="gioiTinh"
                 value="NAM"
@@ -117,8 +131,9 @@ export default function ThemNhanVienInfoSection({
               />
               <span>Nam</span>
             </label>
-            <label className={styles.radioLabel}>
+            <label htmlFor="field-gioiTinh-nu" className={styles.radioLabel}>
               <input
+                id="field-gioiTinh-nu"
                 type="radio"
                 name="gioiTinh"
                 value="NU"
@@ -141,23 +156,25 @@ export default function ThemNhanVienInfoSection({
         {/* Địa chỉ - 2 cột */}
         <div className={`${styles.field} ${styles.colFull}`}>
           <label htmlFor="field-diaChi" className={styles.label}>
-            Địa chỉ <span className={styles.requiredMark}>*</span>
+            <span>
+              Địa chỉ <span className={styles.requiredMark}>*</span>
+            </span>
+            <span className={styles.inputWrapper}>
+              <input
+                id="field-diaChi"
+                name="diaChi"
+                type="text"
+                maxLength={255}
+                className={`${styles.input} ${showError('diaChi') ? styles.inputError : ''}`}
+                placeholder="VD: 123 Đường ABC, Quận 1, TP. HCM"
+                value={formData.diaChi}
+                onChange={(e) => setField('diaChi', e.target.value)}
+                onBlur={() => handleBlur('diaChi')}
+                aria-invalid={showError('diaChi')}
+                aria-describedby={showError('diaChi') ? 'error-diaChi' : undefined}
+              />
+            </span>
           </label>
-          <div className={styles.inputWrapper}>
-            <input
-              id="field-diaChi"
-              name="diaChi"
-              type="text"
-              maxLength={255}
-              className={`${styles.input} ${showError('diaChi') ? styles.inputError : ''}`}
-              placeholder="VD: 123 Đường ABC, Quận 1, TP. HCM"
-              value={formData.diaChi}
-              onChange={(e) => setField('diaChi', e.target.value)}
-              onBlur={() => handleBlur('diaChi')}
-              aria-invalid={showError('diaChi')}
-              aria-describedby={showError('diaChi') ? 'error-diaChi' : undefined}
-            />
-          </div>
           {showError('diaChi') && (
             <div id="error-diaChi" className={styles.errorRow}>
               <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
@@ -169,22 +186,24 @@ export default function ThemNhanVienInfoSection({
         {/* Số điện thoại */}
         <div className={styles.field}>
           <label htmlFor="field-soDienThoai" className={styles.label}>
-            Số điện thoại <span className={styles.requiredMark}>*</span>
+            <span>
+              Số điện thoại <span className={styles.requiredMark}>*</span>
+            </span>
+            <span className={styles.inputWrapper}>
+              <input
+                id="field-soDienThoai"
+                name="soDienThoai"
+                type="text"
+                className={`${styles.input} ${showError('soDienThoai') ? styles.inputError : ''}`}
+                placeholder="VD: 0912 345 678"
+                value={formData.soDienThoai}
+                onChange={(e) => setField('soDienThoai', e.target.value)}
+                onBlur={() => handleBlur('soDienThoai')}
+                aria-invalid={showError('soDienThoai')}
+                aria-describedby={showError('soDienThoai') ? 'error-soDienThoai' : undefined}
+              />
+            </span>
           </label>
-          <div className={styles.inputWrapper}>
-            <input
-              id="field-soDienThoai"
-              name="soDienThoai"
-              type="text"
-              className={`${styles.input} ${showError('soDienThoai') ? styles.inputError : ''}`}
-              placeholder="VD: 0912 345 678"
-              value={formData.soDienThoai}
-              onChange={(e) => setField('soDienThoai', e.target.value)}
-              onBlur={() => handleBlur('soDienThoai')}
-              aria-invalid={showError('soDienThoai')}
-              aria-describedby={showError('soDienThoai') ? 'error-soDienThoai' : undefined}
-            />
-          </div>
           {showError('soDienThoai') && (
             <div id="error-soDienThoai" className={styles.errorRow}>
               <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
@@ -196,23 +215,25 @@ export default function ThemNhanVienInfoSection({
         {/* Email */}
         <div className={styles.field}>
           <label htmlFor="field-email" className={styles.label}>
-            Email <span className={styles.requiredMark}>*</span>
+            <span>
+              Email <span className={styles.requiredMark}>*</span>
+            </span>
+            <span className={styles.inputWrapper}>
+              <input
+                id="field-email"
+                name="email"
+                type="email"
+                maxLength={254}
+                className={`${styles.input} ${showError('email') ? styles.inputError : ''}`}
+                placeholder="VD: nguyenvana@congty.vn"
+                value={formData.email}
+                onChange={(e) => setField('email', e.target.value)}
+                onBlur={() => handleBlur('email')}
+                aria-invalid={showError('email')}
+                aria-describedby={showError('email') ? 'error-email' : undefined}
+              />
+            </span>
           </label>
-          <div className={styles.inputWrapper}>
-            <input
-              id="field-email"
-              name="email"
-              type="email"
-              maxLength={254}
-              className={`${styles.input} ${showError('email') ? styles.inputError : ''}`}
-              placeholder="VD: nguyenvana@congty.vn"
-              value={formData.email}
-              onChange={(e) => setField('email', e.target.value)}
-              onBlur={() => handleBlur('email')}
-              aria-invalid={showError('email')}
-              aria-describedby={showError('email') ? 'error-email' : undefined}
-            />
-          </div>
           {showError('email') && (
             <div id="error-email" className={styles.errorRow}>
               <SolidWarningCircleIcon className={styles.errorIcon} size={14} />

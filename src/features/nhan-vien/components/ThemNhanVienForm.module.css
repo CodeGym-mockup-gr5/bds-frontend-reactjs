@@ -49,6 +49,10 @@
   margin-bottom: var(--space-8);
 }
 
+.labelLockIcon {
+  color: var(--color-neutral-400);
+}
+
 .requiredMark {
   color: var(--color-danger-600);
 }
@@ -104,6 +108,16 @@
   outline: none;
   border-color: var(--color-neutral-200);
   box-shadow: none;
+}
+
+.inputLockBadge {
+  position: absolute;
+  right: var(--space-16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-neutral-400);
+  pointer-events: none;
 }
 
 .dateInput {
