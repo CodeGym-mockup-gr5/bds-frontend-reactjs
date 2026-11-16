@@ -1,5 +1,4 @@
-const VIETNAMESE_NAME_REGEX = /^[\p{L}\s]+$/u;
-const DIGITS_ONLY_REGEX = /^\d+$/;
+const VIETNAMESE_NAME_REGEX = /^[\p{L} ]+$/u;
 const VIETNAMESE_PHONE_REGEX = /^0\d{9}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -57,17 +56,16 @@ export function validateField(name, value) {
       }
       return '';
 
-    case 'soDienThoai':
-      if (!strValue) {
+    case 'soDienThoai': {
+      const strippedPhone = typeof value === 'string' ? value.replace(/\s+/g, '') : '';
+      if (!strippedPhone) {
         return 'Xin mời nhập đầy đủ thông tin';
       }
-      if (!DIGITS_ONLY_REGEX.test(strValue)) {
-        return 'Chỉ được chứa chữ số';
-      }
-      if (!VIETNAMESE_PHONE_REGEX.test(strValue)) {
+      if (!VIETNAMESE_PHONE_REGEX.test(strippedPhone)) {
         return 'Số điện thoại không hợp lệ';
       }
       return '';
+    }
 
     case 'email':
       if (!strValue) {

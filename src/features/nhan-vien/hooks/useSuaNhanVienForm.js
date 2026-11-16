@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateNhanVien } from '../../../api/nhanVienApi';
 import { NHAN_VIEN_QUERY_KEY } from '../constants/nhanVienConstants';
 import { validateAll, validateField } from '../utils/suaNhanVienValidation';
@@ -17,7 +17,7 @@ function toInputDate(val) {
   return `${y}-${m}-${day}`;
 }
 
-export default function useSuaNhanVienForm({ employee, onSuccess, onCancel, onErrorToast }) {
+export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
@@ -34,8 +34,38 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel, onEr
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [generalError, setGeneralError] = useState('');
+
+  const mutation = useMutation({
+    mutationFn: (payload) => updateNhanVien(employee.id, payload),
+    onSuccess: async (response, payload) => {
+      await queryClient.invalidateQueries({ queryKey: [NHAN_VIEN_QUERY_KEY] });
+      onSuccess?.(response?.data || { ...payload, maNv: formData.maNv });
+    },
+    onError: (error) => {
+      const errorData = error.response?.data;
+      const message =
+        errorData?.message || 'Đã có lỗi xảy ra khi cập nhật nhân viên. Vui lòng thử lại.';
+
+      if (errorData?.errors && Array.isArray(errorData.errors)) {
+        const fieldErrors = {};
+        errorData.errors.forEach((err) => {
+          if (err.field) {
+            fieldErrors[err.field] = err.message;
+          }
+        });
+        setErrors((prev) => ({ ...prev, ...fieldErrors }));
+      }
+
+      if (message.toLowerCase().includes('email')) {
+        setErrors((prev) => ({ ...prev, email: message }));
+      } else if (message.toLowerCase().includes('số điện thoại')) {
+        setErrors((prev) => ({ ...prev, soDienThoai: message }));
+      } else {
+        setGeneralError(message);
+      }
+    },
+  });
 
   const setField = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -51,7 +81,7 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel, onEr
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-  const submitForm = async (e) => {
+  const submitForm = (e) => {
     if (e && typeof e.preventDefault === 'function') {
       e.preventDefault();
     }
@@ -79,62 +109,30 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel, onEr
       return;
     }
 
-    setIsSubmitting(true);
     setGeneralError('');
 
-    try {
-      const payload = {
-        hoTen: formData.hoTen.trim(),
-        ngaySinh: formData.ngaySinh,
-        gioiTinh: formData.gioiTinh,
-        diaChi: formData.diaChi.trim(),
-        soDienThoai: formData.soDienThoai.trim(),
-        email: formData.email.trim(),
-        chucVu: formData.chucVu,
-        laAdmin: formData.laAdmin === true || formData.laAdmin === 'true',
-      };
+    const cleanPhone =
+      typeof formData.soDienThoai === 'string' ? formData.soDienThoai.replace(/\s+/g, '') : '';
 
-      const response = await updateNhanVien(employee.id, payload);
-      await queryClient.invalidateQueries({ queryKey: [NHAN_VIEN_QUERY_KEY] });
+    const payload = {
+      hoTen: formData.hoTen.trim(),
+      ngaySinh: formData.ngaySinh,
+      gioiTinh: formData.gioiTinh,
+      diaChi: formData.diaChi.trim(),
+      soDienThoai: cleanPhone,
+      email: formData.email.trim(),
+      chucVu: formData.chucVu,
+      laAdmin: formData.laAdmin === true || formData.laAdmin === 'true',
+    };
 
-      onSuccess?.(response?.data || { ...payload, maNv: formData.maNv });
-    } catch (error) {
-      const errorData = error.response?.data;
-      const message =
-        errorData?.message || 'Đã có lỗi xảy ra khi cập nhật nhân viên. Vui lòng thử lại.';
-
-      if (errorData?.errors && Array.isArray(errorData.errors)) {
-        const fieldErrors = {};
-        errorData.errors.forEach((err) => {
-          if (err.field) {
-            fieldErrors[err.field] = err.message;
-          }
-        });
-        setErrors((prev) => ({ ...prev, ...fieldErrors }));
-      }
-
-      if (message.toLowerCase().includes('email')) {
-        const emailMsg = 'Email này đã được sử dụng bởi nhân viên khác.';
-        setErrors((prev) => ({ ...prev, email: emailMsg }));
-        onErrorToast?.(emailMsg);
-      } else if (message.toLowerCase().includes('số điện thoại')) {
-        const phoneMsg = 'Số điện thoại này đã được sử dụng.';
-        setErrors((prev) => ({ ...prev, soDienThoai: phoneMsg }));
-        onErrorToast?.(phoneMsg);
-      } else {
-        setGeneralError(message);
-        onErrorToast?.(message);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    mutation.mutate(payload);
   };
 
   return {
     formData,
     errors,
     touched,
-    isSubmitting,
+    isSubmitting: mutation.isPending,
     generalError,
     setField,
     handleBlur,
