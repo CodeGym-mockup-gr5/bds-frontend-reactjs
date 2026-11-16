@@ -42,9 +42,6 @@
 }
 
 .label {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-4);
   font-size: var(--text-label-size);
   line-height: var(--text-label-line-height);
   font-weight: var(--text-label-weight);
@@ -125,28 +122,10 @@
 }
 
 .dateInput {
-  padding-right: var(--space-40);
+  padding-right: var(--space-16);
 }
 
 .dateInput::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  width: var(--space-48);
-  height: 100%;
-  cursor: pointer;
-}
-
-.calendarButton {
-  position: absolute;
-  right: var(--space-16);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  padding: 0;
-  color: var(--color-neutral-400);
   cursor: pointer;
 }
 
