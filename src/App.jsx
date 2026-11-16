@@ -26,6 +26,7 @@ import Layout from './features/shared/layout/Layout';
 import HomePage from './features/shared/pages/HomePage';
 import NotFoundPage from './features/shared/pages/NotFoundPage';
 import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
+import ThongBaoPage from './features/thong-bao/pages/ThongBaoPage';
 import { ROLES } from './utils/auth';
 
 const getScrollKey = (location) => location.pathname;
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
             element: <RoleRoute allowedRoles={[ROLES.NHAN_VIEN, ROLES.ADMIN]} />,
             children: [
               { path: 'nhan-vien', element: <HomePage /> },
+              { path: 'thong-bao', element: <ThongBaoPage /> },
               {
                 element: <AccountLayout />,
                 children: [{ path: 'thong-tin-ca-nhan', element: <SuaThongTinCaNhanPage /> }],
