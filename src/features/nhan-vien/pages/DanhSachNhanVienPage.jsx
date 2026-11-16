@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import NhanVienFilterCard from '../components/NhanVienFilterCard';
 import { PlusIcon } from '../components/NhanVienIcons';
 import {
@@ -14,6 +15,8 @@ import useXoaNhanVien from '../hooks/useXoaNhanVien';
 import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {
+  const navigate = useNavigate();
+
   const {
     draftFilter,
     changeDraft,
@@ -35,6 +38,10 @@ export default function DanhSachNhanVienPage() {
   const { selectedEmployee, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete } =
     useXoaNhanVien();
 
+  const handleAddNew = () => {
+    navigate('/admin/nhan-vien/them-moi');
+  };
+
   const renderContent = () => {
     if (isError) {
       return <NhanVienError onRetry={() => refetch()} />;
@@ -48,7 +55,7 @@ export default function DanhSachNhanVienPage() {
       if (isFiltered) {
         return <NhanVienEmptySearch />;
       }
-      return <NhanVienEmptyData />;
+      return <NhanVienEmptyData onAddNew={handleAddNew} />;
     }
 
     return (
@@ -74,12 +81,7 @@ export default function DanhSachNhanVienPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1 className={styles.title}>Quản lý nhân viên</h1>
-        <button
-          type="button"
-          className={styles.addButton}
-          disabled
-          title="Tính năng đang phát triển"
-        >
+        <button type="button" className={styles.addButton} onClick={handleAddNew}>
           <PlusIcon size={16} />
           <span>Thêm mới</span>
         </button>

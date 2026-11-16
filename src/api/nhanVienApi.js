@@ -10,7 +10,13 @@ export async function deleteNhanVien(id) {
   return response.data;
 }
 
+export async function createNhanVien(data) {
+  const response = await axiosClient.post('/nhan-vien', data);
+  return response.data;
+}
+
 export default {
   getDanhSachNhanVien,
   deleteNhanVien,
+  createNhanVien,
 };
