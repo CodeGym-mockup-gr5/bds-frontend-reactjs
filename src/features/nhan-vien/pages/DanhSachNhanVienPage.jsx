@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NhanVienFilterCard from '../components/NhanVienFilterCard';
 import { PlusIcon } from '../components/NhanVienIcons';
 import {
@@ -10,7 +9,6 @@ import {
 } from '../components/NhanVienListStates';
 import NhanVienPagination from '../components/NhanVienPagination';
 import NhanVienTable from '../components/NhanVienTable';
-import NhanVienToast from '../components/NhanVienToast';
 import XoaNhanVienModal from '../components/XoaNhanVienModal';
 import useDanhSachNhanVien from '../hooks/useDanhSachNhanVien';
 import useXoaNhanVien from '../hooks/useXoaNhanVien';
@@ -18,15 +16,6 @@ import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [toast, setToast] = useState(location.state?.toast || null);
-
-  useEffect(() => {
-    if (location.state?.toast) {
-      setToast(location.state.toast);
-      window.history.replaceState({}, document.title);
-    }
-  }, [location.state]);
 
   const {
     draftFilter,
@@ -90,10 +79,6 @@ export default function DanhSachNhanVienPage() {
 
   return (
     <div className={styles.page}>
-      {toast && (
-        <NhanVienToast title={toast.title} message={toast.message} onClose={() => setToast(null)} />
-      )}
-
       <div className={styles.header}>
         <h1 className={styles.title}>Quản lý nhân viên</h1>
         <button type="button" className={styles.addButton} onClick={handleAddNew}>

@@ -1,4 +1,4 @@
-const VIETNAMESE_NAME_REGEX = /^[\p{L}\s]+$/u;
+const VIETNAMESE_NAME_REGEX = /^[\p{L} ]+$/u;
 const VIETNAMESE_PHONE_REGEX = /^0\d{9}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -9,6 +9,9 @@ export function validateField(name, value) {
     case 'hoTen':
       if (!strValue) {
         return 'Xin mời nhập đầy đủ thông tin';
+      }
+      if (strValue.length > 45) {
+        return 'Họ tên tối đa 45 ký tự';
       }
       if (!VIETNAMESE_NAME_REGEX.test(strValue)) {
         return 'Tên nhân viên không được chứa ký tự đặc biệt';
@@ -48,20 +51,28 @@ export function validateField(name, value) {
       if (!strValue) {
         return 'Xin mời nhập đầy đủ thông tin';
       }
+      if (strValue.length > 255) {
+        return 'Địa chỉ tối đa 255 ký tự';
+      }
       return '';
 
-    case 'soDienThoai':
-      if (!strValue) {
+    case 'soDienThoai': {
+      const strippedPhone = typeof value === 'string' ? value.replace(/\s+/g, '') : '';
+      if (!strippedPhone) {
         return 'Xin mời nhập đầy đủ thông tin';
       }
-      if (!VIETNAMESE_PHONE_REGEX.test(strValue)) {
+      if (!VIETNAMESE_PHONE_REGEX.test(strippedPhone)) {
         return 'Số điện thoại không hợp lệ';
       }
       return '';
+    }
 
     case 'email':
       if (!strValue) {
         return 'Xin mời nhập đầy đủ thông tin';
+      }
+      if (strValue.length > 254) {
+        return 'Email tối đa 254 ký tự';
       }
       if (!EMAIL_REGEX.test(strValue)) {
         return 'Email không hợp lệ!';
