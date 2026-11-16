@@ -15,6 +15,7 @@ import DoiMatKhauPage from './features/auth/pages/DoiMatKhauPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import QuenMatKhauPage from './features/auth/pages/QuenMatKhauPage';
 import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
+import HoTroPage from './features/ho-tro/pages/HoTroPage';
 import DanhSachNhanVienPage from './features/nhan-vien/pages/DanhSachNhanVienPage';
 import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
           { path: 'dat-mat-khau', element: <DatMatKhauPage /> },
           { path: 'bat-dong-san', element: <BatDongSanListPage /> },
           { path: 'bat-dong-san/:id', element: <BatDongSanDetailPage /> },
+          { path: 'ho-tro', element: <HoTroPage /> },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG]} />,
             children: [
