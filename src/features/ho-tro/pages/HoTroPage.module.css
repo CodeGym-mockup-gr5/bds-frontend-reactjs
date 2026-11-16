@@ -1,6 +1,6 @@
 .page {
   background-color: var(--color-neutral-50);
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 72px);
   padding: var(--space-32) var(--space-24) var(--space-48);
 }
 
@@ -85,15 +85,15 @@
 
 .exitButton {
   min-width: 88px;
-  min-height: 40px;
+  min-height: var(--space-40);
   padding: var(--space-8) var(--space-24);
   background-color: var(--color-white);
-  border: 1px solid var(--color-neutral-300);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-full);
   font-family: var(--font-family-base);
   font-size: var(--text-body-size);
   font-weight: 500;
-  color: var(--color-neutral-700);
+  color: var(--color-neutral-900);
   cursor: pointer;
   transition:
     background-color 0.15s ease,

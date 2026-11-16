@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { DANH_SACH_HUONG_DAN, THONG_TIN_TRANG } from '../constants/supportData';
+import { THONG_TIN_TRANG } from '../constants/supportData';
+import useDanhSachHuongDan from '../hooks/useDanhSachHuongDan';
 import SupportCard from '../components/SupportCard';
 import SupportDetailModal from '../components/SupportDetailModal';
 import styles from './HoTroPage.module.css';
@@ -8,6 +9,7 @@ import styles from './HoTroPage.module.css';
 export default function HoTroPage() {
   const navigate = useNavigate();
   const [selectedGuide, setSelectedGuide] = useState(null);
+  const { danhSach } = useDanhSachHuongDan();
 
   return (
     <div className={styles.page}>
@@ -26,7 +28,7 @@ export default function HoTroPage() {
         </header>
 
         <section className={styles.grid} aria-label="Danh sách chủ đề hướng dẫn">
-          {DANH_SACH_HUONG_DAN.map((item) => (
+          {danhSach.map((item) => (
             <SupportCard key={item.id} item={item} onSelect={setSelectedGuide} />
           ))}
         </section>

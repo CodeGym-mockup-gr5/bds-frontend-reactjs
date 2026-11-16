@@ -5,7 +5,8 @@ export const THONG_TIN_TRANG = {
 
 export const DANH_SACH_HUONG_DAN = [
   {
-    id: 'huong-dan-tai-khoan',
+    id: 'tai-khoan',
+    maHuongDan: 'tai-khoan',
     tieuDe: 'Hướng dẫn sử dụng tài khoản',
     moTa: 'Tìm hiểu cách đăng nhập và quản lý thông tin tài khoản.',
     icon: 'user',
@@ -13,7 +14,7 @@ export const DANH_SACH_HUONG_DAN = [
       {
         tieuDeBuoc: 'Đăng nhập vào hệ thống',
         noiDung:
-          'Nhập tên đăng nhập hoặc email và mật khẩu được cấp trên form Đăng nhập tại Trang chủ hoặc Header.',
+          'Nhập tên đăng nhập hoặc email và mật khẩu được cấp trên form Đăng nhập tại Header hoặc đường dẫn /dang-nhap.',
       },
       {
         tieuDeBuoc: 'Quản lý thông tin cá nhân',
@@ -33,7 +34,8 @@ export const DANH_SACH_HUONG_DAN = [
     ],
   },
   {
-    id: 'huong-dan-hop-dong',
+    id: 'lap-hop-dong',
+    maHuongDan: 'lap-hop-dong',
     tieuDe: 'Hướng dẫn lập hợp đồng',
     moTa: 'Các bước chuẩn bị thông tin và lập hợp đồng trên hệ thống.',
     icon: 'document',
@@ -61,7 +63,8 @@ export const DANH_SACH_HUONG_DAN = [
     ],
   },
   {
-    id: 'huong-dan-doi-mat-khau',
+    id: 'doi-mat-khau',
+    maHuongDan: 'doi-mat-khau',
     tieuDe: 'Hướng dẫn đổi mật khẩu',
     moTa: 'Thay đổi mật khẩu để bảo vệ tài khoản của bạn.',
     icon: 'lock',
@@ -79,7 +82,7 @@ export const DANH_SACH_HUONG_DAN = [
       {
         tieuDeBuoc: 'Thiết lập mật khẩu mới',
         noiDung:
-          'Mật khẩu mới tối thiểu 6 ký tự, nên kết hợp chữ hoa, chữ thường và số để đảm bảo an toàn tuyệt đối.',
+          'Mật khẩu mới từ 6 đến 32 ký tự, không được chứa khoảng trắng và không trùng mật khẩu cũ.',
       },
       {
         tieuDeBuoc: 'Xác nhận và lưu thay đổi',
@@ -89,7 +92,8 @@ export const DANH_SACH_HUONG_DAN = [
     ],
   },
   {
-    id: 'huong-dan-giao-dich',
+    id: 'giao-dich',
+    maHuongDan: 'giao-dich',
     tieuDe: 'Hướng dẫn giao dịch với khách hàng',
     moTa: 'Tìm hiểu quy trình trao đổi và giao dịch với khách hàng.',
     icon: 'giao-dich',
