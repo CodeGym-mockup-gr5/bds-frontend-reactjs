@@ -10,6 +10,11 @@ export async function deleteNhanVien(id) {
   return response.data;
 }
 
+export async function createNhanVien(data) {
+  const response = await axiosClient.post('/nhan-vien', data);
+  return response.data;
+}
+
 export async function updateNhanVien(id, data) {
   const response = await axiosClient.put(`/nhan-vien/${id}`, data);
   return response.data;
@@ -18,5 +23,6 @@ export async function updateNhanVien(id, data) {
 export default {
   getDanhSachNhanVien,
   deleteNhanVien,
+  createNhanVien,
   updateNhanVien,
 };

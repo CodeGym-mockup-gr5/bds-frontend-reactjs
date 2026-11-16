@@ -10,7 +10,7 @@ export function validateField(name, value) {
       if (!strValue) {
         return 'Xin mời nhập đầy đủ thông tin';
       }
-      if (typeof strValue === 'string' && strValue.length > 45) {
+      if (strValue.length > 45) {
         return 'Họ tên tối đa 45 ký tự';
       }
       if (!VIETNAMESE_NAME_REGEX.test(strValue)) {
@@ -28,7 +28,7 @@ export function validateField(name, value) {
       }
       const today = new Date();
       if (birthDate > today) {
-        return 'Ngày sinh phải ở trong quá khứ';
+        return 'Ngày sinh không được ở tương lai';
       }
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -51,7 +51,7 @@ export function validateField(name, value) {
       if (!strValue) {
         return 'Xin mời nhập đầy đủ thông tin';
       }
-      if (typeof strValue === 'string' && strValue.length > 255) {
+      if (strValue.length > 255) {
         return 'Địa chỉ tối đa 255 ký tự';
       }
       return '';
@@ -71,7 +71,7 @@ export function validateField(name, value) {
       if (!strValue) {
         return 'Xin mời nhập đầy đủ thông tin';
       }
-      if (typeof strValue === 'string' && strValue.length > 254) {
+      if (strValue.length > 254) {
         return 'Email tối đa 254 ký tự';
       }
       if (!EMAIL_REGEX.test(strValue)) {

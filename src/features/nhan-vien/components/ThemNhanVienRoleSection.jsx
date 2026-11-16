@@ -1,7 +1,7 @@
 import { BriefcaseIcon, ChevronDownIcon, SolidWarningCircleIcon } from './NhanVienIcons';
-import { CHUC_VU_SELECT_OPTIONS } from '../constants/nhanVienConstants';
+import { CHUC_VU_LABEL_MAP } from '../constants/nhanVienConstants';
 
-export default function SuaNhanVienRoleSection({
+export default function ThemNhanVienRoleSection({
   formData,
   errors,
   touched,
@@ -38,9 +38,12 @@ export default function SuaNhanVienRoleSection({
                 aria-invalid={showError('chucVu')}
                 aria-describedby={showError('chucVu') ? 'error-chucVu' : undefined}
               >
-                {CHUC_VU_SELECT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
+                <option value="" disabled>
+                  -- Chọn chức vụ --
+                </option>
+                {Object.entries(CHUC_VU_LABEL_MAP).map(([val, label]) => (
+                  <option key={val} value={val}>
+                    {label}
                   </option>
                 ))}
               </select>

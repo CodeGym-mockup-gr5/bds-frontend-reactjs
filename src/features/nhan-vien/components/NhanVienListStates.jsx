@@ -49,8 +49,7 @@ export function NhanVienEmptyData({ onAddNew }) {
         type="button"
         className={styles.primaryButton}
         onClick={onAddNew}
-        disabled
-        title="Tính năng đang phát triển"
+        disabled={!onAddNew}
       >
         <PlusIcon size={16} />
         <span>Thêm nhân viên đầu tiên</span>

@@ -221,7 +221,6 @@ export function LockIcon({ className = '', size = 16 }) {
     </svg>
   );
 }
-
 export function SolidWarningCircleIcon({ className = '', size = 14 }) {
   return (
     <svg

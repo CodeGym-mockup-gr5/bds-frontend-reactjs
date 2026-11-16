@@ -1,19 +1,13 @@
-import {
-  CalendarSmallIcon,
-  LockIcon,
-  SolidWarningCircleIcon,
-  UserHeaderIcon,
-} from './NhanVienIcons';
+import { LockIcon, SolidWarningCircleIcon, UserHeaderIcon } from './NhanVienIcons';
 
-export default function SuaNhanVienInfoSection({
+export default function ThemNhanVienInfoSection({
   formData,
   errors,
   touched,
   setField,
   handleBlur,
-  dateInputRef,
-  handleDateTrigger,
   styles,
+  isEdit = false,
 }) {
   const showError = (name) => Boolean(touched[name] && errors[name]);
 
@@ -27,24 +21,29 @@ export default function SuaNhanVienInfoSection({
       </div>
 
       <div className={styles.grid2Col}>
-        {/* Mã nhân viên — cố định không cho sửa */}
+        {/* Mã nhân viên */}
         <div className={styles.field}>
           <label htmlFor="field-maNv" className={styles.label}>
             <span>Mã Nhân viên</span>
-            <LockIcon size={14} className={styles.labelLockIcon} />
+            {isEdit && <LockIcon size={14} className={styles.labelLockIcon} />}
             <span className={styles.inputWrapper}>
               <input
                 id="field-maNv"
                 name="maNv"
                 type="text"
                 className={`${styles.input} ${styles.inputReadOnly}`}
-                value={formData.maNv}
+                placeholder={isEdit ? '' : 'Hệ thống tự cấp phát'}
+                value={isEdit ? formData.maNv || '' : ''}
                 readOnly
-                aria-label="Mã nhân viên (chỉ đọc)"
+                aria-label={
+                  isEdit ? 'Mã nhân viên (chỉ đọc)' : 'Mã nhân viên do hệ thống tự cấp phát'
+                }
               />
-              <span className={styles.inputLockBadge} aria-hidden="true">
-                <LockIcon size={16} />
-              </span>
+              {isEdit && (
+                <span className={styles.inputLockBadge} aria-hidden="true">
+                  <LockIcon size={16} />
+                </span>
+              )}
             </span>
           </label>
         </div>
@@ -87,26 +86,17 @@ export default function SuaNhanVienInfoSection({
             </span>
             <span className={styles.inputWrapper}>
               <input
-                ref={dateInputRef}
                 id="field-ngaySinh"
                 name="ngaySinh"
                 type="date"
                 className={`${styles.input} ${styles.dateInput} ${showError('ngaySinh') ? styles.inputError : ''}`}
+                placeholder="dd/MM/yyyy"
                 value={formData.ngaySinh}
                 onChange={(e) => setField('ngaySinh', e.target.value)}
                 onBlur={() => handleBlur('ngaySinh')}
                 aria-invalid={showError('ngaySinh')}
                 aria-describedby={showError('ngaySinh') ? 'error-ngaySinh' : undefined}
               />
-              <button
-                type="button"
-                className={styles.calendarButton}
-                onClick={handleDateTrigger}
-                tabIndex={-1}
-                aria-label="Chọn ngày sinh"
-              >
-                <CalendarSmallIcon size={16} />
-              </button>
             </span>
           </label>
           {showError('ngaySinh') && (

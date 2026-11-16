@@ -1,13 +1,10 @@
-import { useRef } from 'react';
 import { CheckmarkSmallIcon, SolidWarningCircleIcon, UndoIcon } from './NhanVienIcons';
-import SuaNhanVienInfoSection from './SuaNhanVienInfoSection';
-import SuaNhanVienRoleSection from './SuaNhanVienRoleSection';
+import ThemNhanVienInfoSection from './ThemNhanVienInfoSection';
+import ThemNhanVienRoleSection from './ThemNhanVienRoleSection';
 import useSuaNhanVienForm from '../hooks/useSuaNhanVienForm';
 import styles from './SuaNhanVienForm.module.css';
 
 export default function SuaNhanVienForm({ employee, onSuccess, onCancel }) {
-  const dateInputRef = useRef(null);
-
   const {
     formData,
     errors,
@@ -19,16 +16,6 @@ export default function SuaNhanVienForm({ employee, onSuccess, onCancel }) {
     submitForm,
   } = useSuaNhanVienForm({ employee, onSuccess, onCancel });
 
-  const handleDateTrigger = () => {
-    if (dateInputRef.current) {
-      if (typeof dateInputRef.current.showPicker === 'function') {
-        dateInputRef.current.showPicker();
-      } else {
-        dateInputRef.current.focus();
-      }
-    }
-  };
-
   return (
     <form className={styles.formCard} onSubmit={submitForm} noValidate>
       {generalError && (
@@ -38,22 +25,21 @@ export default function SuaNhanVienForm({ employee, onSuccess, onCancel }) {
         </div>
       )}
 
-      {/* Card 1: Thông tin nhân viên */}
-      <SuaNhanVienInfoSection
+      {/* Card 1: Thông tin nhân viên (chế độ sửa: isEdit) */}
+      <ThemNhanVienInfoSection
         formData={formData}
         errors={errors}
         touched={touched}
         setField={setField}
         handleBlur={handleBlur}
-        dateInputRef={dateInputRef}
-        handleDateTrigger={handleDateTrigger}
         styles={styles}
+        isEdit
       />
 
       <hr className={styles.separator} />
 
       {/* Card 2: Chức vụ và phân quyền */}
-      <SuaNhanVienRoleSection
+      <ThemNhanVienRoleSection
         formData={formData}
         errors={errors}
         touched={touched}

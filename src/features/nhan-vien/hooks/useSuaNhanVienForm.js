@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateNhanVien } from '../../../api/nhanVienApi';
 import { NHAN_VIEN_QUERY_KEY } from '../constants/nhanVienConstants';
-import { validateAll, validateField } from '../utils/suaNhanVienValidation';
+import { validateAll, validateField } from '../utils/themNhanVienValidation';
 
 function toInputDate(val) {
   if (!val) return '';
@@ -28,7 +28,7 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
     diaChi: employee?.diaChi || '',
     soDienThoai: employee?.soDienThoai || '',
     email: employee?.email || '',
-    chucVu: employee?.chucVu || 'TRUONG_PHONG',
+    chucVu: employee?.chucVu || '',
     laAdmin: employee?.laAdmin ?? false,
   });
 
@@ -47,22 +47,36 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
       const message =
         errorData?.message || 'Đã có lỗi xảy ra khi cập nhật nhân viên. Vui lòng thử lại.';
 
+      const fieldErrors = {};
       if (errorData?.errors && Array.isArray(errorData.errors)) {
-        const fieldErrors = {};
         errorData.errors.forEach((err) => {
-          if (err.field) {
+          if (err.field && err.message) {
             fieldErrors[err.field] = err.message;
           }
         });
-        setErrors((prev) => ({ ...prev, ...fieldErrors }));
       }
 
-      if (message.toLowerCase().includes('email')) {
-        setErrors((prev) => ({ ...prev, email: message }));
-      } else if (message.toLowerCase().includes('số điện thoại')) {
-        setErrors((prev) => ({ ...prev, soDienThoai: message }));
-      } else {
+      if (errorData?.field && errorData?.message) {
+        fieldErrors[errorData.field] = errorData.message;
+      }
+
+      const lowerMsg = message.toLowerCase();
+      if (
+        !fieldErrors.email &&
+        (lowerMsg.includes('email') || lowerMsg.includes('tên đăng nhập'))
+      ) {
+        fieldErrors.email = message;
+      } else if (
+        !fieldErrors.soDienThoai &&
+        (lowerMsg.includes('số điện thoại') || lowerMsg.includes('sđt'))
+      ) {
+        fieldErrors.soDienThoai = message;
+      } else if (Object.keys(fieldErrors).length === 0) {
         setGeneralError(message);
+      }
+
+      if (Object.keys(fieldErrors).length > 0) {
+        setErrors((prev) => ({ ...prev, ...fieldErrors }));
       }
     },
   });
