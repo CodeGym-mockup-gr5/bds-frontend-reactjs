@@ -31,8 +31,7 @@
 }
 
 .primaryButton,
-.dangerButton,
-.backLink {
+.dangerButton {
   display: inline-flex;
   align-items: center;
   gap: var(--space-8);
@@ -77,23 +76,8 @@
   background-color: var(--color-neutral-100);
 }
 
-.backLink {
-  background-color: var(--color-white);
-  color: var(--color-neutral-900);
-  box-shadow: var(--shadow-sm);
-}
-
-.backLink:hover {
-  background-color: var(--color-neutral-100);
-}
-
 .primaryButton:focus-visible,
-.dangerButton:focus-visible,
-.backLink:focus-visible {
+.dangerButton:focus-visible {
   outline: 2px solid var(--color-primary-600);
   outline-offset: 2px;
-}
-
-.back {
-  display: flex;
 }

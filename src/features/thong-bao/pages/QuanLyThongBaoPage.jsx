@@ -1,5 +1,4 @@
 import { useId, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Icon from '../../../components/Icon';
 import useAuth from '../../../hooks/useAuth';
 import ThongBaoPagination from '../components/ThongBaoPagination';
@@ -133,13 +132,6 @@ export default function QuanLyThongBaoPage() {
         onEdit={(item) => setFormState({ mode: 'edit', item })}
         onDelete={(items) => setDeleteTarget({ items })}
       />
-
-      <div className={styles.back}>
-        <Link to="/admin" className={styles.backLink}>
-          <Icon name="back" />
-          Quay lại
-        </Link>
-      </div>
 
       {formState && (
         <ThongBaoFormModal
