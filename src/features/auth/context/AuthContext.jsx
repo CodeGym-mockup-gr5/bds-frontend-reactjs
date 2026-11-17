@@ -147,7 +147,7 @@ export function AuthProvider({ children }) {
 
       if (targetRedirect) {
         navigate(resolvePostLoginRoute(normalizedUser, targetRedirect), { replace: true });
-      } else if (hasAnyRole(normalizedUser, [ROLES.ADMIN, ROLES.NHAN_VIEN])) {
+      } else {
         navigate(getDefaultRouteByUser(normalizedUser), { replace: true });
       }
     },
@@ -157,12 +157,12 @@ export function AuthProvider({ children }) {
   const confirmLogout = useCallback(() => {
     logoutMutation.mutate(undefined, {
       onSuccess: (responseData) => {
+        navigate('/', { replace: true });
         removeToken();
         setTokenState(null);
         queryClient.clear();
         setIsLogoutModalOpen(false);
         showToast(responseData?.message || 'Đăng xuất thành công', 'success');
-        navigate('/', { replace: true });
       },
       onError: (error) => {
         setIsLogoutModalOpen(false);

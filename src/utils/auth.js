@@ -115,10 +115,7 @@ export function hasAnyRole(user, allowedRoles = []) {
 
 export function getDefaultRouteByUser(user) {
   if (hasAnyRole(user, [ROLES.ADMIN])) {
-    return '/admin';
-  }
-  if (hasAnyRole(user, [ROLES.NHAN_VIEN])) {
-    return '/nhan-vien';
+    return '/admin/nhan-vien';
   }
   return '/';
 }
