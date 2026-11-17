@@ -157,12 +157,12 @@ export function AuthProvider({ children }) {
   const confirmLogout = useCallback(() => {
     logoutMutation.mutate(undefined, {
       onSuccess: (responseData) => {
+        navigate('/', { replace: true });
         removeToken();
         setTokenState(null);
         queryClient.clear();
         setIsLogoutModalOpen(false);
         showToast(responseData?.message || 'Đăng xuất thành công', 'success');
-        navigate('/', { replace: true });
       },
       onError: (error) => {
         setIsLogoutModalOpen(false);
