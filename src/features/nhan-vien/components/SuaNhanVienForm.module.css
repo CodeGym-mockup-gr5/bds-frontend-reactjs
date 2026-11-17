@@ -51,6 +51,15 @@
 
 .labelLockIcon {
   color: var(--color-neutral-400);
+  vertical-align: middle;
+}
+
+.label .inputWrapper {
+  margin-top: var(--space-8);
+}
+
+.label .selectWrapper {
+  margin-top: var(--space-8);
 }
 
 .requiredMark {
