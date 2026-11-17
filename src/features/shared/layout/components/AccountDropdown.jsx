@@ -80,6 +80,7 @@ export default function AccountDropdown({
   onClose,
   onLogout,
   triggerRef = null,
+  showWorkspaceLink = true,
 }) {
   const dropdownRef = useRef(null);
 
@@ -118,9 +119,9 @@ export default function AccountDropdown({
   const isKhachHang = hasAnyRole(user, [ROLES.KHACH_HANG]);
 
   const menuLinks = [];
-  if (isAdmin) {
+  if (showWorkspaceLink && isAdmin) {
     menuLinks.push({ to: '/admin', label: 'Khu vực quản trị', icon: 'workspace' });
-  } else if (isNhanVien) {
+  } else if (showWorkspaceLink && isNhanVien) {
     menuLinks.push({ to: '/nhan-vien', label: 'Khu vực nhân viên', icon: 'workspace' });
   }
   if (isKhachHang) {

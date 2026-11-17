@@ -9,6 +9,7 @@ const ICON_PATHS = {
   warning: ['M12 3l10 18H2z', 'M12 10v5', 'M12 18h.01'],
   chevronLeft: ['M15 18l-6-6 6-6'],
   chevronRight: ['M9 18l6-6-6-6'],
+  chevronDown: ['M6 9l6 6 6-6'],
   back: ['M15 18l-6-6 6-6'],
   bell: ['M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9', 'M13.7 21a2 2 0 0 1-3.4 0'],
   user: ['M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2', 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'],
