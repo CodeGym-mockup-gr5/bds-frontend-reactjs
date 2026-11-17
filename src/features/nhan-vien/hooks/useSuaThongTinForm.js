@@ -113,10 +113,6 @@ export default function useSuaThongTinForm({
         setErrors({ email: fallbackMessage });
         return;
       }
-      if (isKhachHang && responseData?.message?.toLowerCase().includes('cccd')) {
-        setErrors({ soCccd: fallbackMessage });
-        return;
-      }
       setServerError(fallbackMessage);
     }
   };

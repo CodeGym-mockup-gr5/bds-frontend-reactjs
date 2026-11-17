@@ -1,22 +1,10 @@
+import KhachHangProfileFields from '../../khach-hang/components/KhachHangProfileFields';
 import useSuaThongTinForm from '../hooks/useSuaThongTinForm';
 import { formatChucVu } from '../constants/chucVu';
 import { AlertTriangleIcon, CheckIcon, WarningCircleIcon } from './ProfileIcons';
 import { GenderRadioField, LockedCodeField } from './ProfileExtraFields';
 import ProfileTextField from './ProfileTextField';
 import styles from './SuaThongTinCaNhanForm.module.css';
-
-function formatLoaiKhachHang(profile) {
-  const roles = [];
-  if (profile?.laKhMua) roles.push('Khách mua');
-  if (profile?.laKhBan) roles.push('Khách bán');
-  return roles.length > 0 ? roles.join(' & ') : 'Khách hàng';
-}
-
-function formatTrangThaiDangTin(profile) {
-  if (profile?.trangThaiDuyet === 'CHO_DUYET') return 'Chờ duyệt';
-  if (profile?.laKhBan) return 'Đã duyệt';
-  return 'Chưa đăng ký bán';
-}
 
 export default function SuaThongTinCaNhanForm({
   profile,
@@ -142,31 +130,14 @@ export default function SuaThongTinCaNhanForm({
         </div>
 
         {isKhachHang ? (
-          <>
-            <ProfileTextField
-              label="Số CCCD"
-              name="soCccd"
-              placeholder="Nhập 12 chữ số CCCD (không bắt buộc)"
-              value={values.soCccd}
-              disabled={isSubmitting}
-              error={errors.soCccd}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-
-            <div className={styles.twoColGrid}>
-              <LockedCodeField
-                label="Vai trò khách hàng"
-                value={formatLoaiKhachHang(profile)}
-                hint="Vai trò được hệ thống ghi nhận"
-              />
-              <LockedCodeField
-                label="Trạng thái duyệt đăng tin"
-                value={formatTrangThaiDangTin(profile)}
-                hint="Do Quản trị viên phê duyệt"
-              />
-            </div>
-          </>
+          <KhachHangProfileFields
+            profile={profile}
+            soCccdValue={values.soCccd}
+            soCccdError={errors.soCccd}
+            disabled={isSubmitting}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         ) : (
           <LockedCodeField
             label="Chức vụ"
