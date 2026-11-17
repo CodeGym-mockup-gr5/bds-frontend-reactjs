@@ -27,42 +27,5 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--space-12);
-}
-
-.iconButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--space-40);
-  height: var(--space-40);
-  border-radius: var(--radius-full);
-  color: var(--color-neutral-900);
-}
-
-.iconButton:hover {
-  background-color: var(--color-neutral-100);
-}
-
-.iconButton:focus-visible {
-  outline: 2px solid var(--color-primary-600);
-  outline-offset: 2px;
-}
-
-.avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--space-40);
-  height: var(--space-40);
-  border-radius: var(--radius-md);
-  background-color: var(--color-primary-50);
-  color: var(--color-primary-600);
-  font-weight: 600;
-}
-
-.name {
-  font-size: var(--text-label-size);
-  line-height: var(--text-label-line-height);
-  font-weight: var(--text-label-weight);
+  gap: var(--space-16);
 }

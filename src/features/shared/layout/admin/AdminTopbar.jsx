@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import { Link, useMatches } from 'react-router-dom';
 import Icon from '../../../../components/Icon';
-import useAuth from '../../../../hooks/useAuth';
-import { getAvatarInitial } from '../../../../utils/auth';
+import headerStyles from '../Header.module.css';
+import AdminAccountMenu from './AdminAccountMenu';
 import styles from './AdminTopbar.module.css';
 
 function getBreadcrumb(matches) {
@@ -11,7 +11,6 @@ function getBreadcrumb(matches) {
 }
 
 export default function AdminTopbar() {
-  const { user } = useAuth();
   const breadcrumb = getBreadcrumb(useMatches());
 
   return (
@@ -32,13 +31,15 @@ export default function AdminTopbar() {
       </nav>
 
       <div className={styles.actions}>
-        <Link to="/admin/thong-bao" className={styles.iconButton} aria-label="Thông báo">
+        <Link
+          to="/admin/thong-bao"
+          className={headerStyles.notificationButton}
+          aria-label="Thông báo"
+          title="Thông báo"
+        >
           <Icon name="bell" size={20} />
         </Link>
-        <span className={styles.avatar} aria-hidden="true">
-          {getAvatarInitial(user) || <Icon name="user" size={20} />}
-        </span>
-        <span className={styles.name}>{user?.hoTen || 'Admin'}</span>
+        <AdminAccountMenu />
       </div>
     </header>
   );
