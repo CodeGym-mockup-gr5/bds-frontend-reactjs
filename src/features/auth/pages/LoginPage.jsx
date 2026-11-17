@@ -1,11 +1,14 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
-import { getDefaultRouteByUser } from '../../../utils/auth';
+import { resolvePostLoginRoute } from '../../../utils/auth';
 import LoginForm from '../components/LoginForm';
 import styles from './LoginPage.module.css';
 
 export default function LoginPage() {
+  const location = useLocation();
   const { user, isLoggedIn, isAuthLoading, isAuthError, handleLoginSuccess } = useAuth();
+
+  const fromPath = location.state?.from?.pathname || null;
 
   if (isAuthLoading) {
     return (
@@ -18,13 +21,16 @@ export default function LoginPage() {
   }
 
   if (isLoggedIn && !isAuthError && user) {
-    return <Navigate to={getDefaultRouteByUser(user)} replace />;
+    return <Navigate to={resolvePostLoginRoute(user, fromPath)} replace />;
   }
 
   return (
     <section className={styles.page}>
       <div className={styles.wrapper}>
-        <LoginForm onSuccess={(responseData) => handleLoginSuccess(responseData)} withShadow />
+        <LoginForm
+          onSuccess={(responseData) => handleLoginSuccess(responseData, fromPath)}
+          withShadow
+        />
       </div>
     </section>
   );

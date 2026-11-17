@@ -147,7 +147,7 @@ export function AuthProvider({ children }) {
 
       if (targetRedirect) {
         navigate(resolvePostLoginRoute(normalizedUser, targetRedirect), { replace: true });
-      } else {
+      } else if (hasAnyRole(normalizedUser, [ROLES.ADMIN, ROLES.NHAN_VIEN])) {
         navigate(getDefaultRouteByUser(normalizedUser), { replace: true });
       }
     },
