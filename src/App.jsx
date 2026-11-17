@@ -80,7 +80,7 @@ const router = createBrowserRouter([
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.ADMIN]} />,
-            children: [{ path: 'admin', element: <Navigate to="/admin/thong-bao" replace /> }],
+            children: [{ path: 'admin', element: <Navigate to="/admin/nhan-vien" replace /> }],
           },
           {
             element: <RoleRoute allowedRoles={[ROLES.KHACH_HANG, ROLES.NHAN_VIEN, ROLES.ADMIN]} />,
