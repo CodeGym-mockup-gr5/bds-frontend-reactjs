@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { groupThousands as groupDigits } from '../../../utils/format';
 import { RANGE_ERROR_MESSAGE } from '../constants/batDongSanList';
 import { GIA_MAX_DIGITS } from '../constants/batDongSanOptions';
 import { EMPTY_FILTERS } from './useBatDongSanFilters';
@@ -12,7 +13,7 @@ function isDienTich(name) {
 }
 
 function groupThousands(digits) {
-  return digits.replace(/^0+(?=\d)/, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return groupDigits(digits.replace(/^0+(?=\d)/, ''));
 }
 
 function sanitizeGia(value) {
