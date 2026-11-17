@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import Icon from '../../../components/Icon';
+import TableActionButton from '../../../components/TableActionButton';
 import { formatDate } from '../../../utils/format';
 import styles from './ThongBaoTable.module.css';
 
@@ -84,26 +84,21 @@ export default function ThongBaoTable({
                   </td>
                   <td className={styles.colActions}>
                     <div className={styles.actions}>
-                      <button
-                        type="button"
-                        className={styles.actionButton}
+                      <TableActionButton
+                        icon="pencil"
+                        label="Sửa"
                         onClick={() => onEdit(item)}
                         disabled={!onEdit}
-                        aria-label={`Sửa thông báo ${item.tenThongBao}`}
-                      >
-                        <Icon name="pencil" />
-                        Sửa
-                      </button>
-                      <button
-                        type="button"
-                        className={`${styles.actionButton} ${styles.actionDanger}`}
+                        ariaLabel={`Sửa thông báo ${item.tenThongBao}`}
+                      />
+                      <TableActionButton
+                        icon="trash"
+                        label="Xóa"
+                        variant="danger"
                         onClick={() => onDelete(item)}
                         disabled={!onDelete}
-                        aria-label={`Xóa thông báo ${item.tenThongBao}`}
-                      >
-                        <Icon name="trash" />
-                        Xóa
-                      </button>
+                        ariaLabel={`Xóa thông báo ${item.tenThongBao}`}
+                      />
                     </div>
                   </td>
                 </tr>

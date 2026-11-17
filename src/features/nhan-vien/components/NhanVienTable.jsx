@@ -1,6 +1,6 @@
+import TableActionButton from '../../../components/TableActionButton';
 import { formatDate, formatPhone } from '../../../utils/format';
 import { CHUC_VU_LABEL_MAP, GIOI_TINH_LABEL_MAP } from '../constants/nhanVienConstants';
-import { PencilIcon, TrashIcon } from './NhanVienIcons';
 import styles from './NhanVienTable.module.css';
 
 export default function NhanVienTable({ items, onEdit, onDelete }) {
@@ -16,7 +16,7 @@ export default function NhanVienTable({ items, onEdit, onDelete }) {
             <th className={styles.th}>Số điện thoại</th>
             <th className={styles.th}>Email</th>
             <th className={styles.th}>Chức vụ</th>
-            <th className={styles.th}>Thao tác</th>
+            <th className={styles.th}>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -39,24 +39,21 @@ export default function NhanVienTable({ items, onEdit, onDelete }) {
                 </td>
                 <td className={styles.td}>
                   <div className={styles.actions}>
-                    <button
-                      type="button"
-                      className={`${styles.actionButton} ${styles.deleteButton}`}
-                      onClick={() => onDelete?.(nv)}
-                      aria-label={`Xóa nhân viên ${nv.hoTen}`}
-                    >
-                      <TrashIcon size={14} />
-                      <span>Xóa</span>
-                    </button>
-                    <button
-                      type="button"
-                      className={`${styles.actionButton} ${styles.editButton}`}
+                    <TableActionButton
+                      icon="pencil"
+                      label="Sửa"
                       onClick={() => onEdit?.(nv)}
-                      aria-label={`Sửa nhân viên ${nv.hoTen}`}
-                    >
-                      <PencilIcon size={14} />
-                      <span>Sửa</span>
-                    </button>
+                      disabled={!onEdit}
+                      ariaLabel={`Sửa nhân viên ${nv.hoTen}`}
+                    />
+                    <TableActionButton
+                      icon="trash"
+                      label="Xóa"
+                      variant="danger"
+                      onClick={() => onDelete?.(nv)}
+                      disabled={!onDelete}
+                      ariaLabel={`Xóa nhân viên ${nv.hoTen}`}
+                    />
                   </div>
                 </td>
               </tr>
