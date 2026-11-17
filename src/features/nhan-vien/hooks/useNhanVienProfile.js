@@ -3,12 +3,13 @@ import { getProfileNhanVien, updateProfileNhanVien } from '../../../api/nhanVien
 
 export const NHAN_VIEN_PROFILE_QUERY_KEY = ['nhanVienProfile'];
 
-export default function useNhanVienProfile() {
+export default function useNhanVienProfile({ enabled = true } = {}) {
   const queryClient = useQueryClient();
 
   const profileQuery = useQuery({
     queryKey: NHAN_VIEN_PROFILE_QUERY_KEY,
     queryFn: getProfileNhanVien,
+    enabled,
     retry: false,
   });
 

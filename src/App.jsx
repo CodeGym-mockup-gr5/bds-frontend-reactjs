@@ -72,10 +72,6 @@ const router = createBrowserRouter([
             children: [
               { path: 'nhan-vien', element: <HomePage /> },
               { path: 'thong-bao', element: <ThongBaoPage /> },
-              {
-                element: <AccountLayout />,
-                children: [{ path: 'thong-tin-ca-nhan', element: <SuaThongTinCaNhanPage /> }],
-              },
             ],
           },
           {
@@ -87,7 +83,10 @@ const router = createBrowserRouter([
             children: [
               {
                 element: <AccountLayout />,
-                children: [{ path: 'doi-mat-khau', element: <DoiMatKhauPage /> }],
+                children: [
+                  { path: 'thong-tin-ca-nhan', element: <SuaThongTinCaNhanPage /> },
+                  { path: 'doi-mat-khau', element: <DoiMatKhauPage /> },
+                ],
               },
             ],
           },

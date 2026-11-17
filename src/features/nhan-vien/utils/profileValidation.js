@@ -1,12 +1,18 @@
 const NAME_REGEX = /^[\p{L} ]+$/u;
 const PHONE_REGEX = /^0\d{9}$/;
 const DIGITS_ONLY_REGEX = /^\d+$/;
+const CCCD_REGEX = /^\d{12}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 
 export const EDITABLE_FIELDS = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi', 'soDienThoai', 'email'];
+export const KHACH_HANG_EDITABLE_FIELDS = [...EDITABLE_FIELDS, 'soCccd'];
 
-export function buildProfileFormValues(profile) {
-  return {
+export function getEditableFields(isKhachHang = false) {
+  return isKhachHang ? KHACH_HANG_EDITABLE_FIELDS : EDITABLE_FIELDS;
+}
+
+export function buildProfileFormValues(profile, { isKhachHang = false } = {}) {
+  const base = {
     hoTen: profile?.hoTen || '',
     ngaySinh: profile?.ngaySinh || '',
     gioiTinh: profile?.gioiTinh || '',
@@ -14,6 +20,10 @@ export function buildProfileFormValues(profile) {
     soDienThoai: profile?.soDienThoai || '',
     email: profile?.email || '',
   };
+  if (isKhachHang) {
+    base.soCccd = profile?.soCccd || '';
+  }
+  return base;
 }
 
 function isPastDate(dateText) {
@@ -37,7 +47,7 @@ function isPastDate(dateText) {
   return inputDate < today;
 }
 
-export function validateProfileField(name, value) {
+export function validateProfileField(name, value, { isKhachHang = false } = {}) {
   const text = typeof value === 'string' ? value.trim() : '';
 
   if (name === 'hoTen') {
@@ -48,18 +58,19 @@ export function validateProfileField(name, value) {
   }
 
   if (name === 'ngaySinh') {
-    if (!text) return 'Xin mời nhập đầy đủ thông tin';
+    if (!text) return isKhachHang ? '' : 'Xin mời nhập đầy đủ thông tin';
     if (!isPastDate(text)) return 'Ngày sinh phải trong quá khứ';
     return '';
   }
 
   if (name === 'gioiTinh') {
+    if (!text) return isKhachHang ? '' : 'Xin mời nhập đầy đủ thông tin';
     if (text !== 'NAM' && text !== 'NU') return 'Xin mời nhập đầy đủ thông tin';
     return '';
   }
 
   if (name === 'diaChi') {
-    if (!text) return 'Xin mời nhập đầy đủ thông tin';
+    if (!text) return isKhachHang ? '' : 'Xin mời nhập đầy đủ thông tin';
     if (text.length > 255) return 'Địa chỉ tối đa 255 ký tự';
     return '';
   }
@@ -78,13 +89,19 @@ export function validateProfileField(name, value) {
     return '';
   }
 
+  if (name === 'soCccd') {
+    if (!text) return '';
+    if (!CCCD_REGEX.test(text)) return 'Số CCCD gồm đúng 12 chữ số';
+    return '';
+  }
+
   return '';
 }
 
-export function validateAllProfileFields(values) {
+export function validateAllProfileFields(values, { isKhachHang = false } = {}) {
   const errors = {};
-  EDITABLE_FIELDS.forEach((field) => {
-    const message = validateProfileField(field, values[field]);
+  getEditableFields(isKhachHang).forEach((field) => {
+    const message = validateProfileField(field, values[field], { isKhachHang });
     if (message) {
       errors[field] = message;
     }
