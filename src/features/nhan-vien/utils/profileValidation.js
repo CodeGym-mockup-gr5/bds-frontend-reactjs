@@ -1,7 +1,7 @@
 const NAME_REGEX = /^[\p{L} ]+$/u;
 const PHONE_REGEX = /^0\d{9}$/;
 const DIGITS_ONLY_REGEX = /^\d+$/;
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 
 export const EDITABLE_FIELDS = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi', 'soDienThoai', 'email'];
 

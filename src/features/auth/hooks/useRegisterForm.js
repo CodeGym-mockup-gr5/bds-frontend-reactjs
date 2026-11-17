@@ -23,7 +23,7 @@ const INITIAL_ERRORS = {
 };
 
 const PHONE_REGEX = /^0[0-9]{9}$/;
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 const CCCD_REGEX = /^[0-9]{12}$/;
 const USERNAME_REGEX = /^[A-Za-z0-9._-]+$/;
 
