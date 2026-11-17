@@ -95,39 +95,3 @@
   align-items: center;
   gap: var(--space-8);
 }
-
-.actionButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-8);
-  min-height: var(--space-40);
-  padding: 0 var(--space-16);
-  border: none;
-  border-radius: var(--radius-full);
-  background-color: var(--color-neutral-100);
-  color: var(--color-neutral-900);
-  font-family: var(--font-family-base);
-  font-size: var(--text-label-size);
-  font-weight: var(--text-label-weight);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.actionButton:hover {
-  background-color: var(--color-neutral-200);
-}
-
-.actionButton:focus-visible {
-  outline: 2px solid var(--color-primary-600);
-  outline-offset: 2px;
-}
-
-.actionButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.actionDanger {
-  color: var(--color-danger-600);
-}
