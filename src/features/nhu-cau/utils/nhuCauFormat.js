@@ -20,7 +20,7 @@ export function formatDienTichRange(min, max) {
   if (!minText && !maxText) return EMPTY_TEXT;
   if (!minText || !maxText) return minText || maxText;
   if (Number(min) === Number(max)) return minText;
-  return `${minText.replace(/\s*m²$/, '')} – ${maxText}`;
+  return `${minText.replace(/m²$/, '').trimEnd()} – ${maxText}`;
 }
 
 export function formatGhiChu(value) {

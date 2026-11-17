@@ -14,8 +14,32 @@ function toNumber(value) {
   return Number.isFinite(number) ? number : null;
 }
 
-function groupThousands(digits) {
-  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+function isDigitString(text) {
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] < '0' || text[index] > '9') {
+      return false;
+    }
+  }
+  return true;
+}
+
+function trimTrailingZeros(text) {
+  let end = text.length;
+  while (end > 0 && text[end - 1] === '0') {
+    end -= 1;
+  }
+  return text.slice(0, end);
+}
+
+export function groupThousands(digits) {
+  if (!isDigitString(digits)) {
+    return digits;
+  }
+  const groups = [];
+  for (let end = digits.length; end > 0; end -= 3) {
+    groups.unshift(digits.slice(Math.max(0, end - 3), end));
+  }
+  return groups.join('.');
 }
 
 function formatInteger(number) {
@@ -26,7 +50,7 @@ function formatInteger(number) {
 
 function formatDecimal(number, maxFractionDigits) {
   const [integerPart, fractionPart = ''] = Math.abs(number).toFixed(maxFractionDigits).split('.');
-  const trimmedFraction = fractionPart.replace(/0+$/, '');
+  const trimmedFraction = trimTrailingZeros(fractionPart);
   const isZero = !Number(integerPart) && !trimmedFraction;
   const sign = number < 0 && !isZero ? '-' : '';
   const grouped = groupThousands(integerPart);
