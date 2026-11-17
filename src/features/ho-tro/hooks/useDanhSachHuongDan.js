@@ -16,12 +16,18 @@ function parseNoiDungToSteps(noiDung) {
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
-      const match = line.match(/^(\d+\.\s*)?([^:]+)(:\s*)(.*)$/);
-      if (match) {
-        return {
-          tieuDeBuoc: match[2].trim(),
-          noiDung: match[4].trim(),
-        };
+      const colonIndex = line.indexOf(':');
+      if (colonIndex > 0) {
+        const tieuDeBuoc = line
+          .slice(0, colonIndex)
+          .replace(/^\d+\.\s*/, '')
+          .trim();
+        if (tieuDeBuoc) {
+          return {
+            tieuDeBuoc,
+            noiDung: line.slice(colonIndex + 1).trim(),
+          };
+        }
       }
       return {
         tieuDeBuoc: 'Hướng dẫn',
