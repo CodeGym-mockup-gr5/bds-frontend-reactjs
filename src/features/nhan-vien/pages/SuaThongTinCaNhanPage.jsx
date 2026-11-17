@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
+import useKhachHangProfile from '../../khach-hang/hooks/useKhachHangProfile';
 import useNhanVienProfile from '../hooks/useNhanVienProfile';
 import { WarningCircleIcon } from '../components/ProfileIcons';
 import SuaThongTinCaNhanForm from '../components/SuaThongTinCaNhanForm';
@@ -7,9 +8,12 @@ import SuaThongTinCaNhanSkeleton from '../components/SuaThongTinCaNhanSkeleton';
 import styles from './SuaThongTinCaNhanPage.module.css';
 
 export default function SuaThongTinCaNhanPage() {
-  const { showToast } = useAuth();
+  const { showToast, isKhachHang } = useAuth();
+  const nhanVienProfile = useNhanVienProfile({ enabled: !isKhachHang });
+  const khachHangProfile = useKhachHangProfile({ enabled: isKhachHang });
+
   const { profile, isLoading, isError, error, refetch, updateProfileAsync, isSubmitting } =
-    useNhanVienProfile();
+    isKhachHang ? khachHangProfile : nhanVienProfile;
 
   const formKey = profile
     ? [
@@ -20,6 +24,7 @@ export default function SuaThongTinCaNhanPage() {
         profile.diaChi,
         profile.soDienThoai,
         profile.email,
+        profile.soCccd,
       ].join('|')
     : 'empty';
 
@@ -70,6 +75,7 @@ export default function SuaThongTinCaNhanPage() {
           <SuaThongTinCaNhanForm
             key={formKey}
             profile={profile}
+            isKhachHang={isKhachHang}
             isSubmitting={isSubmitting}
             onSubmitProfile={updateProfileAsync}
             onShowToast={showToast}

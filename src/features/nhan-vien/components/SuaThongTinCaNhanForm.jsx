@@ -1,3 +1,4 @@
+import KhachHangProfileFields from '../../khach-hang/components/KhachHangProfileFields';
 import useSuaThongTinForm from '../hooks/useSuaThongTinForm';
 import { formatChucVu } from '../constants/chucVu';
 import { AlertTriangleIcon, CheckIcon, WarningCircleIcon } from './ProfileIcons';
@@ -7,6 +8,7 @@ import styles from './SuaThongTinCaNhanForm.module.css';
 
 export default function SuaThongTinCaNhanForm({
   profile,
+  isKhachHang = false,
   isSubmitting = false,
   onSubmitProfile,
   onShowToast = null,
@@ -20,7 +22,7 @@ export default function SuaThongTinCaNhanForm({
     handleBlur,
     handleReset,
     handleSubmit,
-  } = useSuaThongTinForm({ profile, onSubmitProfile, onShowToast });
+  } = useSuaThongTinForm({ profile, isKhachHang, onSubmitProfile, onShowToast });
 
   const hasErrors = errorCount > 0;
 
@@ -46,9 +48,13 @@ export default function SuaThongTinCaNhanForm({
 
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <LockedCodeField
-          label="Mã nhân viên"
-          value={profile?.maNv || ''}
-          hint="Mã định danh nội bộ không thể thay đổi"
+          label={isKhachHang ? 'Mã khách hàng' : 'Mã nhân viên'}
+          value={isKhachHang ? profile?.maKh || '' : profile?.maNv || ''}
+          hint={
+            isKhachHang
+              ? 'Mã khách hàng do hệ thống cấp và không thể thay đổi'
+              : 'Mã định danh nội bộ không thể thay đổi'
+          }
         />
 
         <ProfileTextField
@@ -68,7 +74,7 @@ export default function SuaThongTinCaNhanForm({
             name="ngaySinh"
             type="date"
             value={values.ngaySinh}
-            required
+            required={!isKhachHang}
             disabled={isSubmitting}
             error={errors.ngaySinh}
             showErrorIcon={false}
@@ -79,6 +85,7 @@ export default function SuaThongTinCaNhanForm({
           <GenderRadioField
             value={values.gioiTinh}
             error={errors.gioiTinh}
+            required={!isKhachHang}
             disabled={isSubmitting}
             onChange={handleChange}
           />
@@ -89,7 +96,7 @@ export default function SuaThongTinCaNhanForm({
           name="diaChi"
           placeholder="Nhập địa chỉ thường trú/liên hệ"
           value={values.diaChi}
-          required
+          required={!isKhachHang}
           disabled={isSubmitting}
           error={errors.diaChi}
           onChange={handleChange}
@@ -122,11 +129,22 @@ export default function SuaThongTinCaNhanForm({
           />
         </div>
 
-        <LockedCodeField
-          label="Chức vụ"
-          value={formatChucVu(profile?.chucVu, profile?.laAdmin)}
-          hint="Chức vụ do Quản trị viên quản lý"
-        />
+        {isKhachHang ? (
+          <KhachHangProfileFields
+            profile={profile}
+            soCccdValue={values.soCccd}
+            soCccdError={errors.soCccd}
+            disabled={isSubmitting}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        ) : (
+          <LockedCodeField
+            label="Chức vụ"
+            value={formatChucVu(profile?.chucVu, profile?.laAdmin)}
+            hint="Chức vụ do Quản trị viên quản lý"
+          />
+        )}
 
         <div className={styles.formFooter}>
           <button

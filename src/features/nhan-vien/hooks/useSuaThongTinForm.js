@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import {
-  EDITABLE_FIELDS,
   buildProfileFormValues,
+  getEditableFields,
   validateAllProfileFields,
   validateProfileField,
 } from '../utils/profileValidation';
 
-export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToast }) {
-  const [values, setValues] = useState(() => buildProfileFormValues(profile));
+export default function useSuaThongTinForm({
+  profile,
+  isKhachHang = false,
+  onSubmitProfile,
+  onShowToast,
+}) {
+  const [values, setValues] = useState(() => buildProfileFormValues(profile, { isKhachHang }));
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
 
@@ -24,7 +29,7 @@ export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToa
   };
 
   const handleBlur = (name, value) => {
-    const message = validateProfileField(name, value);
+    const message = validateProfileField(name, value, { isKhachHang });
     setErrors((prev) => {
       if (!message) {
         if (!prev[name]) return prev;
@@ -37,14 +42,14 @@ export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToa
   };
 
   const handleReset = () => {
-    setValues(buildProfileFormValues(profile));
+    setValues(buildProfileFormValues(profile, { isKhachHang }));
     setErrors({});
     setServerError('');
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const validationErrors = validateAllProfileFields(values);
+    const validationErrors = validateAllProfileFields(values, { isKhachHang });
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setServerError('');
@@ -54,14 +59,24 @@ export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToa
     setErrors({});
     setServerError('');
 
-    const payload = {
-      hoTen: values.hoTen.trim(),
-      ngaySinh: values.ngaySinh,
-      gioiTinh: values.gioiTinh,
-      diaChi: values.diaChi.trim(),
-      soDienThoai: values.soDienThoai.trim(),
-      email: values.email.trim(),
-    };
+    const payload = isKhachHang
+      ? {
+          hoTen: values.hoTen.trim(),
+          ngaySinh: values.ngaySinh || null,
+          gioiTinh: values.gioiTinh || null,
+          diaChi: values.diaChi.trim() || null,
+          soDienThoai: values.soDienThoai.trim(),
+          email: values.email.trim(),
+          soCccd: values.soCccd.trim() || null,
+        }
+      : {
+          hoTen: values.hoTen.trim(),
+          ngaySinh: values.ngaySinh,
+          gioiTinh: values.gioiTinh,
+          diaChi: values.diaChi.trim(),
+          soDienThoai: values.soDienThoai.trim(),
+          email: values.email.trim(),
+        };
 
     try {
       const responseData = await onSubmitProfile(payload);
@@ -71,12 +86,13 @@ export default function useSuaThongTinForm({ profile, onSubmitProfile, onShowToa
     } catch (error) {
       const responseData = error?.response?.data;
       const backendErrors = responseData?.errors;
+      const editableFields = getEditableFields(isKhachHang);
 
       if (Array.isArray(backendErrors) && backendErrors.length > 0) {
         const mappedErrors = {};
         const unmatched = [];
         backendErrors.forEach((item) => {
-          if (item?.field && EDITABLE_FIELDS.includes(item.field)) {
+          if (item?.field && editableFields.includes(item.field)) {
             mappedErrors[item.field] = item.message;
           } else if (item?.message) {
             unmatched.push(item.message);

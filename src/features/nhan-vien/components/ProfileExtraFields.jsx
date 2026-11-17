@@ -27,7 +27,13 @@ export function LockedCodeField({ label, value, hint = '' }) {
   );
 }
 
-export function GenderRadioField({ value, error = '', disabled = false, onChange }) {
+export function GenderRadioField({
+  value,
+  error = '',
+  required = true,
+  disabled = false,
+  onChange,
+}) {
   const namId = useId();
   const nuId = useId();
   const labelId = useId();
@@ -37,10 +43,15 @@ export function GenderRadioField({ value, error = '', disabled = false, onChange
   return (
     <div className={styles.fieldBlock}>
       <span id={labelId} className={styles.label}>
-        Giới tính{' '}
-        <span className={styles.requiredMark} aria-hidden="true">
-          *
-        </span>
+        Giới tính
+        {required && (
+          <>
+            {' '}
+            <span className={styles.requiredMark} aria-hidden="true">
+              *
+            </span>
+          </>
+        )}
       </span>
       <div
         className={styles.radioGroup}
