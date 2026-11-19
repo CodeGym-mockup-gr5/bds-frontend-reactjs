@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import AccountTabs from '../../shared/layout/components/AccountTabs';
 import NhuCauCard from '../components/NhuCauCard';
 import NhuCauFilterCard from '../components/NhuCauFilterCard';
 import {
@@ -57,6 +58,7 @@ export default function DanhSachNhuCauPage() {
 
   return (
     <section className={styles.page} aria-labelledby={titleId}>
+      <AccountTabs />
       <header className={styles.header}>
         <h1 id={titleId} className={styles.title}>
           Danh sách nhu cầu

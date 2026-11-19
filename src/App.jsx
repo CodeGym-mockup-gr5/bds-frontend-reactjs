@@ -15,6 +15,7 @@ import DoiMatKhauPage from './features/auth/pages/DoiMatKhauPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import QuenMatKhauPage from './features/auth/pages/QuenMatKhauPage';
 import DangTinPage from './features/bat-dong-san/pages/DangTinPage';
+import TinDangCuaToiPage from './features/bat-dong-san/pages/TinDangCuaToiPage';
 import HoTroPage from './features/ho-tro/pages/HoTroPage';
 import DanhSachNhanVienPage from './features/nhan-vien/pages/DanhSachNhanVienPage';
 import ThemNhanVienPage from './features/nhan-vien/pages/ThemNhanVienPage';
@@ -62,7 +63,10 @@ const router = createBrowserRouter([
               { path: 'khach-hang', element: <HomePage /> },
               {
                 element: <AccountLayout />,
-                children: [{ path: 'nhu-cau-cua-toi', element: <DanhSachNhuCauPage /> }],
+                children: [
+                  { path: 'tin-dang-cua-toi', element: <TinDangCuaToiPage /> },
+                  { path: 'nhu-cau-cua-toi', element: <DanhSachNhuCauPage /> },
+                ],
               },
               { path: 'dang-tin', element: <DangTinPage /> },
             ],
