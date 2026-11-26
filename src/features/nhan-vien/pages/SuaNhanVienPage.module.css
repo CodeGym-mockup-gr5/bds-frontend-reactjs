@@ -17,8 +17,7 @@
 
 .card {
   background-color: var(--color-white);
-  border: 1px solid var(--color-neutral-200);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   padding: var(--space-24);
   box-shadow: var(--shadow-sm);
 }
