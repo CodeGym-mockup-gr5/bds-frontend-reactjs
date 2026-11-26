@@ -22,12 +22,20 @@ export default function FormField({
 
   return (
     <div className={styles.field}>
-      <label htmlFor={id} className={styles.label}>
-        {label}
-        <span className={styles.required} aria-hidden="true">
-          {' *'}
-        </span>
-      </label>
+      <div className={styles.labelRow}>
+        <label htmlFor={id} className={styles.label}>
+          {label}
+          <span className={styles.required} aria-hidden="true">
+            {' *'}
+          </span>
+        </label>
+        {error && (
+          <p id={errorId} className={styles.error} role="alert">
+            <Icon name="warning" size={16} />
+            {error}
+          </p>
+        )}
+      </div>
       {multiline ? (
         <textarea
           id={id}
@@ -61,14 +69,6 @@ export default function FormField({
           onBlur={handleBlur}
         />
       )}
-      <div className={styles.errorSlot}>
-        {error && (
-          <p id={errorId} className={styles.error} role="alert">
-            <Icon name="warning" size={16} />
-            {error}
-          </p>
-        )}
-      </div>
     </div>
   );
 }
