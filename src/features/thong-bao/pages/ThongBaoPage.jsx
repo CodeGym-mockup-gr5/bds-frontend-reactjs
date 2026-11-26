@@ -8,9 +8,10 @@ import {
 } from '../components/ThongBaoFeedStates';
 import ThongBaoPagination from '../components/ThongBaoPagination';
 import useDanhSachThongBao from '../hooks/useDanhSachThongBao';
+import useScrollToTop from '../hooks/useScrollToTop';
 import styles from './ThongBaoPage.module.css';
 
-function ThongBaoFeedResults({ danhSach }) {
+function ThongBaoFeedResults({ danhSach, onPageChange }) {
   if (danhSach.isError) {
     return <ThongBaoFeedError onRetry={() => danhSach.refetch()} />;
   }
@@ -22,6 +23,11 @@ function ThongBaoFeedResults({ danhSach }) {
   }
 
   const isUpdating = danhSach.isFetching && danhSach.isPlaceholderData;
+
+  const handleChangePage = (nextPage) => {
+    danhSach.setPage(nextPage);
+    onPageChange();
+  };
 
   return (
     <ThongBaoFeedList
@@ -37,7 +43,7 @@ function ThongBaoFeedResults({ danhSach }) {
             totalPages={danhSach.totalPages}
             rangePage={danhSach.displayedPage}
             disabled={isUpdating}
-            onChange={danhSach.setPage}
+            onChange={handleChangePage}
           />
         ) : null
       }
@@ -47,10 +53,11 @@ function ThongBaoFeedResults({ danhSach }) {
 
 export default function ThongBaoPage() {
   const titleId = useId();
+  const { ref: pageRef, scrollToTop } = useScrollToTop();
   const danhSach = useDanhSachThongBao();
 
   return (
-    <section className={styles.page} aria-labelledby={titleId}>
+    <section ref={pageRef} className={styles.page} aria-labelledby={titleId}>
       <div className={styles.container}>
         <nav className={styles.breadcrumb} aria-label="Breadcrumb">
           <Link to="/" className={styles.breadcrumbLink}>
@@ -71,7 +78,7 @@ export default function ThongBaoPage() {
           <p className={styles.subtitle}>Cập nhật các thông báo mới nhất từ trung tâm.</p>
         </header>
 
-        <ThongBaoFeedResults danhSach={danhSach} />
+        <ThongBaoFeedResults danhSach={danhSach} onPageChange={scrollToTop} />
       </div>
     </section>
   );

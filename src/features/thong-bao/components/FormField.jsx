@@ -54,18 +54,21 @@ export default function FormField({
           placeholder={placeholder}
           maxLength={maxLength}
           disabled={disabled}
+          aria-required="true"
           aria-invalid={error ? 'true' : undefined}
           aria-describedby={error ? errorId : undefined}
           onChange={handleChange}
           onBlur={handleBlur}
         />
       )}
-      {error && (
-        <p id={errorId} className={styles.error} role="alert">
-          <Icon name="warning" size={16} />
-          {error}
-        </p>
-      )}
+      <div className={styles.errorSlot}>
+        {error && (
+          <p id={errorId} className={styles.error} role="alert">
+            <Icon name="warning" size={16} />
+            {error}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

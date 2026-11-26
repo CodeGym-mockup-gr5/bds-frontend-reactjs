@@ -1,6 +1,7 @@
 import { useId, useRef, useState } from 'react';
 import useWindowFileDropGuard, { isFileDrag } from '../hooks/useWindowFileDropGuard';
 import { UploadIcon, WarningIcon } from './DangTinIcons';
+import { canUseImagePicker, pickImageFiles } from '../utils/pickImageFiles';
 import ImageThumb from './ImageThumb';
 import styles from './ImageUpload.module.css';
 
@@ -16,6 +17,7 @@ export default function ImageUploadSection({
   disabled = false,
 }) {
   const inputId = useId();
+  const inputRef = useRef(null);
   const errorId = `${inputId}-error`;
   const [isDragOver, setIsDragOver] = useState(false);
   const [draggingId, setDraggingId] = useState(null);
@@ -46,6 +48,17 @@ export default function ImageUploadSection({
     setIsDragOver(false);
     if (disabled) return;
     addFiles(event.dataTransfer.files);
+  };
+
+  const handlePickClick = async (event) => {
+    if (!canUseImagePicker()) return;
+    event.preventDefault();
+    if (disabled) return;
+    try {
+      addFiles(await pickImageFiles());
+    } catch (pickError) {
+      if (pickError?.name !== 'AbortError') inputRef.current?.click();
+    }
   };
 
   const handleInputChange = (event) => {
@@ -86,11 +99,13 @@ export default function ImageUploadSection({
         <label htmlFor={inputId} className={styles.pickButton}>
           Chọn ảnh
           <input
+            ref={inputRef}
             id={inputId}
             type="file"
             accept=".jpg,.jpeg,.png,image/jpeg,image/png"
             multiple
             className={styles.visuallyHidden}
+            onClick={handlePickClick}
             onChange={handleInputChange}
           />
         </label>
