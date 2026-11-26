@@ -30,12 +30,10 @@ import QuanLyThongBaoPage from './features/thong-bao/pages/QuanLyThongBaoPage';
 import ThongBaoPage from './features/thong-bao/pages/ThongBaoPage';
 import { ROLES } from './utils/auth';
 
-const getScrollKey = (location) => location.pathname;
-
 function RootLayout() {
   return (
     <AuthProvider>
-      <ScrollRestoration getKey={getScrollKey} />
+      <ScrollRestoration />
       <Outlet />
       <AuthModals />
     </AuthProvider>

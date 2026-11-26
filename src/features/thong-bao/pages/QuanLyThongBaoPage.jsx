@@ -8,12 +8,13 @@ import ThongBaoTable from '../components/ThongBaoTable';
 import XoaThongBaoModal from '../components/XoaThongBaoModal';
 import useChonThongBao from '../hooks/useChonThongBao';
 import useDanhSachThongBao from '../hooks/useDanhSachThongBao';
+import useScrollToTop from '../hooks/useScrollToTop';
 import { useSuaThongBao, useThemThongBao } from '../hooks/useThongBaoMutations';
 import useXoaThongBao from '../hooks/useXoaThongBao';
 import { EMPTY_THONG_BAO_FORM, toFormValues } from '../utils/thongBaoValidation';
 import styles from './QuanLyThongBaoPage.module.css';
 
-function ThongBaoResults({ danhSach, chon, onAdd, onEdit, onDelete }) {
+function ThongBaoResults({ danhSach, chon, onAdd, onEdit, onDelete, onPageChange }) {
   if (danhSach.isError) return <ThongBaoError onRetry={() => danhSach.refetch()} />;
   if (danhSach.isPending) return <ThongBaoLoading />;
   if (danhSach.totalElements === 0) return <ThongBaoEmpty onAdd={onAdd} />;
@@ -23,6 +24,7 @@ function ThongBaoResults({ danhSach, chon, onAdd, onEdit, onDelete }) {
   const handleChangePage = (nextPage) => {
     chon.clearSelection();
     danhSach.setPage(nextPage);
+    onPageChange();
   };
 
   return (
@@ -52,6 +54,7 @@ function ThongBaoResults({ danhSach, chon, onAdd, onEdit, onDelete }) {
 
 export default function QuanLyThongBaoPage() {
   const titleId = useId();
+  const { ref: pageRef, scrollToTop } = useScrollToTop();
   const danhSach = useDanhSachThongBao();
   const chon = useChonThongBao(danhSach.items);
   const { showToast } = useAuth();
@@ -102,7 +105,7 @@ export default function QuanLyThongBaoPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby={titleId}>
+    <section ref={pageRef} className={styles.page} aria-labelledby={titleId}>
       <header className={styles.header}>
         <h1 id={titleId} className={styles.title}>
           Danh sách thông báo
@@ -131,6 +134,7 @@ export default function QuanLyThongBaoPage() {
         onAdd={() => setFormState({ mode: 'create' })}
         onEdit={(item) => setFormState({ mode: 'edit', item })}
         onDelete={(items) => setDeleteTarget({ items })}
+        onPageChange={scrollToTop}
       />
 
       {formState && (
