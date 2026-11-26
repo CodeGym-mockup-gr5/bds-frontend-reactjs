@@ -24,8 +24,16 @@ export default function ThemNhanVienRoleSection({
         {/* Chức vụ */}
         <div className={styles.field}>
           <label htmlFor="field-chucVu" className={styles.label}>
-            <span>
-              Chức vụ <span className={styles.requiredMark}>*</span>
+            <span className={styles.labelRow}>
+              <span>
+                Chức vụ <span className={styles.requiredMark}>*</span>
+              </span>
+              {showError('chucVu') && (
+                <span id="error-chucVu" className={styles.errorMessage} aria-live="polite">
+                  <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                  <span>{errors.chucVu}</span>
+                </span>
+              )}
             </span>
             <span className={styles.selectWrapper}>
               <select
@@ -52,14 +60,6 @@ export default function ThemNhanVienRoleSection({
               </span>
             </span>
           </label>
-          <div id="error-chucVu" className={styles.errorRow} aria-live="polite">
-            {showError('chucVu') && (
-              <>
-                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-                <span>{errors.chucVu}</span>
-              </>
-            )}
-          </div>
         </div>
       </div>
     </section>

@@ -1,14 +1,8 @@
-import { useEffect } from 'react';
 import ThemNhanVienForm from '../components/ThemNhanVienForm';
 import useThemNhanVienForm from '../hooks/useThemNhanVienForm';
-import scrollToTop from '../../../utils/scrollUtils';
 import styles from './ThemNhanVienPage.module.css';
 
 export default function ThemNhanVienPage() {
-  useEffect(() => {
-    scrollToTop();
-  }, []);
-
   const {
     formData,
     errors,

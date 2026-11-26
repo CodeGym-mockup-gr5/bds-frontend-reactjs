@@ -5,6 +5,11 @@ export async function getDanhSachNhanVien(params) {
   return response.data;
 }
 
+export async function getNhanVienById(id) {
+  const response = await axiosClient.get(`/nhan-vien/${id}`);
+  return response.data;
+}
+
 export async function deleteNhanVien(id) {
   const response = await axiosClient.delete(`/nhan-vien/${id}`);
   return response.data;
@@ -22,6 +27,7 @@ export async function updateNhanVien(id, data) {
 
 export default {
   getDanhSachNhanVien,
+  getNhanVienById,
   deleteNhanVien,
   createNhanVien,
   updateNhanVien,

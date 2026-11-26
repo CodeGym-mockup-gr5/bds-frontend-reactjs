@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
 import NhanVienFilterCard from '../components/NhanVienFilterCard';
 import { PlusIcon } from '../components/NhanVienIcons';
 import {
@@ -11,7 +9,6 @@ import {
 } from '../components/NhanVienListStates';
 import NhanVienPagination from '../components/NhanVienPagination';
 import NhanVienTable from '../components/NhanVienTable';
-import SuaNhanVienForm from '../components/SuaNhanVienForm';
 import XoaNhanVienModal from '../components/XoaNhanVienModal';
 import useDanhSachNhanVien from '../hooks/useDanhSachNhanVien';
 import useXoaNhanVien from '../hooks/useXoaNhanVien';
@@ -20,8 +17,6 @@ import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {
   const navigate = useNavigate();
-  const { showToast } = useAuth();
-  const [editingEmployee, setEditingEmployee] = useState(null);
 
   const {
     draftFilter,
@@ -44,56 +39,19 @@ export default function DanhSachNhanVienPage() {
   const { selectedEmployee, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete } =
     useXoaNhanVien();
 
-  useEffect(() => {
-    scrollToTop();
-  }, [editingEmployee, page]);
-
-  useEffect(() => {
-    if (!editingEmployee) return undefined;
-
-    const selector = 'header nav[aria-label="Đường dẫn"] li[aria-current="page"]';
-    const currentItem = document.querySelector(selector);
-    const prevText = currentItem ? currentItem.textContent : null;
-
-    if (currentItem) {
-      currentItem.textContent = 'Chỉnh sửa';
-    }
-
-    return () => {
-      const el = currentItem || document.querySelector(selector);
-      if (el) {
-        el.textContent = prevText || 'Danh sách';
-      }
-    };
-  }, [editingEmployee]);
-
   const handleAddNew = () => {
     navigate('/admin/nhan-vien/them-moi');
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    scrollToTop();
   };
 
   const handleApplyFilter = (e) => {
     applyFilter(e);
     scrollToTop();
   };
-
-  if (editingEmployee) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Chỉnh sửa thông tin nhân viên</h1>
-        </div>
-        <SuaNhanVienForm
-          key={editingEmployee.id}
-          employee={editingEmployee}
-          onCancel={() => setEditingEmployee(null)}
-          onSuccess={() => {
-            setEditingEmployee(null);
-            showToast('Sửa thông tin nhân viên thành công', 'success');
-          }}
-        />
-      </div>
-    );
-  }
 
   const renderContent = () => {
     if (isError) {
@@ -117,14 +75,18 @@ export default function DanhSachNhanVienPage() {
           <h2 className={styles.cardTitle}>Danh sách nhân viên</h2>
           <span className={styles.cardCount}>{`${totalElements} nhân viên`}</span>
         </div>
-        <NhanVienTable items={items} onEdit={setEditingEmployee} onDelete={openDeleteModal} />
+        <NhanVienTable
+          items={items}
+          onEdit={(nv) => navigate(`/admin/nhan-vien/${nv.id}/sua`)}
+          onDelete={openDeleteModal}
+        />
         <NhanVienPagination
           page={page}
           pageSize={pageSize}
           totalElements={totalElements}
           totalPages={totalPages}
           disabled={isFetching}
-          onChange={setPage}
+          onChange={handlePageChange}
         />
       </>
     );
