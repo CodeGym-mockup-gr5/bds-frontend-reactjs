@@ -24,7 +24,7 @@ export default function ThemNhanVienInfoSection({
         {/* Mã nhân viên */}
         <div className={styles.field}>
           <label htmlFor="field-maNv" className={styles.label}>
-            <span>Mã Nhân viên</span>
+            <span>Mã nhân viên</span>
             {isEdit && <LockIcon size={14} className={styles.labelLockIcon} />}
             <span className={styles.inputWrapper}>
               <input
@@ -46,6 +46,7 @@ export default function ThemNhanVienInfoSection({
               )}
             </span>
           </label>
+          <div className={styles.errorRow} aria-hidden="true" />
         </div>
 
         {/* Họ và tên */}
@@ -70,12 +71,14 @@ export default function ThemNhanVienInfoSection({
               />
             </span>
           </label>
-          {showError('hoTen') && (
-            <div id="error-hoTen" className={styles.errorRow}>
-              <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-              <span>{errors.hoTen}</span>
-            </div>
-          )}
+          <div id="error-hoTen" className={styles.errorRow} aria-live="polite">
+            {showError('hoTen') && (
+              <>
+                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                <span>{errors.hoTen}</span>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Ngày sinh */}
@@ -99,12 +102,14 @@ export default function ThemNhanVienInfoSection({
               />
             </span>
           </label>
-          {showError('ngaySinh') && (
-            <div id="error-ngaySinh" className={styles.errorRow}>
-              <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-              <span>{errors.ngaySinh}</span>
-            </div>
-          )}
+          <div id="error-ngaySinh" className={styles.errorRow} aria-live="polite">
+            {showError('ngaySinh') && (
+              <>
+                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                <span>{errors.ngaySinh}</span>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Giới tính */}
@@ -145,12 +150,14 @@ export default function ThemNhanVienInfoSection({
               <span>Nữ</span>
             </label>
           </div>
-          {showError('gioiTinh') && (
-            <div id="error-gioiTinh" className={styles.errorRow}>
-              <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-              <span>{errors.gioiTinh}</span>
-            </div>
-          )}
+          <div id="error-gioiTinh" className={styles.errorRow} aria-live="polite">
+            {showError('gioiTinh') && (
+              <>
+                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                <span>{errors.gioiTinh}</span>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Địa chỉ - 2 cột */}
@@ -175,12 +182,14 @@ export default function ThemNhanVienInfoSection({
               />
             </span>
           </label>
-          {showError('diaChi') && (
-            <div id="error-diaChi" className={styles.errorRow}>
-              <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-              <span>{errors.diaChi}</span>
-            </div>
-          )}
+          <div id="error-diaChi" className={styles.errorRow} aria-live="polite">
+            {showError('diaChi') && (
+              <>
+                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                <span>{errors.diaChi}</span>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Số điện thoại */}
@@ -204,12 +213,14 @@ export default function ThemNhanVienInfoSection({
               />
             </span>
           </label>
-          {showError('soDienThoai') && (
-            <div id="error-soDienThoai" className={styles.errorRow}>
-              <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-              <span>{errors.soDienThoai}</span>
-            </div>
-          )}
+          <div id="error-soDienThoai" className={styles.errorRow} aria-live="polite">
+            {showError('soDienThoai') && (
+              <>
+                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                <span>{errors.soDienThoai}</span>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Email */}
@@ -234,12 +245,14 @@ export default function ThemNhanVienInfoSection({
               />
             </span>
           </label>
-          {showError('email') && (
-            <div id="error-email" className={styles.errorRow}>
-              <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
-              <span>{errors.email}</span>
-            </div>
-          )}
+          <div id="error-email" className={styles.errorRow} aria-live="polite">
+            {showError('email') && (
+              <>
+                <SolidWarningCircleIcon className={styles.errorIcon} size={14} />
+                <span>{errors.email}</span>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </section>

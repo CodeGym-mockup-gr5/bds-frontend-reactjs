@@ -86,9 +86,6 @@ export function validateField(name, value) {
       return '';
 
     case 'laAdmin':
-      if (value === null || value === undefined || value === '') {
-        return 'Xin mời nhập đầy đủ thông tin';
-      }
       return '';
 
     default:
@@ -98,16 +95,7 @@ export function validateField(name, value) {
 
 export function validateAll(formData) {
   const errors = {};
-  const fields = [
-    'hoTen',
-    'ngaySinh',
-    'gioiTinh',
-    'diaChi',
-    'soDienThoai',
-    'email',
-    'chucVu',
-    'laAdmin',
-  ];
+  const fields = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi', 'soDienThoai', 'email', 'chucVu'];
 
   fields.forEach((field) => {
     const error = validateField(field, formData[field]);

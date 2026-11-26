@@ -51,6 +51,15 @@
 
 .labelLockIcon {
   color: var(--color-neutral-400);
+  vertical-align: middle;
+}
+
+.label .inputWrapper {
+  margin-top: var(--space-8);
+}
+
+.label .selectWrapper {
+  margin-top: var(--space-8);
 }
 
 .requiredMark {
@@ -102,6 +111,7 @@
   border-color: var(--color-neutral-200);
   color: var(--color-neutral-400);
   cursor: not-allowed;
+  padding-right: var(--space-40);
 }
 
 .inputReadOnly:focus {
@@ -234,6 +244,7 @@
   align-items: center;
   gap: var(--space-4);
   margin-top: var(--space-4);
+  min-height: var(--space-20);
   color: var(--color-danger-600);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line-height);

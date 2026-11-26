@@ -100,16 +100,7 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
       e.preventDefault();
     }
 
-    const allFields = [
-      'hoTen',
-      'ngaySinh',
-      'gioiTinh',
-      'diaChi',
-      'soDienThoai',
-      'email',
-      'chucVu',
-      'laAdmin',
-    ];
+    const allFields = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi', 'soDienThoai', 'email', 'chucVu'];
     const allTouched = allFields.reduce((acc, key) => {
       acc[key] = true;
       return acc;
@@ -136,7 +127,7 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
       soDienThoai: cleanPhone,
       email: formData.email.trim(),
       chucVu: formData.chucVu,
-      laAdmin: formData.laAdmin === true || formData.laAdmin === 'true',
+      laAdmin: employee?.laAdmin ?? formData.laAdmin ?? false,
     };
 
     mutation.mutate(payload);

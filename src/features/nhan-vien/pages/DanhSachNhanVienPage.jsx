@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import NhanVienFilterCard from '../components/NhanVienFilterCard';
@@ -15,6 +15,7 @@ import SuaNhanVienForm from '../components/SuaNhanVienForm';
 import XoaNhanVienModal from '../components/XoaNhanVienModal';
 import useDanhSachNhanVien from '../hooks/useDanhSachNhanVien';
 import useXoaNhanVien from '../hooks/useXoaNhanVien';
+import scrollToTop from '../utils/scrollUtils';
 import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {
@@ -43,8 +44,36 @@ export default function DanhSachNhanVienPage() {
   const { selectedEmployee, isDeleting, openDeleteModal, closeDeleteModal, confirmDelete } =
     useXoaNhanVien();
 
+  useEffect(() => {
+    scrollToTop();
+  }, [editingEmployee, page]);
+
+  useEffect(() => {
+    if (!editingEmployee) return undefined;
+
+    const selector = 'header nav[aria-label="Đường dẫn"] li[aria-current="page"]';
+    const currentItem = document.querySelector(selector);
+    const prevText = currentItem ? currentItem.textContent : null;
+
+    if (currentItem) {
+      currentItem.textContent = 'Chỉnh sửa';
+    }
+
+    return () => {
+      const el = currentItem || document.querySelector(selector);
+      if (el) {
+        el.textContent = prevText || 'Danh sách';
+      }
+    };
+  }, [editingEmployee]);
+
   const handleAddNew = () => {
     navigate('/admin/nhan-vien/them-moi');
+  };
+
+  const handleApplyFilter = (e) => {
+    applyFilter(e);
+    scrollToTop();
   };
 
   if (editingEmployee) {
@@ -111,7 +140,11 @@ export default function DanhSachNhanVienPage() {
         </button>
       </div>
 
-      <NhanVienFilterCard filter={draftFilter} onChange={changeDraft} onSubmit={applyFilter} />
+      <NhanVienFilterCard
+        filter={draftFilter}
+        onChange={changeDraft}
+        onSubmit={handleApplyFilter}
+      />
 
       <div className={styles.card}>{renderContent()}</div>
 

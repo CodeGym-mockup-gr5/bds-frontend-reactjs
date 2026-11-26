@@ -14,7 +14,7 @@ export const INITIAL_FORM = {
   soDienThoai: '',
   email: '',
   chucVu: '',
-  laAdmin: '',
+  laAdmin: false,
 };
 
 export default function useThemNhanVienForm() {
@@ -117,7 +117,7 @@ export default function useThemNhanVienForm() {
       soDienThoai: cleanPhone,
       email: formData.email.trim(),
       chucVu: formData.chucVu,
-      laAdmin: formData.laAdmin === true || formData.laAdmin === 'true',
+      laAdmin: false,
     };
 
     mutation.mutate(payload);

@@ -216,6 +216,7 @@
   align-items: center;
   gap: var(--space-4);
   margin-top: var(--space-4);
+  min-height: var(--space-20);
   color: var(--color-danger-600);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line-height);
