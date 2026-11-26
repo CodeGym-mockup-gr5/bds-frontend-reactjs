@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateNhanVien } from '../../../api/nhanVienApi';
 import { NHAN_VIEN_QUERY_KEY } from '../constants/nhanVienConstants';
@@ -29,8 +29,24 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
     soDienThoai: employee?.soDienThoai || '',
     email: employee?.email || '',
     chucVu: employee?.chucVu || '',
-    laAdmin: employee?.laAdmin ?? false,
+    laAdmin: Boolean(employee?.laAdmin),
   });
+
+  useEffect(() => {
+    if (!employee) return;
+    setFormData((prev) => ({
+      ...prev,
+      maNv: employee.maNv || prev.maNv,
+      hoTen: employee.hoTen || prev.hoTen,
+      ngaySinh: toInputDate(employee.ngaySinh) || prev.ngaySinh,
+      gioiTinh: employee.gioiTinh || prev.gioiTinh,
+      diaChi: employee.diaChi || prev.diaChi,
+      soDienThoai: employee.soDienThoai || prev.soDienThoai,
+      email: employee.email || prev.email,
+      chucVu: employee.chucVu || prev.chucVu,
+      laAdmin: Boolean(employee.laAdmin),
+    }));
+  }, [employee]);
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -127,7 +143,7 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
       soDienThoai: cleanPhone,
       email: formData.email.trim(),
       chucVu: formData.chucVu,
-      laAdmin: formData.laAdmin,
+      laAdmin: Boolean(formData.laAdmin),
     };
 
     mutation.mutate(payload);
