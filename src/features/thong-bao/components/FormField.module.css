@@ -4,11 +4,16 @@
   gap: var(--space-8);
 }
 
-.errorSlot {
-  min-height: var(--text-caption-line-height);
+.labelRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-8);
+  min-height: var(--text-label-line-height);
 }
 
 .label {
+  flex-shrink: 0;
   font-size: var(--text-label-size);
   line-height: var(--text-label-line-height);
   font-weight: var(--text-label-weight);
@@ -66,6 +71,9 @@
 
 .error {
   display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+  text-align: right;
   align-items: center;
   gap: var(--space-4);
   margin: 0;
