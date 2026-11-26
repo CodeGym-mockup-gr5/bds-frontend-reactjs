@@ -127,7 +127,7 @@ export default function useSuaNhanVienForm({ employee, onSuccess, onCancel }) {
       soDienThoai: cleanPhone,
       email: formData.email.trim(),
       chucVu: formData.chucVu,
-      laAdmin: employee?.laAdmin ?? formData.laAdmin ?? false,
+      laAdmin: formData.laAdmin,
     };
 
     mutation.mutate(payload);

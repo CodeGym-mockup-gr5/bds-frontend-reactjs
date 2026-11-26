@@ -15,7 +15,7 @@ import SuaNhanVienForm from '../components/SuaNhanVienForm';
 import XoaNhanVienModal from '../components/XoaNhanVienModal';
 import useDanhSachNhanVien from '../hooks/useDanhSachNhanVien';
 import useXoaNhanVien from '../hooks/useXoaNhanVien';
-import scrollToTop from '../utils/scrollUtils';
+import scrollToTop from '../../../utils/scrollUtils';
 import styles from './DanhSachNhanVienPage.module.css';
 
 export default function DanhSachNhanVienPage() {

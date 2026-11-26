@@ -14,7 +14,6 @@ export const INITIAL_FORM = {
   soDienThoai: '',
   email: '',
   chucVu: '',
-  laAdmin: false,
 };
 
 export default function useThemNhanVienForm() {
@@ -41,8 +40,8 @@ export default function useThemNhanVienForm() {
       const message =
         errorData?.message || 'Đã có lỗi xảy ra khi thêm nhân viên. Vui lòng thử lại.';
 
+      const fieldErrors = {};
       if (errorData?.errors && Array.isArray(errorData.errors)) {
-        const fieldErrors = {};
         errorData.errors.forEach((err) => {
           if (err.field) {
             fieldErrors[err.field] = err.message;
@@ -55,7 +54,7 @@ export default function useThemNhanVienForm() {
         setErrors((prev) => ({ ...prev, email: message }));
       } else if (message.includes('Số điện thoại')) {
         setErrors((prev) => ({ ...prev, soDienThoai: message }));
-      } else {
+      } else if (Object.keys(fieldErrors).length === 0) {
         setGeneralError(message);
       }
     },

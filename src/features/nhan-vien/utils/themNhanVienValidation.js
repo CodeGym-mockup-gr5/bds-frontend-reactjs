@@ -85,9 +85,6 @@ export function validateField(name, value) {
       }
       return '';
 
-    case 'laAdmin':
-      return '';
-
     default:
       return '';
   }
