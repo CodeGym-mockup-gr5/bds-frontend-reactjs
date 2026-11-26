@@ -19,6 +19,7 @@ import TinDangCuaToiPage from './features/bat-dong-san/pages/TinDangCuaToiPage';
 import HoTroPage from './features/ho-tro/pages/HoTroPage';
 import DanhSachNhanVienPage from './features/nhan-vien/pages/DanhSachNhanVienPage';
 import ThemNhanVienPage from './features/nhan-vien/pages/ThemNhanVienPage';
+import SuaNhanVienPage from './features/nhan-vien/pages/SuaNhanVienPage';
 import SuaThongTinCaNhanPage from './features/nhan-vien/pages/SuaThongTinCaNhanPage';
 import DanhSachNhuCauPage from './features/nhu-cau/pages/DanhSachNhuCauPage';
 import AccountLayout from './features/shared/layout/AccountLayout';
@@ -122,6 +123,11 @@ const router = createBrowserRouter([
                 path: 'them-moi',
                 element: <ThemNhanVienPage />,
                 handle: { breadcrumb: ['Nhân viên', 'Thêm mới'] },
+              },
+              {
+                path: ':id/sua',
+                element: <SuaNhanVienPage />,
+                handle: { breadcrumb: ['Nhân viên', 'Chỉnh sửa'] },
               },
             ],
           },
