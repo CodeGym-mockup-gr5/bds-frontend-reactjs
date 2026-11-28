@@ -1,3 +1,5 @@
+import { validateStrongPassword } from './passwordPolicy';
+
 export const CHANGE_PASSWORD_INITIAL_VALUES = {
   matKhauCu: '',
   matKhauMoi: '',
@@ -6,7 +8,7 @@ export const CHANGE_PASSWORD_INITIAL_VALUES = {
 
 export const CHANGE_PASSWORD_FIELDS = ['matKhauCu', 'matKhauMoi', 'xacNhanMatKhau'];
 
-export function validateChangePasswordField(name, value, allValues = {}) {
+export function validateChangePasswordField(name, value, allValues = {}, context = {}) {
   const raw = typeof value === 'string' ? value : '';
 
   if (name === 'matKhauCu') {
@@ -20,11 +22,9 @@ export function validateChangePasswordField(name, value, allValues = {}) {
     if (!raw.trim()) {
       return 'Xin mời nhập mật khẩu mới';
     }
-    if (/\s/.test(raw)) {
-      return 'Mật khẩu mới không được chứa khoảng trắng';
-    }
-    if (raw.length < 6 || raw.length > 32) {
-      return 'Mật khẩu mới phải từ 6 đến 32 ký tự';
+    const policyError = validateStrongPassword(raw, context);
+    if (policyError) {
+      return policyError;
     }
     if (allValues.matKhauCu && raw === allValues.matKhauCu) {
       return 'Mật khẩu mới không được trùng với mật khẩu cũ';
@@ -37,7 +37,7 @@ export function validateChangePasswordField(name, value, allValues = {}) {
       return 'Xin mời xác nhận mật khẩu';
     }
     if (allValues.matKhauMoi && raw !== allValues.matKhauMoi) {
-      return 'Mật khẩu mới phải từ 6 đến 32 ký tự và khớp nhau';
+      return 'Xác nhận mật khẩu không khớp';
     }
     return '';
   }
@@ -45,10 +45,10 @@ export function validateChangePasswordField(name, value, allValues = {}) {
   return '';
 }
 
-export function validateChangePasswordForm(values) {
+export function validateChangePasswordForm(values, context = {}) {
   const errors = {};
   CHANGE_PASSWORD_FIELDS.forEach((field) => {
-    const message = validateChangePasswordField(field, values[field], values);
+    const message = validateChangePasswordField(field, values[field], values, context);
     if (message) {
       errors[field] = message;
     }
@@ -81,7 +81,7 @@ export function resolveBackendChangePasswordError(responseData) {
   if (message === 'Mật khẩu mới không được trùng với mật khẩu cũ') {
     return { fieldErrors: { matKhauMoi: message }, bannerError: '' };
   }
-  if (message === 'Mật khẩu mới phải từ 6 đến 32 ký tự và khớp nhau') {
+  if (message === 'Xác nhận mật khẩu không khớp') {
     return { fieldErrors: { xacNhanMatKhau: message }, bannerError: '' };
   }
 

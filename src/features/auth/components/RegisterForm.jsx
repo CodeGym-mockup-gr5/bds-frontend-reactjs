@@ -2,6 +2,7 @@ import { useId } from 'react';
 import logoColor from '../../../assets/images/logo-color.png';
 import useRegisterForm from '../hooks/useRegisterForm';
 import { PasswordToggleIcon, WarningCircleIcon } from './LoginIcons';
+import PasswordChecklist from './PasswordChecklist';
 import RegisterSkeleton from './RegisterSkeleton';
 import styles from './RegisterForm.module.css';
 
@@ -231,6 +232,8 @@ export default function RegisterForm({
               onBlur={handleFieldBlur}
             />
           </div>
+
+          <PasswordChecklist password={values.matKhau} />
 
           <div className={styles.sellerOptionBox}>
             <label htmlFor={checkboxId} className={styles.checkboxLabel}>
