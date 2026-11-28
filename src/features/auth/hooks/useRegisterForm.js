@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
+import { validateStrongPassword } from '../utils/passwordPolicy';
 
 const INITIAL_VALUES = {
   hoTen: '',
@@ -67,8 +68,10 @@ function validateRegisterField(name, value, values) {
 
   if (name === 'matKhau') {
     if (!trimmed) return 'Vui lòng nhập mật khẩu';
-    if (raw.length < 8 || raw.length > 64) return 'Mật khẩu từ 8 đến 64 ký tự';
-    return '';
+    return validateStrongPassword(raw, {
+      tenDangNhap: values.tenDangNhap,
+      email: values.email,
+    });
   }
 
   if (name === 'xacNhanMatKhau') {

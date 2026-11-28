@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import logoColor from '../../../assets/images/logo-color.png';
 import { WarningCircleIcon } from '../components/LoginIcons';
+import PasswordChecklist from '../components/PasswordChecklist';
 import PasswordField from '../components/PasswordField';
 import useSetPasswordForm from '../hooks/useSetPasswordForm';
 import styles from './DatMatKhauPage.module.css';
@@ -64,7 +65,7 @@ export default function DatMatKhauPage() {
                 label="Mật khẩu mới"
                 name="matKhau"
                 value={values.matKhau}
-                placeholder="Từ 8 đến 64 ký tự"
+                placeholder="Nhập mật khẩu mới"
                 autoComplete="new-password"
                 disabled={isSubmitting}
                 error={errors.matKhau}
@@ -73,6 +74,8 @@ export default function DatMatKhauPage() {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+
+              <PasswordChecklist password={values.matKhau} />
 
               <PasswordField
                 label="Xác nhận mật khẩu"

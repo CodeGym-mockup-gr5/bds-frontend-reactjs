@@ -1,5 +1,6 @@
 import useChangePasswordForm from '../hooks/useChangePasswordForm';
 import { WarningCircleIcon } from './LoginIcons';
+import PasswordChecklist from './PasswordChecklist';
 import PasswordField from './PasswordField';
 import styles from './ChangePasswordForm.module.css';
 
@@ -54,6 +55,8 @@ export default function ChangePasswordForm({ onExit }) {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+
+        <PasswordChecklist password={values.matKhauMoi} />
 
         <PasswordField
           label="Xác nhận mật khẩu"

@@ -16,7 +16,11 @@ const INITIAL_VISIBILITY = {
 };
 
 export default function useChangePasswordForm() {
-  const { showToast } = useAuth();
+  const { user, showToast } = useAuth();
+  const passwordContext = {
+    tenDangNhap: user?.tenDangNhap,
+    email: user?.email,
+  };
   const [values, setValues] = useState(CHANGE_PASSWORD_INITIAL_VALUES);
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
@@ -58,7 +62,7 @@ export default function useChangePasswordForm() {
 
   const handleBlur = (name, value) => {
     const nextValues = { ...values, [name]: value };
-    const message = validateChangePasswordField(name, value, nextValues);
+    const message = validateChangePasswordField(name, value, nextValues, passwordContext);
     setErrors((prev) => {
       const next = { ...prev };
       if (!message) {
@@ -71,6 +75,7 @@ export default function useChangePasswordForm() {
           'xacNhanMatKhau',
           nextValues.xacNhanMatKhau,
           nextValues,
+          passwordContext,
         );
         if (confirmMsg) {
           next.xacNhanMatKhau = confirmMsg;
@@ -91,7 +96,7 @@ export default function useChangePasswordForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const validationErrors = validateChangePasswordForm(values);
+    const validationErrors = validateChangePasswordForm(values, passwordContext);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       if (!values.matKhauCu.trim() && !values.matKhauMoi.trim()) {
