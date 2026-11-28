@@ -18,6 +18,7 @@ export default function SuaThongTinCaNhanForm({
     errors,
     errorCount,
     serverError,
+    canEditCccd,
     handleChange,
     handleBlur,
     handleReset,
@@ -104,34 +105,23 @@ export default function SuaThongTinCaNhanForm({
         />
 
         <div className={styles.twoColGrid}>
-          <ProfileTextField
+          <LockedCodeField
             label="Số điện thoại"
-            name="soDienThoai"
-            type="tel"
-            value={values.soDienThoai}
-            required
-            disabled={isSubmitting}
-            error={errors.soDienThoai}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            value={profile?.soDienThoai || ''}
+            hint="Liên hệ quản lý để thay đổi"
           />
 
-          <ProfileTextField
+          <LockedCodeField
             label="Email"
-            name="email"
-            type="email"
-            value={values.email}
-            required
-            disabled={isSubmitting}
-            error={errors.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            value={profile?.email || ''}
+            hint="Liên hệ quản lý để thay đổi"
           />
         </div>
 
         {isKhachHang ? (
           <KhachHangProfileFields
             profile={profile}
+            canEditCccd={canEditCccd}
             soCccdValue={values.soCccd}
             soCccdError={errors.soCccd}
             disabled={isSubmitting}

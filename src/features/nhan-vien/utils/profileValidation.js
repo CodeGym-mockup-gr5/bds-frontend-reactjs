@@ -1,14 +1,14 @@
 const NAME_REGEX = /^[\p{L} ]+$/u;
-const PHONE_REGEX = /^0\d{9}$/;
-const DIGITS_ONLY_REGEX = /^\d+$/;
 const CCCD_REGEX = /^\d{12}$/;
-const EMAIL_REGEX = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 
-export const EDITABLE_FIELDS = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi', 'soDienThoai', 'email'];
-export const KHACH_HANG_EDITABLE_FIELDS = [...EDITABLE_FIELDS, 'soCccd'];
+export const EDITABLE_FIELDS = ['hoTen', 'ngaySinh', 'gioiTinh', 'diaChi'];
 
-export function getEditableFields(isKhachHang = false) {
-  return isKhachHang ? KHACH_HANG_EDITABLE_FIELDS : EDITABLE_FIELDS;
+export function canEditKhachHangCccd(profile, isKhachHang = false) {
+  return Boolean(isKhachHang && !String(profile?.soCccd || '').trim());
+}
+
+export function getEditableFields(isKhachHang = false, canEditCccd = false) {
+  return isKhachHang && canEditCccd ? [...EDITABLE_FIELDS, 'soCccd'] : EDITABLE_FIELDS;
 }
 
 export function buildProfileFormValues(profile, { isKhachHang = false } = {}) {
@@ -17,8 +17,6 @@ export function buildProfileFormValues(profile, { isKhachHang = false } = {}) {
     ngaySinh: profile?.ngaySinh || '',
     gioiTinh: profile?.gioiTinh || '',
     diaChi: profile?.diaChi || '',
-    soDienThoai: profile?.soDienThoai || '',
-    email: profile?.email || '',
   };
   if (isKhachHang) {
     base.soCccd = profile?.soCccd || '';
@@ -75,20 +73,6 @@ export function validateProfileField(name, value, { isKhachHang = false } = {}) 
     return '';
   }
 
-  if (name === 'soDienThoai') {
-    if (!text) return 'Xin mời nhập đầy đủ thông tin';
-    if (!DIGITS_ONLY_REGEX.test(text)) return 'Chỉ được chứa chữ số';
-    if (!PHONE_REGEX.test(text)) return 'Số điện thoại không hợp lệ';
-    return '';
-  }
-
-  if (name === 'email') {
-    if (!text) return 'Xin mời nhập đầy đủ thông tin';
-    if (text.length > 254) return 'Email tối đa 254 ký tự';
-    if (!EMAIL_REGEX.test(text)) return 'Email không hợp lệ!';
-    return '';
-  }
-
   if (name === 'soCccd') {
     if (!text) return '';
     if (!CCCD_REGEX.test(text)) return 'Số CCCD gồm đúng 12 chữ số';
@@ -98,9 +82,12 @@ export function validateProfileField(name, value, { isKhachHang = false } = {}) 
   return '';
 }
 
-export function validateAllProfileFields(values, { isKhachHang = false } = {}) {
+export function validateAllProfileFields(
+  values,
+  { isKhachHang = false, canEditCccd = false } = {},
+) {
   const errors = {};
-  getEditableFields(isKhachHang).forEach((field) => {
+  getEditableFields(isKhachHang, canEditCccd).forEach((field) => {
     const message = validateProfileField(field, values[field], { isKhachHang });
     if (message) {
       errors[field] = message;

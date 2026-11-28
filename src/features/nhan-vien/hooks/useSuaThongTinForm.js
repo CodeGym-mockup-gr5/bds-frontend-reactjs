@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   buildProfileFormValues,
+  canEditKhachHangCccd,
   getEditableFields,
   validateAllProfileFields,
   validateProfileField,
@@ -12,6 +13,7 @@ export default function useSuaThongTinForm({
   onSubmitProfile,
   onShowToast,
 }) {
+  const canEditCccd = canEditKhachHangCccd(profile, isKhachHang);
   const [values, setValues] = useState(() => buildProfileFormValues(profile, { isKhachHang }));
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
@@ -49,7 +51,7 @@ export default function useSuaThongTinForm({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const validationErrors = validateAllProfileFields(values, { isKhachHang });
+    const validationErrors = validateAllProfileFields(values, { isKhachHang, canEditCccd });
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setServerError('');
@@ -59,24 +61,25 @@ export default function useSuaThongTinForm({
     setErrors({});
     setServerError('');
 
-    const payload = isKhachHang
-      ? {
-          hoTen: values.hoTen.trim(),
-          ngaySinh: values.ngaySinh || null,
-          gioiTinh: values.gioiTinh || null,
-          diaChi: values.diaChi.trim() || null,
-          soDienThoai: values.soDienThoai.trim(),
-          email: values.email.trim(),
-          soCccd: values.soCccd.trim() || null,
-        }
-      : {
-          hoTen: values.hoTen.trim(),
-          ngaySinh: values.ngaySinh,
-          gioiTinh: values.gioiTinh,
-          diaChi: values.diaChi.trim(),
-          soDienThoai: values.soDienThoai.trim(),
-          email: values.email.trim(),
-        };
+    let payload;
+    if (isKhachHang) {
+      payload = {
+        hoTen: values.hoTen.trim(),
+        ngaySinh: values.ngaySinh || null,
+        gioiTinh: values.gioiTinh || null,
+        diaChi: values.diaChi.trim() || null,
+      };
+      if (canEditCccd) {
+        payload.soCccd = values.soCccd.trim() || null;
+      }
+    } else {
+      payload = {
+        hoTen: values.hoTen.trim(),
+        ngaySinh: values.ngaySinh,
+        gioiTinh: values.gioiTinh,
+        diaChi: values.diaChi.trim(),
+      };
+    }
 
     try {
       const responseData = await onSubmitProfile(payload);
@@ -86,7 +89,7 @@ export default function useSuaThongTinForm({
     } catch (error) {
       const responseData = error?.response?.data;
       const backendErrors = responseData?.errors;
-      const editableFields = getEditableFields(isKhachHang);
+      const editableFields = getEditableFields(isKhachHang, canEditCccd);
 
       if (Array.isArray(backendErrors) && backendErrors.length > 0) {
         const mappedErrors = {};
@@ -109,10 +112,6 @@ export default function useSuaThongTinForm({
 
       const fallbackMessage =
         responseData?.message || 'Không thể cập nhật thông tin cá nhân lúc này';
-      if (responseData?.message?.toLowerCase().includes('email')) {
-        setErrors({ email: fallbackMessage });
-        return;
-      }
       setServerError(fallbackMessage);
     }
   };
@@ -124,6 +123,7 @@ export default function useSuaThongTinForm({
     errors,
     errorCount,
     serverError,
+    canEditCccd,
     handleChange,
     handleBlur,
     handleReset,
