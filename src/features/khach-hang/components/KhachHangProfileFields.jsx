@@ -17,6 +17,7 @@ function formatTrangThaiDangTin(profile) {
 
 export default function KhachHangProfileFields({
   profile,
+  canEditCccd = false,
   soCccdValue,
   soCccdError,
   disabled,
@@ -25,16 +26,24 @@ export default function KhachHangProfileFields({
 }) {
   return (
     <>
-      <ProfileTextField
-        label="Số CCCD"
-        name="soCccd"
-        placeholder="Nhập 12 chữ số CCCD (không bắt buộc)"
-        value={soCccdValue}
-        disabled={disabled}
-        error={soCccdError}
-        onChange={onChange}
-        onBlur={onBlur}
-      />
+      {canEditCccd ? (
+        <ProfileTextField
+          label="Số CCCD"
+          name="soCccd"
+          placeholder="Nhập 12 chữ số CCCD (chỉ bổ sung một lần, sau khi lưu sẽ bị khóa)"
+          value={soCccdValue}
+          disabled={disabled}
+          error={soCccdError}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      ) : (
+        <LockedCodeField
+          label="Số CCCD"
+          value={profile?.soCccd || ''}
+          hint="Liên hệ quản lý để thay đổi"
+        />
+      )}
 
       <div className={styles.twoColGrid}>
         <LockedCodeField
